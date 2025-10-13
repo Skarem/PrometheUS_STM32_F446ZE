@@ -1,1 +1,3 @@
-../Core/Src/cppMain.cpp:8:5:int cppMain()	16	static
+../Core/Src/cppMain.cpp:10:5:int cppMain()	24	static
+../Core/Src/cppMain.cpp:45:6:void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef*)	16	static
+../Core/Src/cppMain.cpp:68:6:void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef*)	16	static
