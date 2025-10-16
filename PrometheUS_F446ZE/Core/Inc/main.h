@@ -48,6 +48,8 @@ extern TIM_HandleTypeDef htim1;
 extern TIM_HandleTypeDef htim2;
 extern TIM_HandleTypeDef htim3;
 extern TIM_HandleTypeDef htim4;
+
+extern UART_HandleTypeDef huart2;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -70,50 +72,58 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define Clutch3_PWM2_Pin GPIO_PIN_9
-#define Clutch3_PWM2_GPIO_Port GPIOB
+#define ADC_Trigger1_Pin GPIO_PIN_3
+#define ADC_Trigger1_GPIO_Port GPIOB
+#define PWM_Trigger_Pin GPIO_PIN_15
+#define PWM_Trigger_GPIO_Port GPIOA
 #define Encoder_Data_Pin GPIO_PIN_5
 #define Encoder_Data_GPIO_Port GPIOB
-#define Clutch3_PWM1_Pin GPIO_PIN_8
-#define Clutch3_PWM1_GPIO_Port GPIOB
-#define Clutch2_PWM1_Pin GPIO_PIN_6
-#define Clutch2_PWM1_GPIO_Port GPIOB
+#define Motor_PWM_Pin GPIO_PIN_6
+#define Motor_PWM_GPIO_Port GPIOB
 #define DEL_2_Pin GPIO_PIN_14
 #define DEL_2_GPIO_Port GPIOG
-#define Clutch2_PWM2_Pin GPIO_PIN_7
-#define Clutch2_PWM2_GPIO_Port GPIOB
-#define Clutch1_PWM2_Pin GPIO_PIN_10
-#define Clutch1_PWM2_GPIO_Port GPIOA
-#define Clutch1_PWM1_Pin GPIO_PIN_9
-#define Clutch1_PWM1_GPIO_Port GPIOA
+#define Clutch3_PWM_A_Pin GPIO_PIN_10
+#define Clutch3_PWM_A_GPIO_Port GPIOA
+#define Clutch2_PWM_A_Pin GPIO_PIN_9
+#define Clutch2_PWM_A_GPIO_Port GPIOA
 #define DEL_1_Pin GPIO_PIN_9
 #define DEL_1_GPIO_Port GPIOG
 #define ADC_Current2_Pin GPIO_PIN_7
 #define ADC_Current2_GPIO_Port GPIOF
 #define ADC_Current1_Pin GPIO_PIN_6
 #define ADC_Current1_GPIO_Port GPIOF
+#define Motor_ON_OFF_Pin GPIO_PIN_8
+#define Motor_ON_OFF_GPIO_Port GPIOC
 #define ADC_Current3_Pin GPIO_PIN_8
 #define ADC_Current3_GPIO_Port GPIOF
-#define ADC_Finger1_Pin GPIO_PIN_0
-#define ADC_Finger1_GPIO_Port GPIOA
+#define ADC_Pot1_Pin GPIO_PIN_0
+#define ADC_Pot1_GPIO_Port GPIOA
 #define ADC_Trigger3_Pin GPIO_PIN_2
 #define ADC_Trigger3_GPIO_Port GPIOB
-#define ADC_Finger2_Pin GPIO_PIN_1
-#define ADC_Finger2_GPIO_Port GPIOA
+#define Clutch2_PWM_B_Pin GPIO_PIN_10
+#define Clutch2_PWM_B_GPIO_Port GPIOE
+#define Clutch3_PWM_B_Pin GPIO_PIN_12
+#define Clutch3_PWM_B_GPIO_Port GPIOE
+#define ADC_Pot2_Pin GPIO_PIN_1
+#define ADC_Pot2_GPIO_Port GPIOA
 #define Encoder_CLK_Pin GPIO_PIN_5
 #define Encoder_CLK_GPIO_Port GPIOA
-#define Motor_PWM_Pin GPIO_PIN_9
-#define Motor_PWM_GPIO_Port GPIOE
+#define Clutch1_PWM_A_Pin GPIO_PIN_9
+#define Clutch1_PWM_A_GPIO_Port GPIOE
 #define Encoder_CS_1_Pin GPIO_PIN_14
 #define Encoder_CS_1_GPIO_Port GPIOD
 #define Encoder_CS_2_Pin GPIO_PIN_15
 #define Encoder_CS_2_GPIO_Port GPIOD
-#define ADC_Finger3_Pin GPIO_PIN_2
-#define ADC_Finger3_GPIO_Port GPIOA
+#define ADC_Pot3_Pin GPIO_PIN_2
+#define ADC_Pot3_GPIO_Port GPIOA
 #define ADC_Temp2_Pin GPIO_PIN_0
 #define ADC_Temp2_GPIO_Port GPIOB
 #define Encoder_CS_3_Pin GPIO_PIN_12
 #define Encoder_CS_3_GPIO_Port GPIOF
+#define Clutch1_PWM_B_Pin GPIO_PIN_8
+#define Clutch1_PWM_B_GPIO_Port GPIOE
+#define ADC_Motor_Speed_Pin GPIO_PIN_3
+#define ADC_Motor_Speed_GPIO_Port GPIOA
 #define ADC_Temp1_Pin GPIO_PIN_7
 #define ADC_Temp1_GPIO_Port GPIOA
 #define ADC_Temp3_Pin GPIO_PIN_1

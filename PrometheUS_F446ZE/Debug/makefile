@@ -84,8 +84,8 @@ all: main-build
 main-build: PrometheUS_F446ZE.elf secondary-outputs
 
 # Tool invocations
-PrometheUS_F446ZE.elf PrometheUS_F446ZE.map: $(OBJS) $(USER_OBJS) C:\Users\mikst\STM32CubeIDE\workspace_1.19.0\PrometheUS_F446ZE\STM32F446ZEHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "PrometheUS_F446ZE.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\mikst\STM32CubeIDE\workspace_1.19.0\PrometheUS_F446ZE\STM32F446ZEHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="PrometheUS_F446ZE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+PrometheUS_F446ZE.elf PrometheUS_F446ZE.map: $(OBJS) $(USER_OBJS) C:\Users\mikst\STM32CubeIDE\workspace_1.19.0\PrometheUS_STM32_F446ZE\PrometheUS_F446ZE\STM32F446ZEHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "PrometheUS_F446ZE.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\mikst\STM32CubeIDE\workspace_1.19.0\PrometheUS_STM32_F446ZE\PrometheUS_F446ZE\STM32F446ZEHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="PrometheUS_F446ZE.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
