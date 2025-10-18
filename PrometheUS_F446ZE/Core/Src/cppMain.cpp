@@ -15,35 +15,66 @@ enum SystemState : uint8_t
   SYS_RUN,
   SYS_ERROR
 };
-volatile SystemState g_eSystemState = SystemState::SYS_INIT;
 
-void printToConsole(const uint8_t* pData, uint16_t uSize);
 void printDMAValue(uint16_t uADC_Value);
-// void printDMABufferValues(uint16_t uADC_Buffer[3]);
 
-// Flags
+// ========== Flags ==========
 
-// System level state machine
+// ===== System level state machine =====
 
 std::atomic<bool> g_bFlagButtonPressed { false }; // Switch between IDLE <-> RUN
 std::atomic<bool> g_bFlagError { false };         // Switch to ERROR
 
+// Low level state machine =====
 
-volatile bool g_bFlagPotentiometerSamplingCompleted = false;
-volatile bool g_bFlagClutchTemperatureSamplingCompleted = false;
-volatile bool g_bFlagClutchCurrentSamplingCompleted = false;
+std::atomic<bool> g_bFlagPotentiometerSamplingCompleted { false };
+std::atomic<bool> g_bFlagClutchTemperatureSamplingCompleted { false };
+std::atomic<bool> g_bFlagClutchCurrentSamplingCompleted { false };
 
-volatile bool g_bFlagUpdatePWMDutyCycles = false;
+std::atomic<bool> g_bFlagUpdatePWMDutyCycles { false };
 
+static volatile uint8_t g_uADC_ClutchCurrentChannelIndex = 0;
 
-
-volatile uint8_t g_uADC_ClutchCurrentChannel = 0;
-
-
-
-// ADC buffers
-uint16_t g_uADC_ClutchCurrentBuffer[3] = {0};
+// ========== ADC buffers ==========
 uint16_t g_uADC_MotorVelocity = 0;
+uint16_t g_uADC_ClutchCurrentBuffer[3] = {0};
+
+// ========== ADC Configurations ==========
+
+const uint32_t ADC_ConfigurationRank = 1;
+const uint32_t ADC_ConfigurationSamplingTime = ADC_SAMPLETIME_3CYCLES;
+
+static ADC_ChannelConfTypeDef g_sConfigMotorVelocity =
+{
+    .Channel = ADC_CHANNEL_3, // Read ADC3 DMA IN3 (motor velocity)
+    .Rank = ADC_ConfigurationRank,
+    .SamplingTime = ADC_ConfigurationSamplingTime,
+    .Offset = 0
+};
+
+static ADC_ChannelConfTypeDef g_sConfigClutchCurrent1 =
+{
+    .Channel = ADC_CHANNEL_4,  // Read ADC3 DMA IN4 (clutch current #1)
+    .Rank = ADC_ConfigurationRank,
+    .SamplingTime = ADC_ConfigurationSamplingTime,
+    .Offset = 0
+};
+
+static ADC_ChannelConfTypeDef g_sConfigClutchCurrent2 =
+{
+    .Channel = ADC_CHANNEL_5, // Read ADC3 DMA IN5 (clutch current #2)
+    .Rank = ADC_ConfigurationRank,
+    .SamplingTime = ADC_ConfigurationSamplingTime,
+    .Offset = 0
+};
+
+static ADC_ChannelConfTypeDef g_sConfigClutchCurrent3 =
+{
+    .Channel = ADC_CHANNEL_6, // Read ADC3 DMA IN6 (clutch current #3)
+    .Rank = ADC_ConfigurationRank,
+    .SamplingTime = ADC_ConfigurationSamplingTime,
+    .Offset = 0
+};
 
 int cppMain()
 {
@@ -102,14 +133,37 @@ int cppMain()
   // Triggered by TIM2's OC2REF, ADC2 DMA IN7, IN8, IN9
   HAL_ADC_Start_DMA(&hadc2, (uint32_t*)uADC_ClutchTemperatureBuffer, 3);
 
+  // DAC Tests
+  uint16_t dac_value = 0;
+  HAL_DAC_Start(&hdac, DAC_CHANNEL_1);
+
+  // SystemState eSystemState = SystemState::SYS_INIT;
+
   while (1)
   {
-    switch (g_eSystemState)
+    if (g_bFlagClutchCurrentSamplingCompleted.exchange(false))
+    {
+      printDMAValue(g_uADC_MotorVelocity);
+
+      HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, dac_value);
+
+      if (dac_value < 4095)
+      {
+        dac_value++;
+      }
+      else
+      {
+        dac_value = 0;
+      }
+    }
+
+    /*
+    switch (eSystemState)
     {
       case SystemState::SYS_INIT:
       {
         // Initialize all objects here ...
-        g_eSystemState = SystemState::SYS_IDLE;
+        eSystemState = SystemState::SYS_IDLE;
         break;
       }
       case SystemState::SYS_IDLE:
@@ -117,10 +171,10 @@ int cppMain()
         // If button is pressed, switch to RUN
         if (g_bFlagButtonPressed.exchange(false))
         {
-          g_eSystemState = SystemState::SYS_RUN;
+          eSystemState = SystemState::SYS_RUN;
         }
         // Switch automatically in this case, no button is implemented yet
-        g_eSystemState = SystemState::SYS_RUN;
+        eSystemState = SystemState::SYS_RUN;
         break;
       }
       case SystemState::SYS_RUN:
@@ -128,16 +182,16 @@ int cppMain()
         // If any error is detected, switch to ERROR
         if (g_bFlagError.exchange(false))
         {
-          g_eSystemState = SystemState::SYS_ERROR;
+          eSystemState = SystemState::SYS_ERROR;
         }
         // If button is pressed, switch to IDLE
         else if (g_bFlagButtonPressed.exchange(false))
         {
-          g_eSystemState = SystemState::SYS_IDLE;
+          eSystemState = SystemState::SYS_IDLE;
         }
         else
         {
-          ControlLoop_1KHz();
+          // ControlLoop_1KHz();
         }
         break;
       }
@@ -146,6 +200,7 @@ int cppMain()
         break;
       }
     }
+    */
   }
 }
 
@@ -154,51 +209,39 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
   // TIM2 interrupt callback
   if (htim->Instance == TIM2)
   {
-    ADC_ChannelConfTypeDef sConfig = {0};
-    sConfig.Rank = 1;
-    sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
-
     // OC1REF
     if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
     {
       // Flag to update PWMs' duty cycles
-      // g_bFlagUpdatePWMDutyCycles = true;
+      g_bFlagUpdatePWMDutyCycles = true;
 
       // Read ADC3 DMA IN3 (motor velocity)
-      // sConfig.Channel = ADC_CHANNEL_3; // ADC3_IN3
-      // HAL_ADC_ConfigChannel(&hadc3, &sConfig);
-
+      HAL_ADC_ConfigChannel(&hadc3, &g_sConfigMotorVelocity);
       HAL_ADC_Start_DMA(&hadc3, (uint32_t*)&g_uADC_MotorVelocity, 1);
     }
     // OC2REF
     if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2)
     {
       // Read ADC3 DMA IN4 (clutch current #1)
-      g_uADC_ClutchCurrentChannel = 0;
-      sConfig.Channel = ADC_CHANNEL_4; // ADC3_IN4
-      HAL_ADC_ConfigChannel(&hadc3, &sConfig);
-
-      HAL_ADC_Start_DMA(&hadc3, (uint32_t*)&g_uADC_ClutchCurrentBuffer[0], 1);
+      g_uADC_ClutchCurrentChannelIndex = 0;
+      HAL_ADC_ConfigChannel(&hadc3, &g_sConfigClutchCurrent1);
+      HAL_ADC_Start_DMA(&hadc3, (uint32_t*)&g_uADC_ClutchCurrentBuffer[g_uADC_ClutchCurrentChannelIndex], 1);
     }
     // OC3REF
     else if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_3)
     {
       // Read ADC3 DMA IN5 (clutch current #2)
-      g_uADC_ClutchCurrentChannel = 1;
-      sConfig.Channel = ADC_CHANNEL_5; // ADC3_IN5
-      HAL_ADC_ConfigChannel(&hadc3, &sConfig);
-
-      HAL_ADC_Start_DMA(&hadc3, (uint32_t*)&g_uADC_ClutchCurrentBuffer[1], 1);
+      g_uADC_ClutchCurrentChannelIndex = 1;
+      HAL_ADC_ConfigChannel(&hadc3, &g_sConfigClutchCurrent2);
+      HAL_ADC_Start_DMA(&hadc3, (uint32_t*)&g_uADC_ClutchCurrentBuffer[g_uADC_ClutchCurrentChannelIndex], 1);
     }
     // OC4REF
     else if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_4)
     {
       // Read ADC3 DMA IN6 (clutch current #3)
-      g_uADC_ClutchCurrentChannel = 2;
-      sConfig.Channel = ADC_CHANNEL_6; // ADC3_IN6
-      HAL_ADC_ConfigChannel(&hadc3, &sConfig);
-
-      HAL_ADC_Start_DMA(&hadc3, (uint32_t*)&g_uADC_ClutchCurrentBuffer[2], 1);
+      g_uADC_ClutchCurrentChannelIndex = 2;
+      HAL_ADC_ConfigChannel(&hadc3, &g_sConfigClutchCurrent3);
+      HAL_ADC_Start_DMA(&hadc3, (uint32_t*)&g_uADC_ClutchCurrentBuffer[g_uADC_ClutchCurrentChannelIndex], 1);
     }
   }
 }
@@ -208,24 +251,19 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
   if (hadc->Instance == ADC1)
   {
     // Done reading potentiometer data
-    // g_bFlagPotentiometerSamplingCompleted = true;
+    g_bFlagPotentiometerSamplingCompleted = true;
   }
   else if (hadc->Instance == ADC2)
   {
     // Done reading clutch temperature data
-    // g_bFlagClutchTemperatureSamplingCompleted = true;
+    g_bFlagClutchTemperatureSamplingCompleted = true;
   }
-  else if (hadc->Instance == ADC3 && g_uADC_ClutchCurrentChannel == 2)
+  else if (hadc->Instance == ADC3 && g_uADC_ClutchCurrentChannelIndex == 2)
   {
     // Done sampling all clutch current data
-    // gbFlagClutchCurrentSamplingCompleted = true;
-    g_uADC_ClutchCurrentChannel = 0;
+    g_uADC_ClutchCurrentChannelIndex = 0;
+    g_bFlagClutchCurrentSamplingCompleted = true;
   }
-}
-
-void printToConsole(const uint8_t* pData, uint16_t uSize)
-{
-  HAL_UART_Transmit(&huart2, pData, uSize, HAL_MAX_DELAY);
 }
 
 void printDMAValue(uint16_t uADC_Value)
@@ -234,17 +272,3 @@ void printDMAValue(uint16_t uADC_Value)
   int len = sprintf(buffer, "%u\r\n", uADC_Value);
   HAL_UART_Transmit(&huart2, (uint8_t*)buffer, len, HAL_MAX_DELAY);
 }
-
-/*
-void printDMABufferValues(uint16_t uADC_Buffer[3])
-{
-  char tx_buffer[20];
-  int tx_len = snprintf(
-      tx_buffer,
-      sizeof(tx_buffer),
-      "%u %u %u\r\n",
-      uADC_Buffer[0], uADC_Buffer[1], uADC_Buffer[2]
-  );
-  printToConsole((uint8_t*)tx_buffer, tx_len);
-}
-*/

@@ -42,6 +42,8 @@ extern ADC_HandleTypeDef hadc3;
 extern DMA_HandleTypeDef hdma_adc1;
 extern DMA_HandleTypeDef hdma_adc2;
 
+extern DAC_HandleTypeDef hdac;
+
 extern SPI_HandleTypeDef hspi1;
 
 extern TIM_HandleTypeDef htim1;
@@ -72,10 +74,10 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define ADC_Trigger1_Pin GPIO_PIN_3
-#define ADC_Trigger1_GPIO_Port GPIOB
 #define PWM_Trigger_Pin GPIO_PIN_15
 #define PWM_Trigger_GPIO_Port GPIOA
+#define ADC_Trigger1_Pin GPIO_PIN_9
+#define ADC_Trigger1_GPIO_Port GPIOB
 #define Encoder_Data_Pin GPIO_PIN_5
 #define Encoder_Data_GPIO_Port GPIOB
 #define Motor_PWM_Pin GPIO_PIN_6
@@ -106,8 +108,6 @@ void Error_Handler(void);
 #define Clutch3_PWM_B_GPIO_Port GPIOE
 #define ADC_Pot2_Pin GPIO_PIN_1
 #define ADC_Pot2_GPIO_Port GPIOA
-#define Encoder_CLK_Pin GPIO_PIN_5
-#define Encoder_CLK_GPIO_Port GPIOA
 #define Clutch1_PWM_A_Pin GPIO_PIN_9
 #define Clutch1_PWM_A_GPIO_Port GPIOE
 #define Encoder_CS_1_Pin GPIO_PIN_14
