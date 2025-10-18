@@ -16,7 +16,18 @@ enum SystemState : uint8_t
   SYS_ERROR
 };
 
-void printDMAValue(uint16_t uADC_Value);
+enum ControlState : uint8_t
+{
+  CONTROL_START_SAMPLING = 0,
+  CONTROL_WAIT_SAMPLING,
+  CONTROL_CALCULATE_CONTROL_LAWS,
+  CONTROL_FINISHED_CONTROL_LAWS,
+  CONTROL_UPDATE_PWM_DUTY_CYCLES,
+  CONTROL_FINISHED_CYCLE
+};
+
+void ControlStateMachine();
+void printValue(uint16_t uValue);
 
 // ========== Flags ==========
 
@@ -26,6 +37,8 @@ std::atomic<bool> g_bFlagButtonPressed { false }; // Switch between IDLE <-> RUN
 std::atomic<bool> g_bFlagError { false };         // Switch to ERROR
 
 // Low level state machine =====
+
+std::atomic<bool> g_bFlagStartControlCycle { false };
 
 std::atomic<bool> g_bFlagPotentiometerSamplingCompleted { false };
 std::atomic<bool> g_bFlagClutchTemperatureSamplingCompleted { false };
@@ -133,46 +146,29 @@ int cppMain()
   // Triggered by TIM2's OC2REF, ADC2 DMA IN7, IN8, IN9
   HAL_ADC_Start_DMA(&hadc2, (uint32_t*)uADC_ClutchTemperatureBuffer, 3);
 
-  // DAC Tests
-  uint16_t dac_value = 0;
-  HAL_DAC_Start(&hdac, DAC_CHANNEL_1);
-
-  // SystemState eSystemState = SystemState::SYS_INIT;
+  SystemState eSystemState = SystemState::SYS_INIT;
 
   while (1)
   {
-    if (g_bFlagClutchCurrentSamplingCompleted.exchange(false))
-    {
-      printDMAValue(g_uADC_MotorVelocity);
-
-      HAL_DAC_SetValue(&hdac, DAC_CHANNEL_1, DAC_ALIGN_12B_R, dac_value);
-
-      if (dac_value < 4095)
-      {
-        dac_value++;
-      }
-      else
-      {
-        dac_value = 0;
-      }
-    }
-
-    /*
     switch (eSystemState)
     {
       case SystemState::SYS_INIT:
       {
         // Initialize all objects here ...
+
         eSystemState = SystemState::SYS_IDLE;
         break;
       }
       case SystemState::SYS_IDLE:
       {
+        /*
         // If button is pressed, switch to RUN
         if (g_bFlagButtonPressed.exchange(false))
         {
           eSystemState = SystemState::SYS_RUN;
         }
+        */
+
         // Switch automatically in this case, no button is implemented yet
         eSystemState = SystemState::SYS_RUN;
         break;
@@ -191,7 +187,7 @@ int cppMain()
         }
         else
         {
-          // ControlLoop_1KHz();
+          ControlStateMachine();
         }
         break;
       }
@@ -200,7 +196,77 @@ int cppMain()
         break;
       }
     }
-    */
+  }
+}
+
+void ControlStateMachine()
+{
+  static ControlState eControlState = ControlState::CONTROL_FINISHED_CYCLE;
+
+  switch (eControlState)
+  {
+    case ControlState::CONTROL_START_SAMPLING:
+    {
+      // All ADC sampling is triggered by timers
+
+      // Sample encoders
+      // ...
+
+      eControlState = ControlState::CONTROL_WAIT_SAMPLING;
+      break;
+    }
+    case ControlState::CONTROL_WAIT_SAMPLING:
+    {
+      // Waiting for all ADC transmissions to be done
+      if (g_bFlagPotentiometerSamplingCompleted.exchange(false) &&
+          g_bFlagClutchTemperatureSamplingCompleted.exchange(false) &&
+          g_bFlagClutchCurrentSamplingCompleted.exchange(false))
+      {
+        eControlState = ControlState::CONTROL_CALCULATE_CONTROL_LAWS;
+      }
+      break;
+    }
+    case ControlState::CONTROL_CALCULATE_CONTROL_LAWS:
+    {
+      // Convert raw ADC and SPI data
+      // ...
+
+      // High-level control laws
+      // ...
+
+      // Low-level clutch current PIDs
+      // ...
+
+      eControlState = ControlState::CONTROL_FINISHED_CONTROL_LAWS;
+      break;
+    }
+    case ControlState::CONTROL_FINISHED_CONTROL_LAWS:
+    {
+      // Waiting for the timer trigger to update PWM duty cycles
+      if (g_bFlagUpdatePWMDutyCycles.exchange(false))
+      {
+        eControlState = ControlState::CONTROL_UPDATE_PWM_DUTY_CYCLES;
+      }
+      break;
+    }
+    case ControlState::CONTROL_UPDATE_PWM_DUTY_CYCLES:
+    {
+      // Update PWM duty cycles with new values calculated in CONTROLE_CALCULATE_LAWS via burst DMA
+      // ...
+
+      eControlState = ControlState::CONTROL_FINISHED_CYCLE;
+      break;
+    }
+    case ControlState::CONTROL_FINISHED_CYCLE:
+    {
+      // Done updating, cycle completed
+      // Waiting for timer trigger to start next cycle
+      if (g_bFlagStartControlCycle.exchange(false))
+      {
+        eControlState = ControlState::CONTROL_START_SAMPLING;
+      }
+      break;
+    }
   }
 }
 
@@ -222,6 +288,9 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
     // OC2REF
     if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2)
     {
+      // Start control cycle
+      g_bFlagStartControlCycle = true;
+
       // Read ADC3 DMA IN4 (clutch current #1)
       g_uADC_ClutchCurrentChannelIndex = 0;
       HAL_ADC_ConfigChannel(&hadc3, &g_sConfigClutchCurrent1);
@@ -266,9 +335,9 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
   }
 }
 
-void printDMAValue(uint16_t uADC_Value)
+void printValue(uint16_t uValue)
 {
   static char buffer[8];
-  int len = sprintf(buffer, "%u\r\n", uADC_Value);
+  int len = sprintf(buffer, "%u\r\n", uValue);
   HAL_UART_Transmit(&huart2, (uint8_t*)buffer, len, HAL_MAX_DELAY);
 }
