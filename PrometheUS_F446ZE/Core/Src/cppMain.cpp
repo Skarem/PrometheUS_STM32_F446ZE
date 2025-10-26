@@ -8,6 +8,9 @@ extern "C" {
 
 #include <atomic>
 
+#include "EncoderSampler.hpp"
+
+/*
 enum SystemState : uint8_t
 {
   SYS_INIT = 0,
@@ -25,6 +28,7 @@ enum ControlState : uint8_t
   CONTROL_UPDATE_PWM_DUTY_CYCLES,
   CONTROL_FINISHED_CYCLE
 };
+*/
 
 void ControlStateMachine();
 void printValue(uint16_t uValue);
@@ -33,6 +37,7 @@ void printValue(uint16_t uValue);
 
 // ===== System level state machine =====
 
+/*
 std::atomic<bool> g_bFlagButtonPressed { false }; // Switch between IDLE <-> RUN
 std::atomic<bool> g_bFlagError { false };         // Switch to ERROR
 
@@ -89,8 +94,84 @@ static ADC_ChannelConfTypeDef g_sConfigClutchCurrent3 =
     .Offset = 0
 };
 
+// ========== PWM Test ==========
+
+#define ARR_VALUE 1000
+#define STEP_PERCENT 10
+#define PAUSE_CYCLES 10
+
+struct PWM
+{
+  TIM_HandleTypeDef* m_htim;
+  uint32_t m_channel;
+  uint16_t m_dutyCycle; // Current duty cycle (0..ARR)
+  bool m_error;
+  // For debug only
+  uint16_t m_step;      // Step function
+  uint8_t pauseCounter;
+
+  PWM(TIM_HandleTypeDef* _htim, uint32_t _channel, uint16_t _dutyCycle)
+  {
+    m_htim = _htim;
+    m_channel = _channel;
+    m_dutyCycle = _dutyCycle;
+    m_error = false;
+    m_step = ARR_VALUE * STEP_PERCENT / 100;
+    pauseCounter = 0;
+  }
+};
+
+struct ClutchPWMs
+{
+  PWM Clutch1;
+  PWM Clutch2;
+  PWM Clutch3;
+
+  ClutchPWMs() :
+    Clutch1({ &htim1, TIM_CHANNEL_1, 1 * ARR_VALUE / 4 }),
+    Clutch2({ &htim1, TIM_CHANNEL_2, 2 * ARR_VALUE / 4 }),
+    Clutch3({ &htim1, TIM_CHANNEL_3, 3 * ARR_VALUE / 4 }) {}
+
+  void Error()
+  {
+    Clutch1.m_error = true;
+    Clutch2.m_error = true;
+    Clutch3.m_error = true;
+  }
+
+  void Reset()
+  {
+    Clutch1.m_error = false;
+    Clutch2.m_error = false;
+    Clutch3.m_error = false;
+  }
+};
+
+ClutchPWMs g_clutchPWMs;
+
+// ========== Encoders ==========
+
+// EncoderSampler g_encoderSampler1(&hspi1, Encoder_CS_1_GPIO_Port, Encoder_CS_1_Pin);
+// EncoderSampler g_encoderSampler2(&hspi1, Encoder_CS_2_GPIO_Port, Encoder_CS_2_Pin);
+// EncoderSampler g_encoderSampler3(&hspi1, Encoder_CS_3_GPIO_Port, Encoder_CS_3_Pin);
+
+// ==============================
+
+*/
+
 int cppMain()
 {
+  EncoderSampler encoder1(&hspi1, Encoder_CS_1_GPIO_Port, Encoder_CS_1_Pin);
+
+  while (1)
+  {
+    encoder1.sampleRawValue();
+    uint16_t pos = encoder1.convertValue();
+    printValue(pos);
+    HAL_Delay(250);
+  }
+
+  /*
   // ========== TIM2 ==========
   // Is used as the main timer to synchronize the events of the state machine
   // The main control loop runs at 1KHz, this timer triggers 10 times per 1KHz
@@ -155,19 +236,20 @@ int cppMain()
       case SystemState::SYS_INIT:
       {
         // Initialize all objects here ...
+        g_encoderSampler1.initOffsetPosition();
+        // g_encoderSampler2.initOffsetPosition();
+        // g_encoderSampler3.initOffsetPosition();
 
         eSystemState = SystemState::SYS_IDLE;
         break;
       }
       case SystemState::SYS_IDLE:
       {
-        /*
-        // If button is pressed, switch to RUN
-        if (g_bFlagButtonPressed.exchange(false))
-        {
-          eSystemState = SystemState::SYS_RUN;
-        }
-        */
+        // // If button is pressed, switch to RUN
+        // if (g_bFlagButtonPressed.exchange(false))
+        // {
+        //   eSystemState = SystemState::SYS_RUN;
+        // }
 
         // Switch automatically in this case, no button is implemented yet
         eSystemState = SystemState::SYS_RUN;
@@ -197,7 +279,10 @@ int cppMain()
       }
     }
   }
+  */
 }
+
+/*
 
 void ControlStateMachine()
 {
@@ -210,7 +295,12 @@ void ControlStateMachine()
       // All ADC sampling is triggered by timers
 
       // Sample encoders
-      // ...
+      g_encoderSampler1.sampleRawValue();
+      // g_encoderSampler2.sampleRawValue();
+      // g_encoderSampler3.sampleRawValue();
+
+      uint16_t encoderPosition1 = g_encoderSampler1.convertValue();
+      printValue(encoderPosition1);
 
       eControlState = ControlState::CONTROL_WAIT_SAMPLING;
       break;
@@ -235,7 +325,7 @@ void ControlStateMachine()
       // ...
 
       // Low-level clutch current PIDs
-      // ...
+      // PWM test
 
       eControlState = ControlState::CONTROL_FINISHED_CONTROL_LAWS;
       break;
@@ -334,6 +424,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
     g_bFlagClutchCurrentSamplingCompleted = true;
   }
 }
+*/
 
 void printValue(uint16_t uValue)
 {
@@ -341,3 +432,12 @@ void printValue(uint16_t uValue)
   int len = sprintf(buffer, "%u\r\n", uValue);
   HAL_UART_Transmit(&huart2, (uint8_t*)buffer, len, HAL_MAX_DELAY);
 }
+
+/*
+ void printValue(float value)
+ {
+   static char buffer[16];
+   int len = sprintf(buffer, "%.2f\r\n", value);
+   HAL_UART_Transmit(&huart2, (uint8_t*)buffer, len, HAL_MAX_DELAY);
+ }
+ */

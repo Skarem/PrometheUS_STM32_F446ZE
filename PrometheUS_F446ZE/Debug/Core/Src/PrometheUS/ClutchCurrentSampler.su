@@ -1,0 +1,5 @@
+../Core/Src/PrometheUS/ClutchCurrentSampler.cpp:3:7:virtual float ClutchCurrentSampler::convertRawAdcValue() const	16	static
+../Core/Inc/PrometheUS/GenericAdcChannelSampler.hpp:9:11:GenericAdcChannelSampler::~GenericAdcChannelSampler()	16	static
+../Core/Inc/PrometheUS/GenericAdcChannelSampler.hpp:9:11:virtual GenericAdcChannelSampler::~GenericAdcChannelSampler()	16	static
+../Core/Inc/PrometheUS/ClutchCurrentSampler.hpp:5:7:ClutchCurrentSampler::~ClutchCurrentSampler()	16	static
+../Core/Inc/PrometheUS/ClutchCurrentSampler.hpp:5:7:virtual ClutchCurrentSampler::~ClutchCurrentSampler()	16	static
