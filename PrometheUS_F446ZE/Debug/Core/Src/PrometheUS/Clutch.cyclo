@@ -1,0 +1,8 @@
+../Core/Inc/PrometheUS/GenericAdcChannelSampler.hpp:5:7:constexpr GenericAdcChannelSampler::GenericAdcChannelSampler(const GenericAdcChannelSampler&)	1
+../Core/Inc/PrometheUS/ClutchCurrentSampler.hpp:6:7:constexpr ClutchCurrentSampler::ClutchCurrentSampler(const ClutchCurrentSampler&)	1
+../Core/Src/PrometheUS/Clutch.cpp:5:1:Clutch::Clutch(ClutchCurrentSampler&)	1
+../Core/Src/PrometheUS/Clutch.cpp:11:6:void Clutch::init(uint32_t, uint8_t, uint32_t)	1
+../Core/Src/PrometheUS/Clutch.cpp:17:6:void Clutch::calculateCurrentPID(float, float)	1
+../Core/Src/PrometheUS/Clutch.cpp:22:7:float Clutch::getMeasuredCurrent()	1
+../Core/Src/PrometheUS/Clutch.cpp:27:6:void Clutch::updateCommand()	1
+../Core/Src/PrometheUS/Clutch.cpp:32:6:void Clutch::stop()	1

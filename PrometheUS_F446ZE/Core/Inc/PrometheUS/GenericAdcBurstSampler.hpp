@@ -1,21 +1,21 @@
 #pragma once
 
 #include "main.h"
+#include "DefineConstants.hpp"
 
 class GenericAdcBurstSampler
 {
-protected:
-  static constexpr uint8_t CHANNEL_COUNT = 3;
-
 public:
-  explicit GenericAdcBurstSampler(ADC_HandleTypeDef* hadc);
+  GenericAdcBurstSampler() = default;
   virtual ~GenericAdcBurstSampler() = default;
 
-  virtual void convertAll(float (&outValues)[CHANNEL_COUNT]) const = 0;
+  void init(ADC_HandleTypeDef* hadc);
+
+  virtual void convertAll(float (&outValues)[FINGER_COUNT]) const = 0;
 
 protected:
-  uint32_t m_rawAdcValueArray[CHANNEL_COUNT];
+  uint32_t m_rawAdcValueArray[FINGER_COUNT];
 
 private:
-  ADC_HandleTypeDef* const m_hadc;
+  ADC_HandleTypeDef* m_hadc;
 };

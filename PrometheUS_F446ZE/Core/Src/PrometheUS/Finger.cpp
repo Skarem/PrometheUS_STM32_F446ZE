@@ -1,0 +1,46 @@
+#include "Finger.hpp"
+
+Finger::Finger(ClutchCurrentSampler &clutchCurrentSampler)
+  : m_clutch(clutchCurrentSampler)
+{
+
+}
+
+void Finger::init(
+    uint32_t      clutchCurrentChannel,
+    uint8_t       clutchCurrentIndex,
+    GPIO_TypeDef* encoderChipSelectPeripheral,
+    uint16_t      encoderChipSelectPin,
+    uint32_t      pwmChannel)
+{
+  m_clutch.init(clutchCurrentChannel, clutchCurrentIndex, pwmChannel);
+  m_encoder.init(&hspi1, encoderChipSelectPeripheral, encoderChipSelectPin);
+}
+
+void Finger::sampleEncoder()
+{
+  m_encoder.sampleRawValue();
+}
+
+void Finger::calculateCommand(float potentiometerPosition, float clutchTemperature)
+{
+  // High level control law here
+  // Input is potentiometer position
+  // Output is clutch current
+  float targetCurrent = 0;
+
+  float measuredCurrent = m_clutch.getMeasuredCurrent();
+
+  m_clutch.calculateCurrentPID(targetCurrent, measuredCurrent);
+
+}
+
+void Finger::updateCommand()
+{
+  m_clutch.updateCommand();
+}
+
+void Finger::stop()
+{
+  m_clutch.stop();
+}

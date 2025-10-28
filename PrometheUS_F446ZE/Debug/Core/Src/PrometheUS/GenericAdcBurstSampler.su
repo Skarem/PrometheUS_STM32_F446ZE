@@ -1,1 +1,1 @@
-../Core/Src/PrometheUS/GenericAdcBurstSampler.cpp:3:1:GenericAdcBurstSampler::GenericAdcBurstSampler(ADC_HandleTypeDef*)	16	static
+../Core/Src/PrometheUS/GenericAdcBurstSampler.cpp:3:6:void GenericAdcBurstSampler::init(ADC_HandleTypeDef*)	16	static

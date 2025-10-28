@@ -1,11 +1,13 @@
 #pragma once
 
-#include <GenericAdcChannelSampler.hpp>
+#include "GenericAdcChannelSampler.hpp"
 
 class MotorVelocitySampler : public GenericAdcChannelSampler
 {
 public:
-  using GenericAdcChannelSampler::GenericAdcChannelSampler; // Inherit constructor
+  static MotorVelocitySampler* instance;
+
+  void init(ADC_HandleTypeDef* hadc, uint32_t channel);
 
   float convertRawAdcValue() const override;
 

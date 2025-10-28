@@ -1,0 +1,31 @@
+#include "Motor.hpp"
+
+#include "main.h"
+
+Motor::Motor(MotorVelocitySampler &motorVelocitySampler)
+  : m_motorVelocitySampler(motorVelocitySampler)
+{
+
+}
+
+void Motor::init()
+{
+  // Motor PWM (Needs to be between 10Hz and 5KHz)
+  // This timer is synchronized with TIM1, but runs at 1KHz instead of 10KHz
+  m_pwm.init(&htim4, TIM_CHANNEL_1);
+  m_motorVelocitySampler.init(&hadc3, ADC_CHANNEL_3);
+
+  m_error.init(Motor_Error_GPIO_Port, Motor_Error_Pin);
+  m_enable.init(Motor_Enable_GPIO_Port, Motor_Enable_Pin);
+}
+
+bool Motor::isError()
+{
+  return m_error.isOn();
+}
+
+void Motor::stop()
+{
+  m_enable.off();
+  m_pwm.stop();
+}

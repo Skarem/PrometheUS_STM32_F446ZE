@@ -807,10 +807,10 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOG, DEL_2_Pin|DEL_1_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(Motor_ON_OFF_GPIO_Port, Motor_ON_OFF_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Motor_Enable_GPIO_Port, Motor_Enable_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_13|Encoder_CS_3_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOF, GPIO_PIN_13|Encoder_CS_3_Pin|SWRUN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, Encoder_CS_1_Pin|Encoder_CS_2_Pin, GPIO_PIN_RESET);
@@ -822,15 +822,21 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : Motor_ON_OFF_Pin */
-  GPIO_InitStruct.Pin = Motor_ON_OFF_Pin;
+  /*Configure GPIO pin : Motor_Enable_Pin */
+  GPIO_InitStruct.Pin = Motor_Enable_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(Motor_ON_OFF_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(Motor_Enable_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PF13 Encoder_CS_3_Pin */
-  GPIO_InitStruct.Pin = GPIO_PIN_13|Encoder_CS_3_Pin;
+  /*Configure GPIO pin : Motor_Error_Pin */
+  GPIO_InitStruct.Pin = Motor_Error_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(Motor_Error_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PF13 Encoder_CS_3_Pin SWRUN_Pin */
+  GPIO_InitStruct.Pin = GPIO_PIN_13|Encoder_CS_3_Pin|SWRUN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;

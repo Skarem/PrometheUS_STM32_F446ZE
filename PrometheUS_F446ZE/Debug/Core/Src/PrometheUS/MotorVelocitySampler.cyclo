@@ -1,4 +1,5 @@
-../Core/Src/PrometheUS/MotorVelocitySampler.cpp:3:7:virtual float MotorVelocitySampler::convertRawAdcValue() const	1
+../Core/Src/PrometheUS/MotorVelocitySampler.cpp:5:6:void MotorVelocitySampler::init(ADC_HandleTypeDef*, uint32_t)	1
+../Core/Src/PrometheUS/MotorVelocitySampler.cpp:11:7:virtual float MotorVelocitySampler::convertRawAdcValue() const	1
 ../Core/Inc/PrometheUS/GenericAdcChannelSampler.hpp:9:11:GenericAdcChannelSampler::~GenericAdcChannelSampler()	1
 ../Core/Inc/PrometheUS/GenericAdcChannelSampler.hpp:9:11:virtual GenericAdcChannelSampler::~GenericAdcChannelSampler()	1
 ../Core/Inc/PrometheUS/MotorVelocitySampler.hpp:5:7:MotorVelocitySampler::~MotorVelocitySampler()	1

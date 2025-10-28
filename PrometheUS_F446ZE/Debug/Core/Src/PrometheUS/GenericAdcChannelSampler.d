@@ -1,6 +1,6 @@
 Core/Src/PrometheUS/GenericAdcChannelSampler.o: \
  ../Core/Src/PrometheUS/GenericAdcChannelSampler.cpp \
- ../Core/Inc/PrometheUS/GenericAdcChannelSampler.hpp ../Core/Inc/main.h \
+ ../Core/Inc/PrometheUS/GenericAdcChannelSampler.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -36,7 +36,6 @@ Core/Src/PrometheUS/GenericAdcChannelSampler.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 ../Core/Inc/PrometheUS/GenericAdcChannelSampler.hpp:
-../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:

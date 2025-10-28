@@ -7,7 +7,7 @@ class PotentiometersSampler : public GenericAdcBurstSampler
 public:
   using GenericAdcBurstSampler::GenericAdcBurstSampler; // Inherit constructor
 
-  void convertAll(float (&outValues)[CHANNEL_COUNT]) const override;
+  void convertAll(float (&outValues)[FINGER_COUNT]) const override;
 
 private:
   // Add conversion constants here

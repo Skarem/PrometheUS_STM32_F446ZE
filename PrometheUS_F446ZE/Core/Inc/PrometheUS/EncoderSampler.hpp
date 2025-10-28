@@ -6,19 +6,19 @@ class EncoderSampler
 {
 public:
 
-  explicit EncoderSampler(SPI_HandleTypeDef* spi, GPIO_TypeDef* clockSelectPeripheral, uint16_t clockSelectPin);
+  EncoderSampler()  = default;
   ~EncoderSampler() = default;
 
-  void initOffsetPosition();
+  void init(SPI_HandleTypeDef* spi, GPIO_TypeDef* chipSelectPeripheral, uint16_t chipSelectPin);
 
   void sampleRawValue();
   uint16_t convertValue() const;
 
 private:
   SPI_HandleTypeDef*  m_spi;
-  GPIO_TypeDef*       m_clockSelectPeripheral;
-  uint16_t            m_clockSelectPin;
+  GPIO_TypeDef*       m_chipSelectPeripheral;
+  uint16_t            m_chipSelectPin;
 
-  uint16_t m_rawEncoderValue;
-  uint16_t m_offsetPosition;
+  uint16_t m_rawEncoderValue  = 0;
+  uint16_t m_offsetPosition   = 0;
 };

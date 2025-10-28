@@ -94,8 +94,10 @@ void Error_Handler(void);
 #define ADC_Current2_GPIO_Port GPIOF
 #define ADC_Current1_Pin GPIO_PIN_6
 #define ADC_Current1_GPIO_Port GPIOF
-#define Motor_ON_OFF_Pin GPIO_PIN_8
-#define Motor_ON_OFF_GPIO_Port GPIOC
+#define Motor_Enable_Pin GPIO_PIN_8
+#define Motor_Enable_GPIO_Port GPIOC
+#define Motor_Error_Pin GPIO_PIN_7
+#define Motor_Error_GPIO_Port GPIOC
 #define ADC_Current3_Pin GPIO_PIN_8
 #define ADC_Current3_GPIO_Port GPIOF
 #define ADC_Pot1_Pin GPIO_PIN_0
@@ -120,6 +122,8 @@ void Error_Handler(void);
 #define ADC_Temp2_GPIO_Port GPIOB
 #define Encoder_CS_3_Pin GPIO_PIN_12
 #define Encoder_CS_3_GPIO_Port GPIOF
+#define SWRUN_Pin GPIO_PIN_15
+#define SWRUN_GPIO_Port GPIOF
 #define Clutch1_PWM_B_Pin GPIO_PIN_8
 #define Clutch1_PWM_B_GPIO_Port GPIOE
 #define ADC_Motor_Speed_Pin GPIO_PIN_3
