@@ -38,7 +38,10 @@ CPP_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-Core/Src/PrometheUS \
+Core/PrometheUS/Actuation \
+Core/PrometheUS/Control \
+Core/PrometheUS/Sensing \
+Core/PrometheUS/System \
 Core/Src \
 Core/Startup \
 Drivers/STM32F4xx_HAL_Driver/Src \

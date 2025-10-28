@@ -1,0 +1,7 @@
+../Core/PrometheUS/Sensing/EncoderSampler.hpp:9:3:EncoderSampler::EncoderSampler()	16	static
+../Core/PrometheUS/Control/Finger.cpp:3:1:Finger::Finger(ClutchCurrentSampler&)	16	static
+../Core/PrometheUS/Control/Finger.cpp:9:6:void Finger::init(uint32_t, uint8_t, GPIO_TypeDef*, uint16_t, uint32_t)	24	static
+../Core/PrometheUS/Control/Finger.cpp:20:6:void Finger::sampleEncoder()	16	static
+../Core/PrometheUS/Control/Finger.cpp:25:6:void Finger::calculateCommand(float, float)	32	static
+../Core/PrometheUS/Control/Finger.cpp:38:6:void Finger::updateCommand()	16	static
+../Core/PrometheUS/Control/Finger.cpp:43:6:void Finger::stop()	16	static

@@ -11,8 +11,11 @@ RM := rm -rf
 -include sources.mk
 -include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
--include Core/Src/PrometheUS/subdir.mk
 -include Core/Src/subdir.mk
+-include Core/PrometheUS/System/subdir.mk
+-include Core/PrometheUS/Sensing/subdir.mk
+-include Core/PrometheUS/Control/subdir.mk
+-include Core/PrometheUS/Actuation/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)

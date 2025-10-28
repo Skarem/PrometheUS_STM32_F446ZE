@@ -1,3 +1,0 @@
-../Core/Src/PrometheUS/EncoderSampler.cpp:3:6:void EncoderSampler::init(SPI_HandleTypeDef*, GPIO_TypeDef*, uint16_t)	24	static
-../Core/Src/PrometheUS/EncoderSampler.cpp:13:6:void EncoderSampler::sampleRawValue()	24	static
-../Core/Src/PrometheUS/EncoderSampler.cpp:25:10:uint16_t EncoderSampler::convertValue() const	16	static

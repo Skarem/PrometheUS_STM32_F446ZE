@@ -6,7 +6,6 @@ extern "C" {
 #include <stdio.h>
 }
 
-#include <atomic>
 #include "PrometheUS.hpp"
 
 // ========== Flags ==========
@@ -27,18 +26,6 @@ int cppMain()
   {
     gripper.execute();
   }
-
-  /*
-  // ========== TIM1 ==========
-  // TIM1 is delayed to make sure all timers are synchronized together with it
-  HAL_Delay(500);
-  HAL_TIM_PWM_Start    (&htim1, TIM_CHANNEL_1); // Clutch #1 PWM A
-  HAL_TIMEx_PWMN_Start (&htim1, TIM_CHANNEL_1); // Clutch #1 PWM B
-  HAL_TIM_PWM_Start    (&htim1, TIM_CHANNEL_2); // Clutch #2 PWM A
-  HAL_TIMEx_PWMN_Start (&htim1, TIM_CHANNEL_2); // Clutch #2 PWM B
-  HAL_TIM_PWM_Start    (&htim1, TIM_CHANNEL_3); // Clutch #3 PWM A
-  HAL_TIMEx_PWMN_Start (&htim1, TIM_CHANNEL_3); // Clutch #3 PWM B
-  */
 }
 
 extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)

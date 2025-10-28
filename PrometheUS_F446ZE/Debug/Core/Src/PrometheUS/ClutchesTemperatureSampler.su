@@ -1,5 +1,0 @@
-../Core/Src/PrometheUS/ClutchesTemperatureSampler.cpp:3:6:virtual void ClutchesTemperatureSampler::convertAll(float (&)[3]) const	24	static
-../Core/Inc/PrometheUS/GenericAdcBurstSampler.hpp:10:11:GenericAdcBurstSampler::~GenericAdcBurstSampler()	16	static
-../Core/Inc/PrometheUS/GenericAdcBurstSampler.hpp:10:11:virtual GenericAdcBurstSampler::~GenericAdcBurstSampler()	16	static
-../Core/Inc/PrometheUS/ClutchesTemperatureSampler.hpp:5:7:ClutchesTemperatureSampler::~ClutchesTemperatureSampler()	16	static
-../Core/Inc/PrometheUS/ClutchesTemperatureSampler.hpp:5:7:virtual ClutchesTemperatureSampler::~ClutchesTemperatureSampler()	16	static

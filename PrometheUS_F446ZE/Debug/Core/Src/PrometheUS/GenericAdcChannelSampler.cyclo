@@ -1,3 +1,0 @@
-../Core/Src/PrometheUS/GenericAdcChannelSampler.cpp:3:6:void GenericAdcChannelSampler::init(ADC_HandleTypeDef*, uint32_t)	1
-../Core/Src/PrometheUS/GenericAdcChannelSampler.cpp:9:6:void GenericAdcChannelSampler::startSamplingRawAdcValue()	2
-../Core/Src/PrometheUS/GenericAdcChannelSampler.cpp:19:24:static ADC_ChannelConfTypeDef GenericAdcChannelSampler::CreateAdcConfiguration(uint32_t)	1
