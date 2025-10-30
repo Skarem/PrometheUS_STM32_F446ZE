@@ -1,0 +1,8 @@
+../Core/PrometheUS/Actuation/Clutch.cpp:5:1:Clutch::Clutch(ClutchCurrentSampler&)	12	static
+../Core/PrometheUS/Actuation/Clutch.cpp:11:6:void Clutch::init(uint32_t, uint8_t, uint32_t)	16	static
+../Core/PrometheUS/Actuation/Clutch.cpp:17:6:void Clutch::calculateCurrentPID(float, float)	8	static
+../Core/PrometheUS/Actuation/Clutch.cpp:22:7:float Clutch::getMeasuredCurrent()	8	static
+../Core/PrometheUS/Actuation/Clutch.cpp:28:6:bool Clutch::isInError()	0	static
+../Core/PrometheUS/Actuation/Clutch.cpp:38:6:void Clutch::updateCommand()	0	static
+../Core/PrometheUS/Actuation/Clutch.cpp:44:6:void Clutch::start()	0	static
+../Core/PrometheUS/Actuation/Clutch.cpp:49:6:void Clutch::stop()	0	static

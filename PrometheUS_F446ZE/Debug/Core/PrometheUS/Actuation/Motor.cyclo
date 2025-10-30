@@ -1,10 +1,16 @@
 ../Core/PrometheUS/Actuation/DigitalInput.hpp:11:8:void DigitalInput::init(GPIO_TypeDef*, uint16_t)	1
 ../Core/PrometheUS/Actuation/DigitalInput.hpp:17:8:bool DigitalInput::isOn() const	1
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:11:8:void DigitalOutput::init(GPIO_TypeDef*, uint16_t)	1
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:17:8:void DigitalOutput::on()	1
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:22:8:void DigitalOutput::off()	1
 ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:5:7:constexpr GenericAdcChannelSampler::GenericAdcChannelSampler(const GenericAdcChannelSampler&)	1
 ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:5:7:constexpr MotorVelocitySampler::MotorVelocitySampler(const MotorVelocitySampler&)	1
+../Core/PrometheUS/Actuation/DigitalInput.hpp:8:3:constexpr DigitalInput::DigitalInput()	1
+../Core/PrometheUS/Actuation/PWM.hpp:8:3:constexpr PWM::PWM()	1
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:8:3:constexpr DigitalOutput::DigitalOutput()	1
 ../Core/PrometheUS/Actuation/Motor.cpp:5:1:Motor::Motor(MotorVelocitySampler&)	1
 ../Core/PrometheUS/Actuation/Motor.cpp:11:6:void Motor::init()	1
-../Core/PrometheUS/Actuation/Motor.cpp:22:6:bool Motor::isError()	1
-../Core/PrometheUS/Actuation/Motor.cpp:27:6:void Motor::stop()	1
+../Core/PrometheUS/Actuation/Motor.cpp:22:6:void Motor::start()	1
+../Core/PrometheUS/Actuation/Motor.cpp:28:6:void Motor::stop()	1
+../Core/PrometheUS/Actuation/Motor.cpp:34:7:float Motor::getMotorVelocity()	1
+../Core/PrometheUS/Actuation/Motor.cpp:39:6:bool Motor::isError()	1

@@ -1,0 +1,3 @@
+../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.cpp:3:6:virtual void ClutchesTemperatureSampler::convertAll(float (&)[3]) const	0	static
+../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:5:7:ClutchesTemperatureSampler::~ClutchesTemperatureSampler()	0	static
+../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:5:7:virtual ClutchesTemperatureSampler::~ClutchesTemperatureSampler()	8	static

@@ -1,9 +1,12 @@
 ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:5:7:constexpr GenericAdcChannelSampler::GenericAdcChannelSampler(const GenericAdcChannelSampler&)	16	static
 ../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:6:7:constexpr ClutchCurrentSampler::ClutchCurrentSampler(const ClutchCurrentSampler&)	16	static
-../Core/PrometheUS/Control/PIDController.hpp:8:3:PIDController::PIDController()	16	static
+../Core/PrometheUS/Actuation/PWMComplementary.hpp:8:3:constexpr PWMComplementary::PWMComplementary()	16	static
+../Core/PrometheUS/Control/PIDController.hpp:8:3:constexpr PIDController::PIDController()	16	static
 ../Core/PrometheUS/Actuation/Clutch.cpp:5:1:Clutch::Clutch(ClutchCurrentSampler&)	16	static
 ../Core/PrometheUS/Actuation/Clutch.cpp:11:6:void Clutch::init(uint32_t, uint8_t, uint32_t)	24	static
 ../Core/PrometheUS/Actuation/Clutch.cpp:17:6:void Clutch::calculateCurrentPID(float, float)	24	static
 ../Core/PrometheUS/Actuation/Clutch.cpp:22:7:float Clutch::getMeasuredCurrent()	16	static
-../Core/PrometheUS/Actuation/Clutch.cpp:27:6:void Clutch::updateCommand()	16	static
-../Core/PrometheUS/Actuation/Clutch.cpp:32:6:void Clutch::stop()	16	static
+../Core/PrometheUS/Actuation/Clutch.cpp:28:6:bool Clutch::isInError()	16	static
+../Core/PrometheUS/Actuation/Clutch.cpp:38:6:void Clutch::updateCommand()	16	static
+../Core/PrometheUS/Actuation/Clutch.cpp:43:6:void Clutch::start()	16	static
+../Core/PrometheUS/Actuation/Clutch.cpp:48:6:void Clutch::stop()	16	static

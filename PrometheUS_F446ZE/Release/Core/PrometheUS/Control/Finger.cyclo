@@ -1,0 +1,10 @@
+../Core/PrometheUS/Control/Finger.cpp:3:1:Finger::Finger(ClutchCurrentSampler&)	1
+../Core/PrometheUS/Control/Finger.cpp:9:6:void Finger::init(uint32_t, uint8_t, GPIO_TypeDef*, uint16_t, uint32_t)	1
+../Core/PrometheUS/Control/Finger.cpp:20:6:void Finger::sampleEncoder()	1
+../Core/PrometheUS/Control/Finger.cpp:25:7:float Finger::getClutchMeasuredCurrent()	1
+../Core/PrometheUS/Control/Finger.cpp:30:6:bool Finger::isClutchError()	1
+../Core/PrometheUS/Control/Finger.cpp:35:7:float Finger::getEncoderPosition()	1
+../Core/PrometheUS/Control/Finger.cpp:40:6:void Finger::calculateCommand(float)	1
+../Core/PrometheUS/Control/Finger.cpp:53:6:void Finger::updateCommand()	1
+../Core/PrometheUS/Control/Finger.cpp:58:6:void Finger::start()	1
+../Core/PrometheUS/Control/Finger.cpp:63:6:void Finger::stop()	1

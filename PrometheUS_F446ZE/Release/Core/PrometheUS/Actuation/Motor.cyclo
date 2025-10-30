@@ -1,0 +1,6 @@
+../Core/PrometheUS/Actuation/Motor.cpp:5:1:Motor::Motor(MotorVelocitySampler&)	1
+../Core/PrometheUS/Actuation/Motor.cpp:11:6:void Motor::init()	1
+../Core/PrometheUS/Actuation/Motor.cpp:22:6:void Motor::start()	1
+../Core/PrometheUS/Actuation/Motor.cpp:28:6:void Motor::stop()	1
+../Core/PrometheUS/Actuation/Motor.cpp:34:7:float Motor::getMotorVelocity()	1
+../Core/PrometheUS/Actuation/Motor.cpp:39:6:bool Motor::isError()	1
