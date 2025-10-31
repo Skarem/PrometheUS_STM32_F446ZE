@@ -5,7 +5,9 @@
 extern "C" {
 #endif
 
-int cppMain();
+void cppMain();
+
+void cppTests();
 
 #ifdef __cplusplus
 }

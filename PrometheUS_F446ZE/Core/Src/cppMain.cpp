@@ -6,7 +6,11 @@ extern "C" {
 #include <stdio.h>
 }
 
+#define RUN_INTERRUPT_CALLBACKS 0
+
 #include "PrometheUS.hpp"
+
+#include "Tests.hpp"
 
 // ========== Flags ==========
 SystemFlags systemFlags;
@@ -17,7 +21,7 @@ ClutchCurrentSampler clutchCurrentSampler2;
 ClutchCurrentSampler clutchCurrentSampler3;
 MotorVelocitySampler motorVelocitySampler;
 
-int cppMain()
+void cppMain()
 {
   PrometheUS_Gripper gripper(systemFlags, clutchCurrentSampler1, clutchCurrentSampler2, clutchCurrentSampler3, motorVelocitySampler);
   gripper.init();
@@ -28,8 +32,16 @@ int cppMain()
   }
 }
 
+void cppTests()
+{
+  Tests tests;
+  tests.pwm();
+}
+
 extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 {
+#if RUN_INTERRUPT_CALLBACKS
+
   if (htim->Instance == TIM2)
   {
     if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
@@ -63,10 +75,12 @@ extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
       ClutchCurrentSampler::instances[FINGER_3_INDEX]->startSamplingRawAdcValue();
     }
   }
+#endif
 }
 
 extern "C" void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
+#if RUN_INTERRUPT_CALLBACKS
   if (hadc->Instance == ADC1)
   {
     // Done reading potentiometer data
@@ -86,4 +100,5 @@ extern "C" void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
       SystemFlags::instance->adcDoneMask.fetch_or(SystemFlags::CURR, std::memory_order_relaxed);
     }
   }
+#endif
 }

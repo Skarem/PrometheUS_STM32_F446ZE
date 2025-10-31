@@ -8,5 +8,5 @@
 ../Core/PrometheUS/Actuation/Clutch.cpp:22:7:float Clutch::getMeasuredCurrent()	16	static
 ../Core/PrometheUS/Actuation/Clutch.cpp:28:6:bool Clutch::isInError()	16	static
 ../Core/PrometheUS/Actuation/Clutch.cpp:38:6:void Clutch::updateCommand()	16	static
-../Core/PrometheUS/Actuation/Clutch.cpp:43:6:void Clutch::start()	16	static
-../Core/PrometheUS/Actuation/Clutch.cpp:48:6:void Clutch::stop()	16	static
+../Core/PrometheUS/Actuation/Clutch.cpp:44:6:void Clutch::start()	16	static
+../Core/PrometheUS/Actuation/Clutch.cpp:49:6:void Clutch::stop()	16	static

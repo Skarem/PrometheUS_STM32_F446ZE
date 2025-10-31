@@ -53,7 +53,8 @@ Core/Src/cppMain.o: ../Core/Src/cppMain.cpp ../Core/Inc/cppMain.hpp \
  ../Core/PrometheUS/Actuation/DigitalInput.hpp \
  ../Core/PrometheUS/System/SystemFlags.hpp \
  ../Core/PrometheUS/System/ErrorFlags.hpp \
- ../Core/PrometheUS/System/TelemetrySender.hpp
+ ../Core/PrometheUS/System/TelemetrySender.hpp \
+ ../Core/PrometheUS/Tests/Tests.hpp
 ../Core/Inc/cppMain.hpp:
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -111,3 +112,4 @@ Core/Src/cppMain.o: ../Core/Src/cppMain.cpp ../Core/Inc/cppMain.hpp \
 ../Core/PrometheUS/System/SystemFlags.hpp:
 ../Core/PrometheUS/System/ErrorFlags.hpp:
 ../Core/PrometheUS/System/TelemetrySender.hpp:
+../Core/PrometheUS/Tests/Tests.hpp:

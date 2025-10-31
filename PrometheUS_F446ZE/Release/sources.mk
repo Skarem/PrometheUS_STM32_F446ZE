@@ -42,6 +42,7 @@ Core/PrometheUS/Actuation \
 Core/PrometheUS/Control \
 Core/PrometheUS/Sensing \
 Core/PrometheUS/System \
+Core/PrometheUS/Tests \
 Core/Src \
 Core/Startup \
 Drivers/STM32F4xx_HAL_Driver/Src \

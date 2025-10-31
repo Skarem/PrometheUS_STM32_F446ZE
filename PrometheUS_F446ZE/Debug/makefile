@@ -12,6 +12,7 @@ RM := rm -rf
 -include Drivers/STM32F4xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
 -include Core/Src/subdir.mk
+-include Core/PrometheUS/Tests/subdir.mk
 -include Core/PrometheUS/System/subdir.mk
 -include Core/PrometheUS/Sensing/subdir.mk
 -include Core/PrometheUS/Control/subdir.mk
