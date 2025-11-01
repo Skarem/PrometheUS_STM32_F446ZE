@@ -1,1 +1,2 @@
-../Core/PrometheUS/Tests/Tests.cpp:8:6:void Tests::pwm()	5
+../Core/PrometheUS/Actuation/PWMComplementary.hpp:8:3:PWMComplementary::PWMComplementary()	1
+../Core/PrometheUS/Tests/Tests.cpp:8:6:void Tests::pwm()	2

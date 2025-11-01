@@ -9,31 +9,14 @@ void PWMComplementary::init(TIM_HandleTypeDef* timer, uint32_t channel)
 
 void PWMComplementary::start()
 {
-  // Enable timer counter first
-  __HAL_TIM_ENABLE(m_timer);
-
-  // Start PWM generation
   HAL_TIM_PWM_Start(m_timer, m_channel);
   HAL_TIMEx_PWMN_Start(m_timer, m_channel);
-
-  // Then enable MOE (Main Output Enable) so advanced timer actually drives outputs
-  __HAL_TIM_MOE_ENABLE(m_timer);
 }
 
 void PWMComplementary::stop()
 {
-  // Ensure CCR = 0 so last cycle is low
-  __HAL_TIM_SET_COMPARE(m_timer, m_channel, 0);
-
-  // Stop PWM generation
-  HAL_TIM_PWM_Stop(m_timer, m_channel);
   HAL_TIMEx_PWMN_Stop(m_timer, m_channel);
-
-  // Force pins to configured idle state (Idle = Reset/Low)
-  __HAL_TIM_MOE_DISABLE(m_timer);
-
-  // Disable timer counter itself
-  __HAL_TIM_DISABLE(m_timer);
+  HAL_TIM_PWM_Stop(m_timer, m_channel);
 }
 
 /*
