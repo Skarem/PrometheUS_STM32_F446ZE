@@ -1,5 +1,7 @@
 Core/Src/cppMain.o: ../Core/Src/cppMain.cpp ../Core/Inc/cppMain.hpp \
- ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
+ ../Core/PrometheUS/System/PrometheUS.hpp \
+ ../Core/PrometheUS/Actuation/DigitalOutput.hpp \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
@@ -33,11 +35,9 @@ Core/Src/cppMain.o: ../Core/Src/cppMain.cpp ../Core/Inc/cppMain.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/PrometheUS/System/PrometheUS.hpp \
- ../Core/PrometheUS/Actuation/DigitalOutput.hpp \
  ../Core/PrometheUS/Control/Switch.hpp \
  ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp \
- ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp \
+ ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp ../Core/Inc/main.h \
  ../Core/PrometheUS/System/DefineConstants.hpp \
  ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp \
  ../Core/PrometheUS/Control/Finger.hpp \
@@ -55,9 +55,10 @@ Core/Src/cppMain.o: ../Core/Src/cppMain.cpp ../Core/Inc/cppMain.hpp \
  ../Core/PrometheUS/System/SystemFlags.hpp \
  ../Core/PrometheUS/System/ErrorFlags.hpp \
  ../Core/PrometheUS/System/TelemetrySender.hpp \
- ../Core/PrometheUS/Tests/Tests.hpp
+ ../Core/PrometheUS/Tests/TestsNamespace.hpp
 ../Core/Inc/cppMain.hpp:
-../Core/Inc/main.h:
+../Core/PrometheUS/System/PrometheUS.hpp:
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -92,11 +93,10 @@ Core/Src/cppMain.o: ../Core/Src/cppMain.cpp ../Core/Inc/cppMain.hpp \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-../Core/PrometheUS/System/PrometheUS.hpp:
-../Core/PrometheUS/Actuation/DigitalOutput.hpp:
 ../Core/PrometheUS/Control/Switch.hpp:
 ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:
+../Core/Inc/main.h:
 ../Core/PrometheUS/System/DefineConstants.hpp:
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:
 ../Core/PrometheUS/Control/Finger.hpp:
@@ -114,4 +114,4 @@ Core/Src/cppMain.o: ../Core/Src/cppMain.cpp ../Core/Inc/cppMain.hpp \
 ../Core/PrometheUS/System/SystemFlags.hpp:
 ../Core/PrometheUS/System/ErrorFlags.hpp:
 ../Core/PrometheUS/System/TelemetrySender.hpp:
-../Core/PrometheUS/Tests/Tests.hpp:
+../Core/PrometheUS/Tests/TestsNamespace.hpp:

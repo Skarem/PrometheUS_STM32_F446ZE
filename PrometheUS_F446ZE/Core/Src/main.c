@@ -127,19 +127,7 @@ int main(void)
   MX_DAC_Init();
   MX_USART3_UART_Init();
   /* USER CODE BEGIN 2 */
-  // cppMain();
-
-  // HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_2);
-  // HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_3);
-  // HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_4);
-  // HAL_TIM_OC_Start_IT(&htim2, TIM_CHANNEL_1);
-  // HAL_TIM_OC_Start_IT(&htim3, TIM_CHANNEL_1);
-  // HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
-
-  // HAL_Delay(500);
-  // HAL_TIM_PWM_Start    (&htim1, TIM_CHANNEL_1);
-
-  cppTests();
+  cppMain();
   /* USER CODE END 2 */
 
   /* Infinite loop */

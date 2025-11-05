@@ -10,7 +10,6 @@ C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/PrometheUS/Control/Switch.hpp:8:3:constexpr Switch::Switch()	1
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:10:3:constexpr GenericAdcBurstSampler::GenericAdcBurstSampler()	1
 ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:5:7:constexpr PotentiometersSampler::PotentiometersSampler()	1
-../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:5:7:constexpr ClutchesTemperatureSampler::ClutchesTemperatureSampler()	1
 ../Core/PrometheUS/System/PrometheUS.cpp:3:1:PrometheUS_Gripper::PrometheUS_Gripper(SystemFlags&, ClutchCurrentSampler&, ClutchCurrentSampler&, ClutchCurrentSampler&, MotorVelocitySampler&)	1
 ../Core/PrometheUS/System/PrometheUS.cpp:18:6:void PrometheUS_Gripper::init()	1
 ../Core/PrometheUS/System/PrometheUS.cpp:45:6:void PrometheUS_Gripper::execute()	1

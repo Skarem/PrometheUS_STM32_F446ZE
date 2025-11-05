@@ -1,4 +1,4 @@
-../Core/PrometheUS/Sensing/PotentiometersSampler.cpp:3:6:virtual void PotentiometersSampler::convertAll(float (&)[3]) const	2
+../Core/PrometheUS/Sensing/PotentiometersSampler.cpp:5:6:virtual void PotentiometersSampler::convertAll(float (&)[3]) const	2
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:11:11:GenericAdcBurstSampler::~GenericAdcBurstSampler()	1
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:11:11:virtual GenericAdcBurstSampler::~GenericAdcBurstSampler()	1
 ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:5:7:PotentiometersSampler::~PotentiometersSampler()	1

@@ -20,7 +20,7 @@ public:
   [[nodiscard]] virtual float convertRawAdcValue() const = 0;
 
 protected:
-  uint32_t m_rawAdcValue = 0;
+  uint16_t m_rawAdcValue = 0;
 
 private:
   ADC_HandleTypeDef* m_hadc = nullptr;

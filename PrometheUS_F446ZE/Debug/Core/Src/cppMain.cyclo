@@ -3,20 +3,23 @@ C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/PrometheUS/System/SystemFlags.hpp:10:3:SystemFlags::SystemFlags()	1
 ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:9:11:GenericAdcChannelSampler::~GenericAdcChannelSampler()	1
 ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:9:11:virtual GenericAdcChannelSampler::~GenericAdcChannelSampler()	1
-../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:6:7:ClutchCurrentSampler::~ClutchCurrentSampler()	1
-../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:6:7:virtual ClutchCurrentSampler::~ClutchCurrentSampler()	1
-../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:5:7:MotorVelocitySampler::~MotorVelocitySampler()	1
-../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:5:7:virtual MotorVelocitySampler::~MotorVelocitySampler()	1
-../Core/Src/cppMain.cpp:25:6:void cppMain()	1
-../Core/Src/cppMain.cpp:37:6:void cppTests()	1
-../Core/Src/cppMain.cpp:47:17:void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef*)	1
-../Core/Src/cppMain.cpp:87:17:void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef*)	2
+../Core/Src/cppMain.cpp:32:6:void cppMain()	1
+../Core/Src/cppMain.cpp:47:6:void cppTests()	1
+../Core/Src/cppMain.cpp:56:17:void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef*)	4
+../Core/Src/cppMain.cpp:112:17:void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef*)	3
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/bits/atomic_base.h:362:17:constexpr std::__atomic_base<_IntTp>::__atomic_base(__int_type) [with _ITp = bool]	1
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/bits/atomic_base.h:362:17:constexpr std::__atomic_base<_IntTp>::__atomic_base(__int_type) [with _ITp = unsigned char]	1
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/bits/atomic_base.h:962:7:constexpr bool std::__atomic_impl::__maybe_has_padding() [with _Tp = SystemFlags::ADCSource]	1
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/atomic:233:17:constexpr std::atomic<_Tp>::atomic(_Tp) [with _Tp = SystemFlags::ADCSource]	2
+C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/atomic:277:7:void std::atomic<_Tp>::store(_Tp, std::memory_order) [with _Tp = SystemFlags::ADCSource]	1
+C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/atomic:293:7:_Tp std::atomic<_Tp>::load(std::memory_order) const [with _Tp = SystemFlags::ADCSource]	1
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/bits/move.h:51:5:constexpr _Tp* std::__addressof(_Tp&) [with _Tp = SystemFlags::ADCSource]	1
-../Core/Src/cppMain.cpp:120:1:void __static_initialization_and_destruction_0()	1
-../Core/Src/cppMain.cpp:120:1:void __static_initialization_and_destruction_1()	1
-../Core/Src/cppMain.cpp:120:1:cpp)	1
-../Core/Src/cppMain.cpp:120:1:cpp)	1
+C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/bits/move.h:51:5:constexpr _Tp* std::__addressof(_Tp&) [with _Tp = const SystemFlags::ADCSource]	1
+../Core/Src/cppMain.cpp:156:1:void __static_initialization_and_destruction_0()	1
+../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:5:7:MotorVelocitySampler::~MotorVelocitySampler()	1
+../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:5:7:virtual MotorVelocitySampler::~MotorVelocitySampler()	1
+../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:6:7:ClutchCurrentSampler::~ClutchCurrentSampler()	1
+../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:6:7:virtual ClutchCurrentSampler::~ClutchCurrentSampler()	1
+../Core/Src/cppMain.cpp:156:1:void __static_initialization_and_destruction_1()	1
+../Core/Src/cppMain.cpp:156:1:cpp)	1
+../Core/Src/cppMain.cpp:156:1:cpp)	1
