@@ -3,13 +3,30 @@
 #include "main.h"
 #include "DefineConstants.hpp"
 
-typedef struct __attribute__((packed))
+struct __attribute__((packed)) TelemetryPacket
 {
-  float potentiometersPosition[FINGER_COUNT];
-  float encodersPosition[FINGER_COUNT];
-  float clutchesCurrent[FINGER_COUNT];
+  // Header
+  const uint16_t header = TELEMETRY_HEADER;
+  uint32_t timestampMs  = 0;
+
+  // Data
+  float potentiometersPosition[FINGER_COUNT]  = { 0 };
+  float encodersPosition[FINGER_COUNT]        = { 0 };
+  float clutchesCurrent[FINGER_COUNT]         = { 0 };
   float motorVelocity;
-} TelemetryPacket;
+
+  void clear()
+  {
+    timestampMs = 0;
+    for (int i = 0; i < FINGER_COUNT; i++)
+    {
+      potentiometersPosition[i] = 0.0f;
+      encodersPosition[i]       = 0.0f;
+      clutchesCurrent[i]        = 0.0f;
+    }
+    motorVelocity = 0.0f;
+  }
+};
 
 class TelemetrySender
 {
@@ -19,19 +36,15 @@ public:
 
   void init(UART_HandleTypeDef* huart);
 
-  void send(
-      const float potentiometersPosition[FINGER_COUNT],
-      const float encodersPosition[FINGER_COUNT],
-      const float clutchesCurrent[FINGER_COUNT],
-      const float motorVelocity);
+  void send(const uint32_t timestamp,
+            const float pots[FINGER_COUNT],
+            const float encs[FINGER_COUNT],
+            const float curr[FINGER_COUNT],
+            const float motor);
 
 private:
   UART_HandleTypeDef* m_huart     = nullptr;
-  TelemetryPacket     m_txPacket  = {};
+  TelemetryPacket     m_packet    = {};
 
-  static constexpr size_t POTENTIOMETERS_POSITION_SIZE = sizeof(m_txPacket.potentiometersPosition);
-  static constexpr size_t ENCODERS_POSITION_SIZE       = sizeof(m_txPacket.encodersPosition);
-  static constexpr size_t CLUTCHES_CURRENT_SIZE        = sizeof(m_txPacket.clutchesCurrent);
-
-  static constexpr size_t PACKET_SIZE = sizeof(m_txPacket);
+  static constexpr size_t PACKET_SIZE = sizeof(m_packet);
 };

@@ -19,6 +19,11 @@ private:
   TIM_HandleTypeDef*  m_timer   = nullptr;
   uint32_t            m_channel = 0;
 
-  const uint32_t m_arr = 999;
+  uint32_t m_arr;
+
+  static constexpr float MIN_DUTY_CYCLE = 0.0f;
+  static constexpr float MAX_DUTY_CYCLE = 1.0f;
+
+  inline uint32_t roundToInt(float x);
 };
 

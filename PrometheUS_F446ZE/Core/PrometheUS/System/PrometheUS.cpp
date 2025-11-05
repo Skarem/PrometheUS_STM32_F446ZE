@@ -21,7 +21,7 @@ void PrometheUS_Gripper::init()
 
   startTimers();
 
-  m_telemetrySender.init(&huart2);
+  m_telemetrySender.init(&huart3);
 
   m_led1.init(DEL_1_GPIO_Port, DEL_1_Pin);
   m_led2.init(DEL_2_GPIO_Port, DEL_2_Pin);
@@ -127,19 +127,24 @@ void PrometheUS_Gripper::controlStateMachine()
       m_potentiometers.convertAll(m_potentiometerPositionsArray);
       m_clutchesTemperature.convertAll(m_clutchTemperaturesArray);
 
-      m_clutchCurrentsArray[FINGER_1_INDEX] = m_finger1.getClutchMeasuredCurrent();
-      m_clutchCurrentsArray[FINGER_2_INDEX] = m_finger2.getClutchMeasuredCurrent();
-      m_clutchCurrentsArray[FINGER_3_INDEX] = m_finger3.getClutchMeasuredCurrent();
+      static TelemetryPacket packet;
+      packet.clear();
 
-      m_encoderPositions[FINGER_1_INDEX] = m_finger1.getEncoderPosition();
-      m_encoderPositions[FINGER_2_INDEX] = m_finger2.getEncoderPosition();
-      m_encoderPositions[FINGER_3_INDEX] = m_finger3.getEncoderPosition();
+      // packet.potentiometersPosition = m_potentiometerPositionsArray;
+
+      // packet.encoderPositions[FINGER_1_INDEX] = m_finger1.getEncoderPosition();
+      // packet.encoderPositions[FINGER_2_INDEX] = m_finger2.getEncoderPosition();
+      // packet.encoderPositions[FINGER_3_INDEX] = m_finger3.getEncoderPosition();
+
+      // packet.clutchCurrentsArray[FINGER_1_INDEX] = m_finger1.getClutchMeasuredCurrent();
+      // packet.clutchCurrentsArray[FINGER_2_INDEX] = m_finger2.getClutchMeasuredCurrent();
+      // packet.clutchCurrentsArray[FINGER_3_INDEX] = m_finger3.getClutchMeasuredCurrent();
 
       // Send data @ 50 Hz
       if (++m_sendDataCounter >= SEND_DATA_TIMING)
       {
         m_sendDataCounter = 0;
-        m_telemetrySender.send(m_potentiometerPositionsArray, m_encoderPositions, m_clutchCurrentsArray, m_motor.getMotorVelocity());
+        // m_telemetrySender.send(m_potentiometerPositionsArray, m_encoderPositions, m_clutchCurrentsArray, m_motor.getMotorVelocity());
       }
 
       /*

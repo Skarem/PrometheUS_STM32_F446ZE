@@ -1,4 +1,4 @@
 ../Core/PrometheUS/Actuation/PWMComplementary.cpp:3:6:void PWMComplementary::init(TIM_HandleTypeDef*, uint32_t)	1
 ../Core/PrometheUS/Actuation/PWMComplementary.cpp:10:6:void PWMComplementary::start()	1
-../Core/PrometheUS/Actuation/PWMComplementary.cpp:20:6:void PWMComplementary::stop()	1
-../Core/PrometheUS/Actuation/PWMComplementary.cpp:34:6:void PWMComplementary::update(float)	5
+../Core/PrometheUS/Actuation/PWMComplementary.cpp:16:6:void PWMComplementary::stop()	1
+../Core/PrometheUS/Actuation/PWMComplementary.cpp:26:6:void PWMComplementary::update(float)	5

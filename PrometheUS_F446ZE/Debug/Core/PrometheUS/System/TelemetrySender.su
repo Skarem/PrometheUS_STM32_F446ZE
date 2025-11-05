@@ -1,2 +1,3 @@
-../Core/PrometheUS/System/TelemetrySender.cpp:5:6:void TelemetrySender::init(UART_HandleTypeDef*)	16	static
-../Core/PrometheUS/System/TelemetrySender.cpp:10:6:void TelemetrySender::send(const float*, const float*, const float*, float)	32	static
+../Core/PrometheUS/System/TelemetrySender.hpp:18:8:void TelemetryPacket::clear()	24	static
+../Core/PrometheUS/System/TelemetrySender.cpp:4:6:void TelemetrySender::init(UART_HandleTypeDef*)	16	static
+../Core/PrometheUS/System/TelemetrySender.cpp:9:6:void TelemetrySender::send(uint32_t, const float*, const float*, const float*, float)	40	static

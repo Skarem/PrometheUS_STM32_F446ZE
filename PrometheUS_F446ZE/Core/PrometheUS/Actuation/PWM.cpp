@@ -4,6 +4,7 @@ void PWM::init(TIM_HandleTypeDef* timer, uint32_t channel)
 {
   m_timer   = timer;
   m_channel = channel;
+  m_arr = __HAL_TIM_GET_AUTORELOAD(m_timer);
 }
 
 void PWM::start()
@@ -22,6 +23,15 @@ void PWM::stop()
  */
 void PWM::update(float dutyCycle)
 {
-  uint32_t ccr = static_cast<uint32_t>(dutyCycle * m_arr);
+  // Clamp dutyCycle
+  if (dutyCycle < MIN_DUTY_CYCLE) dutyCycle = MIN_DUTY_CYCLE;
+  if (dutyCycle > MAX_DUTY_CYCLE) dutyCycle = MAX_DUTY_CYCLE;
+
+  const uint32_t ccr = roundToInt(dutyCycle * m_arr);
   __HAL_TIM_SET_COMPARE(m_timer, m_channel, ccr);
+}
+
+inline uint32_t PWM::roundToInt(float x)
+{
+  return static_cast<uint32_t>(x + 0.5f);
 }

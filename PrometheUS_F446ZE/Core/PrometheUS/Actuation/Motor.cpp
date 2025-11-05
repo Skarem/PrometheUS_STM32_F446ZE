@@ -11,7 +11,6 @@ Motor::Motor(MotorVelocitySampler &motorVelocitySampler)
 void Motor::init()
 {
   // Motor PWM (Needs to be between 10Hz and 5KHz)
-  // This timer is synchronized with TIM1, but runs at 1KHz instead of 10KHz
   m_pwm.init(&htim4, TIM_CHANNEL_1);
   m_motorVelocitySampler.init(&hadc3, ADC_CHANNEL_3);
 

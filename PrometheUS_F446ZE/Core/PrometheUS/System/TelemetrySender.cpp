@@ -1,25 +1,31 @@
 #include "TelemetrySender.hpp"
-
-#include <cstring>
+#include <DefineConstants.hpp>
 
 void TelemetrySender::init(UART_HandleTypeDef* huart)
 {
   m_huart = huart;
 }
 
-void TelemetrySender::send(
-    const float potentiometersPosition[FINGER_COUNT],
-    const float encodersPosition[FINGER_COUNT],
-    const float clutchesCurrent[FINGER_COUNT],
-    const float motorVelocity)
+void TelemetrySender::send(const uint32_t timestamp,
+          const float pots[FINGER_COUNT],
+          const float encs[FINGER_COUNT],
+          const float curr[FINGER_COUNT],
+          const float motor)
 {
   // DMA still busy
   if (m_huart->gState != HAL_UART_STATE_READY) return;
 
-  memcpy(m_txPacket.potentiometersPosition, potentiometersPosition, POTENTIOMETERS_POSITION_SIZE);
-  memcpy(m_txPacket.encodersPosition,       encodersPosition,       ENCODERS_POSITION_SIZE);
-  memcpy(m_txPacket.clutchesCurrent,        clutchesCurrent,        CLUTCHES_CURRENT_SIZE);
-  m_txPacket.motorVelocity = motorVelocity;
+  m_packet.clear();
 
-  HAL_UART_Transmit_DMA(m_huart, (uint8_t*)&m_txPacket, PACKET_SIZE);
+  // m_packet.header       = TELEMETRY_HEADER;
+  m_packet.timestampMs  = timestamp;
+  for (size_t i = 0; i < FINGER_COUNT; ++i)
+  {
+    m_packet.potentiometersPosition[i]  = pots[i];
+    m_packet.encodersPosition[i]        = encs[i];
+    m_packet.clutchesCurrent[i]         = curr[i];
+  }
+  m_packet.motorVelocity = motor;
+
+  HAL_UART_Transmit_DMA(m_huart, reinterpret_cast<uint8_t*>(&m_packet), PACKET_SIZE);
 }

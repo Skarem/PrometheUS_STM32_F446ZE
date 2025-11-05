@@ -51,6 +51,7 @@ Core/Src/cppMain.o: ../Core/Src/cppMain.cpp ../Core/Inc/cppMain.hpp \
  ../Core/PrometheUS/Actuation/PWM.hpp \
  ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp \
  ../Core/PrometheUS/Actuation/DigitalInput.hpp \
+ ../Core/PrometheUS/System/StateMachines.hpp \
  ../Core/PrometheUS/System/SystemFlags.hpp \
  ../Core/PrometheUS/System/ErrorFlags.hpp \
  ../Core/PrometheUS/System/TelemetrySender.hpp \
@@ -109,6 +110,7 @@ Core/Src/cppMain.o: ../Core/Src/cppMain.cpp ../Core/Inc/cppMain.hpp \
 ../Core/PrometheUS/Actuation/PWM.hpp:
 ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:
 ../Core/PrometheUS/Actuation/DigitalInput.hpp:
+../Core/PrometheUS/System/StateMachines.hpp:
 ../Core/PrometheUS/System/SystemFlags.hpp:
 ../Core/PrometheUS/System/ErrorFlags.hpp:
 ../Core/PrometheUS/System/TelemetrySender.hpp:

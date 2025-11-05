@@ -7,16 +7,16 @@ C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:6:7:virtual ClutchCurrentSampler::~ClutchCurrentSampler()	16	static
 ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:5:7:MotorVelocitySampler::~MotorVelocitySampler()	16	static
 ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:5:7:virtual MotorVelocitySampler::~MotorVelocitySampler()	16	static
-../Core/Src/cppMain.cpp:24:6:void cppMain()	600	static
-../Core/Src/cppMain.cpp:35:6:void cppTests()	16	static
-../Core/Src/cppMain.cpp:41:17:void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef*)	16	static
-../Core/Src/cppMain.cpp:81:17:void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef*)	16	static
+../Core/Src/cppMain.cpp:25:6:void cppMain()	600	static
+../Core/Src/cppMain.cpp:37:6:void cppTests()	16	static
+../Core/Src/cppMain.cpp:47:17:void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef*)	16	static
+../Core/Src/cppMain.cpp:87:17:void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef*)	24	static
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/bits/atomic_base.h:362:17:constexpr std::__atomic_base<_IntTp>::__atomic_base(__int_type) [with _ITp = bool]	16	static
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/bits/atomic_base.h:362:17:constexpr std::__atomic_base<_IntTp>::__atomic_base(__int_type) [with _ITp = unsigned char]	16	static
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/bits/atomic_base.h:962:7:constexpr bool std::__atomic_impl::__maybe_has_padding() [with _Tp = SystemFlags::ADCSource]	4	static
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/atomic:233:17:constexpr std::atomic<_Tp>::atomic(_Tp) [with _Tp = SystemFlags::ADCSource]	16	static
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/bits/move.h:51:5:constexpr _Tp* std::__addressof(_Tp&) [with _Tp = SystemFlags::ADCSource]	16	static
-../Core/Src/cppMain.cpp:104:1:void __static_initialization_and_destruction_0()	8	static
-../Core/Src/cppMain.cpp:104:1:void __static_initialization_and_destruction_1()	8	static
-../Core/Src/cppMain.cpp:104:1:cpp)	8	static
-../Core/Src/cppMain.cpp:104:1:cpp)	8	static
+../Core/Src/cppMain.cpp:120:1:void __static_initialization_and_destruction_0()	8	static
+../Core/Src/cppMain.cpp:120:1:void __static_initialization_and_destruction_1()	8	static
+../Core/Src/cppMain.cpp:120:1:cpp)	8	static
+../Core/Src/cppMain.cpp:120:1:cpp)	8	static

@@ -7,10 +7,11 @@ extern "C" {
 }
 
 #define RUN_INTERRUPT_CALLBACKS 0
+#define TEST_POTENTIOMETERS 1
 
 #include "PrometheUS.hpp"
 
-#include "Tests.hpp"
+#include <TestsNamespace.hpp>
 
 // ========== Flags ==========
 SystemFlags systemFlags;
@@ -28,14 +29,19 @@ void cppMain()
 
   while (true)
   {
-    // gripper.execute();
+    gripper.execute();
   }
 }
+
 
 void cppTests()
 {
   Tests tests;
-  tests.pwm();
+
+  // tests.pwm();
+  // tests.sender();
+
+  // tests.potentiometers(systemFlags);
 }
 
 extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
@@ -80,6 +86,7 @@ extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 
 extern "C" void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
+  // ----- Normal operation -----
 #if RUN_INTERRUPT_CALLBACKS
   if (hadc->Instance == ADC1)
   {
@@ -99,6 +106,13 @@ extern "C" void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
       // Done sampling all clutch current data
       SystemFlags::instance->adcDoneMask.fetch_or(SystemFlags::CURR, std::memory_order_relaxed);
     }
+  }
+  // ----- Tests -----
+#else if TEST_POTENTIOMETERS
+  if (hadc->Instance == ADC1)
+  {
+    // Done reading potentiometer data
+    SystemFlags::instance->adcDoneMask.fetch_or(SystemFlags::POTS, std::memory_order_relaxed);
   }
 #endif
 }

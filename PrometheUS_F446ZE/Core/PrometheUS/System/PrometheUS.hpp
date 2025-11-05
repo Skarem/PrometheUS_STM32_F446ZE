@@ -12,6 +12,7 @@
 #include "Motor.hpp"
 #include "MotorVelocitySampler.hpp"
 
+#include "StateMachines.hpp"
 #include "SystemFlags.hpp"
 #include "ErrorFlags.hpp"
 
@@ -31,6 +32,8 @@ public:
   void init();
 
   void execute();
+
+  static void startTimers();
 
 private:
 
@@ -75,31 +78,13 @@ private:
   // Motor (ESCON 5/50 Drive)
   Motor m_motor;
 
-  enum SystemState : uint8_t
-  {
-    SYS_INIT = 0,
-    SYS_IDLE,
-    SYS_RUN,
-    SYS_ERROR
-  };
-
-  enum ControlState : uint8_t
-  {
-    CONTROL_START_SAMPLING = 0,
-    CONTROL_WAIT_SAMPLING,
-    CONTROL_CALCULATE_CONTROL_LAWS,
-    CONTROL_FINISHED_CONTROL_LAWS,
-    CONTROL_UPDATE_PWM_DUTY_CYCLES,
-    CONTROL_FINISHED_CYCLE
-  };
-
   ControlState  m_controlState  = ControlState::CONTROL_FINISHED_CYCLE;
   SystemState   m_systemState   = SystemState::SYS_INIT;
 
   void systemStateMachine();
   void controlStateMachine();
 
-  void startTimers();
+
 
   void start();
   void stop();
