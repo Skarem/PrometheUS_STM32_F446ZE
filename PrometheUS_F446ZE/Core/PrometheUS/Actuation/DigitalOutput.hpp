@@ -14,14 +14,19 @@ public:
     m_pin   = pin;
   }
 
-  void on()
+  inline void on()
   {
     HAL_GPIO_WritePin(m_port, m_pin, GPIO_PIN_SET);
   }
 
-  void off()
+  inline void off()
   {
     HAL_GPIO_WritePin(m_port, m_pin, GPIO_PIN_RESET);
+  }
+
+  inline void toggle()
+  {
+    HAL_GPIO_TogglePin(m_port, m_pin);
   }
 
 private:

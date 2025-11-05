@@ -8,9 +8,6 @@ namespace Tests
   // Starts and stops PWM clutch outputs fast, sweeps duty-cycle
   void pwm();
 
-  // TODO
-  void motor();
-
   // Sends data at 1KHz to a real-time visualizer
   void sender();
 
@@ -26,5 +23,9 @@ namespace Tests
       ClutchCurrentSampler &clutchCurrentSampler1,
       ClutchCurrentSampler &clutchCurrentSampler2,
       ClutchCurrentSampler &clutchCurrentSampler3);
+
+  void button();
+
+  void LEDs();
 }
 

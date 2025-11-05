@@ -1,8 +1,8 @@
 ../Core/PrometheUS/Actuation/DigitalInput.hpp:11:8:void DigitalInput::init(GPIO_TypeDef*, uint16_t)	1
-../Core/PrometheUS/Actuation/DigitalInput.hpp:17:8:bool DigitalInput::isOn() const	1
+../Core/PrometheUS/Actuation/DigitalInput.hpp:17:15:bool DigitalInput::isOn() const	1
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:11:8:void DigitalOutput::init(GPIO_TypeDef*, uint16_t)	1
-../Core/PrometheUS/Actuation/DigitalOutput.hpp:17:8:void DigitalOutput::on()	1
-../Core/PrometheUS/Actuation/DigitalOutput.hpp:22:8:void DigitalOutput::off()	1
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:17:15:void DigitalOutput::on()	1
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:22:15:void DigitalOutput::off()	1
 ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:5:7:constexpr GenericAdcChannelSampler::GenericAdcChannelSampler(const GenericAdcChannelSampler&)	1
 ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:5:7:constexpr MotorVelocitySampler::MotorVelocitySampler(const MotorVelocitySampler&)	1
 ../Core/PrometheUS/Actuation/DigitalInput.hpp:8:3:constexpr DigitalInput::DigitalInput()	1

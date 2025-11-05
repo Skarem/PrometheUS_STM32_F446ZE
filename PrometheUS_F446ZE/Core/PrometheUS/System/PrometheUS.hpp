@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DigitalOutput.hpp"
-#include "Switch.hpp"
+#include "DigitalInput.hpp"
 
 #include "PotentiometersSampler.hpp"
 #include "ClutchesTemperatureSampler.hpp"
@@ -54,7 +54,7 @@ private:
   DigitalOutput m_led2;
 
   // Switch (Toggle between IDLE and RUN states)
-  Switch m_switch;
+  DigitalInput m_switch;
 
   // Potentiometers
   PotentiometersSampler m_potentiometers;
@@ -83,8 +83,6 @@ private:
 
   void systemStateMachine();
   void controlStateMachine();
-
-
 
   void start();
   void stop();

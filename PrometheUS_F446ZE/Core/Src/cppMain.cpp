@@ -48,9 +48,13 @@ void cppTests()
 {
   // Tests::pwm();
   // Tests::sender();
+
   // Tests::potentiometers(systemFlags);
   // Tests::clutchTemperatures(systemFlags);
-  Tests::clutchCurrents(systemFlags, clutchCurrentSampler1, clutchCurrentSampler2, clutchCurrentSampler3);
+  // Tests::clutchCurrents(systemFlags, clutchCurrentSampler1, clutchCurrentSampler2, clutchCurrentSampler3);
+
+  Tests::button();
+  Tests::LEDs();
 }
 
 extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
