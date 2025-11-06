@@ -3,6 +3,13 @@
 #include "TelemetrySender.hpp"
 #include <cmath>
 
+static inline float mapSine(float t, float freq, float phase, float minVal, float maxVal)
+{
+  float mid = 0.5f * (maxVal + minVal);
+  float amp = 0.5f * (maxVal - minVal);
+  return mid + amp * sinf(2.0f * static_cast<float>(M_PI) * freq * t + phase);
+}
+
 /**
  * @file  TestSender.cpp
  * @brief Unit test for TelemetrySender communication over UART3
@@ -40,20 +47,24 @@ void Tests::sender()
       float t = now / 1000.0f;
 
       float pots[FINGER_COUNT];
-      float encs[FINGER_COUNT];
+      float temp[FINGER_COUNT];
       float curr[FINGER_COUNT];
       float motorVelocity;
+
+      bool    inError     = false;
+      uint8_t errorSource = static_cast<uint8_t>(ErrorSource::NONE);
 
       for (size_t i = 0; i < FINGER_COUNT; ++i)
       {
         float phase = (TWO_PI / static_cast<float>(FINGER_COUNT)) * i;
-        pots[i] = 10.0f + 2.0f * sinf(TWO_PI * SIGNAL_FREQ * t + phase);
-        encs[i] = 15.0f + 2.0f * cosf(TWO_PI * SIGNAL_FREQ * t + phase);
-        curr[i] = 20.0f + 2.0f * sinf(TWO_PI * SIGNAL_FREQ * t + phase + M_PI/3.0f);
-      }
-      motorVelocity = 3250.0f + 500.0f * sinf(TWO_PI * SIGNAL_FREQ * t);
 
-      sender.send(now, pots, encs, curr, motorVelocity);
+        pots[i] = mapSine(t, SIGNAL_FREQ, phase, MIN_POTENTIOMETER_POSITION_DEG, MAX_POTENTIOMETER_POSITION_DEG);
+        temp[i] = mapSine(t, SIGNAL_FREQ, phase + M_PI / 2.0f, MIN_CLUTCH_TEMPERATURE_CELSIUS, MAX_CLUTCH_TEMPERATURE_CELSIUS);
+        curr[i] = mapSine(t, SIGNAL_FREQ, phase + M_PI / 3.0f, MIN_CLUTCH_CURRENT_AMPERE, MAX_CLUTCH_CURRENT_AMPERE);
+      }
+      motorVelocity = mapSine(t, SIGNAL_FREQ, 0.0f, MIN_MOTOR_VELOCITY_RPM, MAX_MOTOR_VELOCITY_RPM);
+
+      sender.send(now, pots, temp, curr, motorVelocity, inError, errorSource);
 
       HAL_Delay(1);
     }

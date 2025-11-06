@@ -1,1 +1,2 @@
-../Core/PrometheUS/Tests/TestSender.cpp:21:6:void Tests::sender()	3
+../Core/PrometheUS/Tests/TestSender.cpp:6:21:float mapSine(float, float, float, float, float)	1
+../Core/PrometheUS/Tests/TestSender.cpp:28:6:void Tests::sender()	3

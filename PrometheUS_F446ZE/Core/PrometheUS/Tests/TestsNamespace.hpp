@@ -8,8 +8,12 @@ namespace Tests
   // Starts and stops PWM clutch outputs fast, sweeps duty-cycle
   void pwm();
 
+  void motor();
+
   // Sends data at 1KHz to a real-time visualizer
   void sender();
+  // Sends error messages
+  void senderErrors();
 
   // ----- Samplers -----
   // Samples and converts potentiometer data at 1KHz

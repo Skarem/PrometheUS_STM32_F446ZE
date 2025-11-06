@@ -17,7 +17,7 @@ extern "C" {
 // Need any specific callback sections
 #define TEST_POTENTIOMETERS 0               // Tests::potentiometer
 #define TEST_TEMPERATURES   0               // Tests::clutchTemperatures
-#define TEST_CURRENTS       1               // Tests::clutchCurrents
+#define TEST_CURRENTS       0               // Tests::clutchCurrents
 #endif
 
 // ========== Flags ==========
@@ -47,14 +47,17 @@ void cppMain()
 void cppTests()
 {
   // Tests::pwm();
+  // Tests::motor();
+
   // Tests::sender();
+  // Tests::senderErrors();
 
   // Tests::potentiometers(systemFlags);
   // Tests::clutchTemperatures(systemFlags);
   // Tests::clutchCurrents(systemFlags, clutchCurrentSampler1, clutchCurrentSampler2, clutchCurrentSampler3);
 
-  Tests::button();
-  Tests::LEDs();
+  // Tests::button();
+  // Tests::LEDs();
 }
 
 extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)

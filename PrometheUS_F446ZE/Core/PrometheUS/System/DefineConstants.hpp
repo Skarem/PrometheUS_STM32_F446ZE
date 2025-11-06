@@ -28,3 +28,15 @@ namespace AdcUtils
     return adcResult * ADC_TO_VOLT;
   }
 };
+
+constexpr float MIN_POTENTIOMETER_POSITION_DEG = 0.0f;
+constexpr float MAX_POTENTIOMETER_POSITION_DEG = 360.0f;
+
+constexpr float MIN_CLUTCH_TEMPERATURE_CELSIUS = 0.0f;
+constexpr float MAX_CLUTCH_TEMPERATURE_CELSIUS = 80.0f;
+
+constexpr float MIN_CLUTCH_CURRENT_AMPERE = 0.0f;
+constexpr float MAX_CLUTCH_CURRENT_AMPERE = 4.0f;
+
+constexpr float MIN_MOTOR_VELOCITY_RPM = 0.0f;
+constexpr float MAX_MOTOR_VELOCITY_RPM = 5000.0f;
