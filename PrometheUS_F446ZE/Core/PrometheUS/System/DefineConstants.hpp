@@ -11,6 +11,9 @@ static constexpr uint8_t FINGER_3_INDEX = 2;
 static constexpr uint16_t TELEMETRY_HEADER = 0xABCD;
 
 // ---------- Samplers ----------
+
+#define USING_PULLDOWN_THERMISTOR false
+
 namespace AdcUtils
 {
   static constexpr float ADC_MINIMUM_COUNT_VALUE = 0.0f;

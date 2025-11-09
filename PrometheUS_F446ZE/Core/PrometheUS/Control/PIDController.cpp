@@ -1,56 +1,36 @@
 #include "PIDController.hpp"
 
 /* Inputs:
- * float: targetCurrent (V)
- * float: measuredCurrent (V)
+ * float: targetCurrent (A)
+ * float: measuredCurrent (A)
  *
  * Output:
- * float: PWM duty cycle (0-1000)
+ * float: [0.05f - 0.95f]
  */
-uint16_t PIDController::update(float targetCurrent, float measuredCurrent)
+uint16_t PIDController::update(float setpointCurrent_A, float feedbackCurrent_A)
 {
-  float errorCurrent = targetCurrent - measuredCurrent;
+  float error = setpointCurrent_A - feedbackCurrent_A;
 
-  // Proportional
-  float P = m_kp * errorCurrent;
-
-  // Integral
-  m_integral += errorCurrent * m_dt;
-  float I = m_ki * m_integral;
-
-  // Derivative
-  float derivative = 0.0f;
-  if (!m_firstUpdate)
+  if (!m_preventIntegratingWhenSaturated || (m_lastSaturationValue == 0.0f))
   {
-    derivative = (measuredCurrent - m_prevMeasuredCurrent) / m_dt;
-  }
-  else
-  {
-    m_firstUpdate = false;
-  }
-  m_prevMeasuredCurrent = measuredCurrent;
-  float D = -m_kd * derivative;
-
-  float output = P * I * D;
-
-  // Saturate and anti-windup
-  if (output > m_maxCurrent)
-  {
-    output = m_maxCurrent;
-    if (errorCurrent > 0)
-    {
-      m_integral -= errorCurrent * m_dt;
-    }
-  }
-  else if (output < m_minCurrent)
-  {
-    output = m_minCurrent;
-    if (errorCurrent < 0)
-    {
-      m_integral -= errorCurrent * m_dt;
-    }
+    m_ITerm += (m_ki * error) - (m_ki * m_lastSaturationValue);
   }
 
-  m_prevError = errorCurrent;
+  float deltaInput = feedbackCurrent_A - m_lastInput;
+  float output = (m_kp * error) + m_ITerm - (m_kd * deltaInput);
+
+  float outputBeforeSaturation = output;
+
+  if (output > m_maximalOutput)
+  {
+    output = m_maximalOutput;
+  }
+  else if (output < m_minimalOutput)
+  {
+    output = m_minimalOutput;
+  }
+  m_lastInput = feedbackCurrent_A;
+  m_lastSaturationValue = outputBeforeSaturation - output;
+
   return output;
 }

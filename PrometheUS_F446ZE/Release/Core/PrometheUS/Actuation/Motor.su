@@ -1,6 +1,6 @@
 ../Core/PrometheUS/Actuation/Motor.cpp:5:1:Motor::Motor(MotorVelocitySampler&)	12	static
 ../Core/PrometheUS/Actuation/Motor.cpp:11:6:void Motor::init()	8	static
-../Core/PrometheUS/Actuation/Motor.cpp:22:6:void Motor::start()	8	static
-../Core/PrometheUS/Actuation/Motor.cpp:28:6:void Motor::stop()	0	static
-../Core/PrometheUS/Actuation/Motor.cpp:34:7:float Motor::getMotorVelocity()	0	static
-../Core/PrometheUS/Actuation/Motor.cpp:39:6:bool Motor::isError()	8	static
+../Core/PrometheUS/Actuation/Motor.cpp:21:6:void Motor::start()	8	static
+../Core/PrometheUS/Actuation/Motor.cpp:27:6:void Motor::stop()	0	static
+../Core/PrometheUS/Actuation/Motor.cpp:33:7:float Motor::getMotorVelocity()	0	static
+../Core/PrometheUS/Actuation/Motor.cpp:38:6:bool Motor::isError()	8	static

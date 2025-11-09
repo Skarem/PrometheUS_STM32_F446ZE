@@ -1,7 +1,7 @@
 ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:5:7:constexpr GenericAdcChannelSampler::GenericAdcChannelSampler(const GenericAdcChannelSampler&)	1
 ../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:6:7:constexpr ClutchCurrentSampler::ClutchCurrentSampler(const ClutchCurrentSampler&)	1
 ../Core/PrometheUS/Actuation/PWMComplementary.hpp:8:3:PWMComplementary::PWMComplementary()	1
-../Core/PrometheUS/Control/PIDController.hpp:8:3:constexpr PIDController::PIDController()	1
+../Core/PrometheUS/Control/PIDController.hpp:8:3:PIDController::PIDController()	1
 ../Core/PrometheUS/Actuation/Clutch.cpp:5:1:Clutch::Clutch(ClutchCurrentSampler&)	1
 ../Core/PrometheUS/Actuation/Clutch.cpp:11:6:void Clutch::init(uint32_t, uint8_t, uint32_t)	1
 ../Core/PrometheUS/Actuation/Clutch.cpp:17:6:void Clutch::calculateCurrentPID(float, float)	1

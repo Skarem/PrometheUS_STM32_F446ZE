@@ -5,13 +5,43 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Core/PrometheUS/Tests/Tests.cpp 
+../Core/PrometheUS/Tests/TestAdcToTempConversion.cpp \
+../Core/PrometheUS/Tests/TestAdcToVoltConversion.cpp \
+../Core/PrometheUS/Tests/TestButton.cpp \
+../Core/PrometheUS/Tests/TestClutchCurrents.cpp \
+../Core/PrometheUS/Tests/TestClutchTemperatures.cpp \
+../Core/PrometheUS/Tests/TestLEDs.cpp \
+../Core/PrometheUS/Tests/TestMotor.cpp \
+../Core/PrometheUS/Tests/TestPotentiometers.cpp \
+../Core/PrometheUS/Tests/TestPwm.cpp \
+../Core/PrometheUS/Tests/TestSender.cpp \
+../Core/PrometheUS/Tests/TestSenderError.cpp 
 
 OBJS += \
-./Core/PrometheUS/Tests/Tests.o 
+./Core/PrometheUS/Tests/TestAdcToTempConversion.o \
+./Core/PrometheUS/Tests/TestAdcToVoltConversion.o \
+./Core/PrometheUS/Tests/TestButton.o \
+./Core/PrometheUS/Tests/TestClutchCurrents.o \
+./Core/PrometheUS/Tests/TestClutchTemperatures.o \
+./Core/PrometheUS/Tests/TestLEDs.o \
+./Core/PrometheUS/Tests/TestMotor.o \
+./Core/PrometheUS/Tests/TestPotentiometers.o \
+./Core/PrometheUS/Tests/TestPwm.o \
+./Core/PrometheUS/Tests/TestSender.o \
+./Core/PrometheUS/Tests/TestSenderError.o 
 
 CPP_DEPS += \
-./Core/PrometheUS/Tests/Tests.d 
+./Core/PrometheUS/Tests/TestAdcToTempConversion.d \
+./Core/PrometheUS/Tests/TestAdcToVoltConversion.d \
+./Core/PrometheUS/Tests/TestButton.d \
+./Core/PrometheUS/Tests/TestClutchCurrents.d \
+./Core/PrometheUS/Tests/TestClutchTemperatures.d \
+./Core/PrometheUS/Tests/TestLEDs.d \
+./Core/PrometheUS/Tests/TestMotor.d \
+./Core/PrometheUS/Tests/TestPotentiometers.d \
+./Core/PrometheUS/Tests/TestPwm.d \
+./Core/PrometheUS/Tests/TestSender.d \
+./Core/PrometheUS/Tests/TestSenderError.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -21,7 +51,7 @@ Core/PrometheUS/Tests/%.o Core/PrometheUS/Tests/%.su Core/PrometheUS/Tests/%.cyc
 clean: clean-Core-2f-PrometheUS-2f-Tests
 
 clean-Core-2f-PrometheUS-2f-Tests:
-	-$(RM) ./Core/PrometheUS/Tests/Tests.cyclo ./Core/PrometheUS/Tests/Tests.d ./Core/PrometheUS/Tests/Tests.o ./Core/PrometheUS/Tests/Tests.su
+	-$(RM) ./Core/PrometheUS/Tests/TestAdcToTempConversion.cyclo ./Core/PrometheUS/Tests/TestAdcToTempConversion.d ./Core/PrometheUS/Tests/TestAdcToTempConversion.o ./Core/PrometheUS/Tests/TestAdcToTempConversion.su ./Core/PrometheUS/Tests/TestAdcToVoltConversion.cyclo ./Core/PrometheUS/Tests/TestAdcToVoltConversion.d ./Core/PrometheUS/Tests/TestAdcToVoltConversion.o ./Core/PrometheUS/Tests/TestAdcToVoltConversion.su ./Core/PrometheUS/Tests/TestButton.cyclo ./Core/PrometheUS/Tests/TestButton.d ./Core/PrometheUS/Tests/TestButton.o ./Core/PrometheUS/Tests/TestButton.su ./Core/PrometheUS/Tests/TestClutchCurrents.cyclo ./Core/PrometheUS/Tests/TestClutchCurrents.d ./Core/PrometheUS/Tests/TestClutchCurrents.o ./Core/PrometheUS/Tests/TestClutchCurrents.su ./Core/PrometheUS/Tests/TestClutchTemperatures.cyclo ./Core/PrometheUS/Tests/TestClutchTemperatures.d ./Core/PrometheUS/Tests/TestClutchTemperatures.o ./Core/PrometheUS/Tests/TestClutchTemperatures.su ./Core/PrometheUS/Tests/TestLEDs.cyclo ./Core/PrometheUS/Tests/TestLEDs.d ./Core/PrometheUS/Tests/TestLEDs.o ./Core/PrometheUS/Tests/TestLEDs.su ./Core/PrometheUS/Tests/TestMotor.cyclo ./Core/PrometheUS/Tests/TestMotor.d ./Core/PrometheUS/Tests/TestMotor.o ./Core/PrometheUS/Tests/TestMotor.su ./Core/PrometheUS/Tests/TestPotentiometers.cyclo ./Core/PrometheUS/Tests/TestPotentiometers.d ./Core/PrometheUS/Tests/TestPotentiometers.o ./Core/PrometheUS/Tests/TestPotentiometers.su ./Core/PrometheUS/Tests/TestPwm.cyclo ./Core/PrometheUS/Tests/TestPwm.d ./Core/PrometheUS/Tests/TestPwm.o ./Core/PrometheUS/Tests/TestPwm.su ./Core/PrometheUS/Tests/TestSender.cyclo ./Core/PrometheUS/Tests/TestSender.d ./Core/PrometheUS/Tests/TestSender.o ./Core/PrometheUS/Tests/TestSender.su ./Core/PrometheUS/Tests/TestSenderError.cyclo ./Core/PrometheUS/Tests/TestSenderError.d ./Core/PrometheUS/Tests/TestSenderError.o ./Core/PrometheUS/Tests/TestSenderError.su
 
 .PHONY: clean-Core-2f-PrometheUS-2f-Tests
 

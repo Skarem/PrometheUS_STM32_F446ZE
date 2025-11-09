@@ -1,0 +1,1 @@
+../Core/PrometheUS/Tests/TestClutchCurrents.cpp:26:6:void Tests::clutchCurrents(SystemFlags&, ClutchCurrentSampler&, ClutchCurrentSampler&, ClutchCurrentSampler&)	128	static

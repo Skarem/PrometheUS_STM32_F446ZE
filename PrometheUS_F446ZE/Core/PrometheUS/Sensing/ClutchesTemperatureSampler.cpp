@@ -28,3 +28,9 @@ void ClutchesTemperatureSampler::convertAll(float (&outValues)[FINGER_COUNT]) co
     outValues[i] = temperature;
   }
 }
+
+float ClutchesTemperatureSampler::testConversion(float voltage)
+{
+  float temperature = lookup1d(voltage, VOLTAGE_TABLE_VOLT, TEMPERATURE_TABLE_CELSIUS, TABLE_LENGTH);
+  return temperature;
+}

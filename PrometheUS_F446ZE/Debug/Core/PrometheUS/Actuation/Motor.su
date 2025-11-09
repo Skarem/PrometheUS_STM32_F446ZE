@@ -10,7 +10,7 @@
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:8:3:constexpr DigitalOutput::DigitalOutput()	16	static
 ../Core/PrometheUS/Actuation/Motor.cpp:5:1:Motor::Motor(MotorVelocitySampler&)	16	static
 ../Core/PrometheUS/Actuation/Motor.cpp:11:6:void Motor::init()	16	static
-../Core/PrometheUS/Actuation/Motor.cpp:21:6:void Motor::start()	16	static
-../Core/PrometheUS/Actuation/Motor.cpp:27:6:void Motor::stop()	16	static
+../Core/PrometheUS/Actuation/Motor.cpp:23:6:void Motor::start()	16	static
+../Core/PrometheUS/Actuation/Motor.cpp:28:6:void Motor::stop()	16	static
 ../Core/PrometheUS/Actuation/Motor.cpp:33:7:float Motor::getMotorVelocity()	16	static
 ../Core/PrometheUS/Actuation/Motor.cpp:38:6:bool Motor::isError()	16	static

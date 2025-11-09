@@ -1,5 +1,9 @@
-Core/PrometheUS/Tests/Tests.o: ../Core/PrometheUS/Tests/Tests.cpp \
- ../Core/PrometheUS/Tests/Tests.hpp ../Core/Inc/main.h \
+Core/PrometheUS/Tests/TestAdcToVoltConversion.o: \
+ ../Core/PrometheUS/Tests/TestAdcToVoltConversion.cpp \
+ ../Core/PrometheUS/Tests/TestsNamespace.hpp \
+ ../Core/PrometheUS/System/SystemFlags.hpp \
+ ../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp \
+ ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -34,10 +38,11 @@ Core/PrometheUS/Tests/Tests.o: ../Core/PrometheUS/Tests/Tests.cpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/PrometheUS/Actuation/PWM.hpp \
- ../Core/PrometheUS/Actuation/PWMComplementary.hpp
-../Core/PrometheUS/Tests/Tests.hpp:
-../Core/Inc/main.h:
+ ../Core/PrometheUS/System/DefineConstants.hpp ../Core/Inc/main.h
+../Core/PrometheUS/Tests/TestsNamespace.hpp:
+../Core/PrometheUS/System/SystemFlags.hpp:
+../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:
+../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -72,5 +77,5 @@ Core/PrometheUS/Tests/Tests.o: ../Core/PrometheUS/Tests/Tests.cpp \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
-../Core/PrometheUS/Actuation/PWM.hpp:
-../Core/PrometheUS/Actuation/PWMComplementary.hpp:
+../Core/PrometheUS/System/DefineConstants.hpp:
+../Core/Inc/main.h:

@@ -11,18 +11,18 @@ public:
   uint16_t update(float targetCurrent, float measuredCurrent);
 
 private:
-  const float m_kp = 1.0f;
-  const float m_ki = 1.0f;
-  const float m_kd = 1.0f;
+  // PID Gains
+  const float m_kp = 1.15f;
+  const float m_ki = 0.10f;
+  const float m_kd = 0.00f;
 
-  const float m_minCurrent = 0.0f; // V
-  const float m_maxCurrent = 0.0f; // V
+  // PID Output Limits
+  const float m_minimalOutput = 0.05f;
+  const float m_maximalOutput = 0.95f;
 
-  const float m_dt = 0.001f; // 1KHz
+  const bool m_preventIntegratingWhenSaturated = true;
 
-  float m_integral            = 0.0f;
-  float m_prevError           = 0.0f;;
-  float m_prevMeasuredCurrent = 0.0f;;
-
-  bool m_firstUpdate = true;
+  float m_ITerm;
+  float m_lastInput;
+  float m_lastSaturationValue;
 };

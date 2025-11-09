@@ -2,13 +2,14 @@
 
 #include "SystemFlags.hpp"
 #include "ClutchCurrentSampler.hpp"
+#include "MotorVelocitySampler.hpp"
 
 namespace Tests
 {
   // Starts and stops PWM clutch outputs fast, sweeps duty-cycle
   void pwm();
 
-  void motor();
+  void motor(SystemFlags &systemFlags, MotorVelocitySampler &motorVelocitySampler);
 
   // Sends data at 1KHz to a real-time visualizer
   void sender();
@@ -27,6 +28,10 @@ namespace Tests
       ClutchCurrentSampler &clutchCurrentSampler1,
       ClutchCurrentSampler &clutchCurrentSampler2,
       ClutchCurrentSampler &clutchCurrentSampler3);
+
+  void adcToVoltConversion();
+
+  void adcToTempConversion();
 
   void button();
 

@@ -1,9 +1,10 @@
-../Core/PrometheUS/System/DefineConstants.hpp:22:16:float AdcUtils::getAdcVoltage(uint16_t)	2
+../Core/PrometheUS/System/DefineConstants.hpp:25:16:float AdcUtils::getAdcVoltage(uint16_t)	2
 ../Core/PrometheUS/Sensing/Lookup.hpp:3:14:float lookup1d(float, const float*, const float*, uint16_t)	5
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:10:3:constexpr GenericAdcBurstSampler::GenericAdcBurstSampler()	1
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:11:11:GenericAdcBurstSampler::~GenericAdcBurstSampler()	1
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:11:11:virtual GenericAdcBurstSampler::~GenericAdcBurstSampler()	1
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.cpp:11:1:ClutchesTemperatureSampler::ClutchesTemperatureSampler()	2
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.cpp:20:6:virtual void ClutchesTemperatureSampler::convertAll(float (&)[3]) const	2
+../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.cpp:32:7:float ClutchesTemperatureSampler::testConversion(float)	1
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:6:7:ClutchesTemperatureSampler::~ClutchesTemperatureSampler()	1
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:6:7:virtual ClutchesTemperatureSampler::~ClutchesTemperatureSampler()	1

@@ -38,7 +38,8 @@ Core/PrometheUS/Tests/TestClutchTemperatures.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/PrometheUS/System/DefineConstants.hpp ../Core/Inc/main.h \
+ ../Core/PrometheUS/System/DefineConstants.hpp \
+ ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp ../Core/Inc/main.h \
  ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp \
  ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp \
  ../Core/PrometheUS/System/PrometheUS.hpp \
@@ -52,7 +53,6 @@ Core/PrometheUS/Tests/TestClutchTemperatures.o: \
  ../Core/PrometheUS/Sensing/EncoderSampler.hpp \
  ../Core/PrometheUS/Actuation/Motor.hpp \
  ../Core/PrometheUS/Actuation/PWM.hpp \
- ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp \
  ../Core/PrometheUS/System/StateMachines.hpp \
  ../Core/PrometheUS/System/ErrorFlags.hpp \
  ../Core/PrometheUS/System/TelemetrySender.hpp
@@ -95,6 +95,7 @@ Core/PrometheUS/Tests/TestClutchTemperatures.o: \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/PrometheUS/System/DefineConstants.hpp:
+../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:
 ../Core/Inc/main.h:
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:
@@ -109,7 +110,6 @@ Core/PrometheUS/Tests/TestClutchTemperatures.o: \
 ../Core/PrometheUS/Sensing/EncoderSampler.hpp:
 ../Core/PrometheUS/Actuation/Motor.hpp:
 ../Core/PrometheUS/Actuation/PWM.hpp:
-../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:
 ../Core/PrometheUS/System/StateMachines.hpp:
 ../Core/PrometheUS/System/ErrorFlags.hpp:
 ../Core/PrometheUS/System/TelemetrySender.hpp:

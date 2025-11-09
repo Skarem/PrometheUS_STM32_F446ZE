@@ -15,6 +15,7 @@ extern "C" {
 // ----- Running unit tests -----
 #if not RUN_INTERRUPT_CALLBACKS
 // Need any specific callback sections
+#define TEST_MOTOR          1               // Tests::motor
 #define TEST_POTENTIOMETERS 0               // Tests::potentiometer
 #define TEST_TEMPERATURES   0               // Tests::clutchTemperatures
 #define TEST_CURRENTS       0               // Tests::clutchCurrents
@@ -58,6 +59,9 @@ void cppTests()
 
   // Tests::button();
   // Tests::LEDs();
+
+  // Tests::adcToVoltConversion();
+  // Tests::adcToTempConversion();
 }
 
 extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
@@ -97,21 +101,33 @@ extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
       ClutchCurrentSampler::instances[FINGER_3_INDEX]->startSamplingRawAdcValue();
     }
   }
+#elif TEST_MOTOR
+  if (htim->Instance == TIM2)
+  {
+    if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
+    {
+      SystemFlags::instance->lastActiveADC.store(SystemFlags::ADCSource::MOTOR, std::memory_order_relaxed);
+      MotorVelocitySampler::instance->startSamplingRawAdcValue();
+    }
+  }
 #elif TEST_CURRENTS
-  if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2)
+  if (htim->Instance == TIM2)
   {
-    SystemFlags::instance->lastActiveADC.store(SystemFlags::ADCSource::CLUTCH_1, std::memory_order_relaxed);
-    ClutchCurrentSampler::instances[FINGER_1_INDEX]->startSamplingRawAdcValue();
-  }
-  else if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_3)
-  {
-    SystemFlags::instance->lastActiveADC.store(SystemFlags::ADCSource::CLUTCH_2, std::memory_order_relaxed);
-    ClutchCurrentSampler::instances[FINGER_2_INDEX]->startSamplingRawAdcValue();
-  }
-  else if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_4)
-  {
-    SystemFlags::instance->lastActiveADC.store(SystemFlags::ADCSource::CLUTCH_3, std::memory_order_relaxed);
-    ClutchCurrentSampler::instances[FINGER_3_INDEX]->startSamplingRawAdcValue();
+    if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2)
+    {
+      SystemFlags::instance->lastActiveADC.store(SystemFlags::ADCSource::CLUTCH_1, std::memory_order_relaxed);
+      ClutchCurrentSampler::instances[FINGER_1_INDEX]->startSamplingRawAdcValue();
+    }
+    else if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_3)
+    {
+      SystemFlags::instance->lastActiveADC.store(SystemFlags::ADCSource::CLUTCH_2, std::memory_order_relaxed);
+      ClutchCurrentSampler::instances[FINGER_2_INDEX]->startSamplingRawAdcValue();
+    }
+    else if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_4)
+    {
+      SystemFlags::instance->lastActiveADC.store(SystemFlags::ADCSource::CLUTCH_3, std::memory_order_relaxed);
+      ClutchCurrentSampler::instances[FINGER_3_INDEX]->startSamplingRawAdcValue();
+    }
   }
 #endif
 }
@@ -140,6 +156,15 @@ extern "C" void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
     }
   }
   // ----- Tests -----
+#elif TEST_MOTOR
+  if (hadc->Instance == ADC3)
+  {
+    auto lastADCSource = SystemFlags::instance->lastActiveADC.load();
+    if (lastADCSource == SystemFlags::ADCSource::MOTOR)
+    {
+      SystemFlags::instance->motorVelocityDone.store(true, std::memory_order_relaxed);
+    }
+  }
 #elif TEST_POTENTIOMETERS
   if (hadc->Instance == ADC1)
   {
@@ -158,6 +183,10 @@ extern "C" void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
     {
       SystemFlags::instance->adcDoneMask.fetch_or(SystemFlags::CURR, std::memory_order_relaxed);
     }
+    else if (lastADCSource == SystemFlags::ADCSource::MOTOR)
+    {
+      SystemFlags::instance->motorVelocityDone.store(true, std::memory_order_relaxed);
+    }
   }
-#endif
+  #endif
 }

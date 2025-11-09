@@ -16,17 +16,17 @@ void Motor::init()
 
   m_error.init(Motor_Error_GPIO_Port, Motor_Error_Pin);
   m_enable.init(Motor_Enable_GPIO_Port, Motor_Enable_Pin);
+
+  m_pwm.start();
 }
 
 void Motor::start()
 {
   m_enable.on();
-  m_pwm.start();
 }
 
 void Motor::stop()
 {
-  // Do not stop sending PWM to motor, just disable pin
   m_enable.off();
 }
 

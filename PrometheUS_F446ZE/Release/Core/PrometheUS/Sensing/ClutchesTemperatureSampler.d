@@ -36,7 +36,8 @@ Core/PrometheUS/Sensing/ClutchesTemperatureSampler.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/PrometheUS/System/DefineConstants.hpp
+ ../Core/PrometheUS/System/DefineConstants.hpp \
+ ../Core/PrometheUS/Sensing/Lookup.hpp
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:
 ../Core/Inc/main.h:
@@ -75,3 +76,4 @@ Core/PrometheUS/Sensing/ClutchesTemperatureSampler.o: \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/PrometheUS/System/DefineConstants.hpp:
+../Core/PrometheUS/Sensing/Lookup.hpp:

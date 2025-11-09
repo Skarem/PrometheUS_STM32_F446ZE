@@ -1,3 +1,3 @@
-../Core/PrometheUS/Sensing/PotentiometersSampler.cpp:3:6:virtual void PotentiometersSampler::convertAll(float (&)[3]) const	0	static
+../Core/PrometheUS/Sensing/PotentiometersSampler.cpp:5:6:virtual void PotentiometersSampler::convertAll(float (&)[3]) const	0	static
 ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:5:7:PotentiometersSampler::~PotentiometersSampler()	0	static
 ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:5:7:virtual PotentiometersSampler::~PotentiometersSampler()	8	static
