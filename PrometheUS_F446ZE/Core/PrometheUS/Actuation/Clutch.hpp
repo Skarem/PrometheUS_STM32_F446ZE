@@ -7,6 +7,7 @@
 class Clutch
 {
 public:
+  Clutch() = default;
   Clutch(ClutchCurrentSampler &clutchCurrentSampler);
   ~Clutch() = default;
 

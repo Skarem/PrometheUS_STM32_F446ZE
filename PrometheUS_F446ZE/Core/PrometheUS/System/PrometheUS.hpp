@@ -47,6 +47,9 @@ private:
   SystemFlags &m_systemFlags;
   // Error flags
   ErrorFlags m_errorFlags;
+  // Error source
+  ErrorSource m_errorSource = ErrorSource::NONE;
+  bool m_sendErrorMessage = true;
 
   // LED (RUN state)
   DigitalOutput m_led1;
@@ -65,15 +68,12 @@ private:
   float m_clutchTemperaturesArray[FINGER_COUNT] = {0};
 
   float m_clutchCurrentsArray[FINGER_COUNT] = {0};
-  float m_encoderPositions[FINGER_COUNT]    = {0};
 
-  const float MIN_CLUTCH_TEMPERATURE = 0.0f;
-  const float MAX_CLUTCH_TEMPERATURE = 75.0f;
+  float m_motorVelocity = 0;
+  // float m_encoderPositions[FINGER_COUNT]    = {0};
 
   // Fingers
-  Finger m_finger1;
-  Finger m_finger2;
-  Finger m_finger3;
+  Finger m_fingers[FINGER_COUNT];
 
   // Motor (ESCON 5/50 Drive)
   Motor m_motor;

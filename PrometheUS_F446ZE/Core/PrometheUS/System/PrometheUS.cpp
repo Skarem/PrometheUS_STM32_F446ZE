@@ -7,12 +7,11 @@ PrometheUS_Gripper::PrometheUS_Gripper(
     ClutchCurrentSampler &clutchCurrentSampler3,
     MotorVelocitySampler &motorVelocitySampler)
   : m_systemFlags(systemFlags),
-    m_finger1(clutchCurrentSampler1),
-    m_finger2(clutchCurrentSampler2),
-    m_finger3(clutchCurrentSampler3),
     m_motor(motorVelocitySampler)
 {
-
+  new (&m_fingers[FINGER_1_INDEX]) Finger(clutchCurrentSampler1);
+  new (&m_fingers[FINGER_2_INDEX]) Finger(clutchCurrentSampler2);
+  new (&m_fingers[FINGER_3_INDEX]) Finger(clutchCurrentSampler3);
 }
 
 void PrometheUS_Gripper::init()
@@ -31,9 +30,9 @@ void PrometheUS_Gripper::init()
   m_potentiometers.init(&hadc1);
   m_clutchesTemperature.init(&hadc2);
 
-  m_finger1.init(ADC_CHANNEL_4, FINGER_1_INDEX, Encoder_CS_1_GPIO_Port, Encoder_CS_1_Pin, TIM_CHANNEL_1);
-  m_finger2.init(ADC_CHANNEL_5, FINGER_2_INDEX, Encoder_CS_2_GPIO_Port, Encoder_CS_2_Pin, TIM_CHANNEL_2);
-  m_finger3.init(ADC_CHANNEL_6, FINGER_3_INDEX, Encoder_CS_3_GPIO_Port, Encoder_CS_3_Pin, TIM_CHANNEL_3);
+  m_fingers[FINGER_1_INDEX].init(ADC_CHANNEL_4, FINGER_1_INDEX, Encoder_CS_1_GPIO_Port, Encoder_CS_1_Pin, TIM_CHANNEL_1);
+  m_fingers[FINGER_2_INDEX].init(ADC_CHANNEL_5, FINGER_2_INDEX, Encoder_CS_2_GPIO_Port, Encoder_CS_2_Pin, TIM_CHANNEL_2);
+  m_fingers[FINGER_3_INDEX].init(ADC_CHANNEL_6, FINGER_3_INDEX, Encoder_CS_3_GPIO_Port, Encoder_CS_3_Pin, TIM_CHANNEL_3);
 
   m_motor.init();
 
@@ -87,9 +86,23 @@ void PrometheUS_Gripper::systemStateMachine()
     }
     case SystemState::SYS_ERROR:
     {
-      // Envoyer le message d'erreur
+      // Send error message with error source (from CheckIfError)
+      if (m_sendErrorMessage)
+      {
+        m_sendErrorMessage = false;
+        uint32_t now = HAL_GetTick();
+        m_telemetrySender.send(now, m_potentiometerPositionsArray, m_clutchTemperaturesArray, m_clutchCurrentsArray, m_motorVelocity, true, static_cast<uint8_t>(m_errorSource));
+      }
+      else
+      {
+        // Stay in error until the switch is turned off
+        if (m_switch.isOn())
+        {
+          m_systemState = SystemState::SYS_IDLE;
 
-      // Si flag d'erreur et switch a ON, on reste en erreur. Pour clear une erreur, il faut switch à OFF => IDLE
+          // TODO: Cleanup to start the system again
+        }
+      }
       break;
     }
   }
@@ -101,13 +114,12 @@ void PrometheUS_Gripper::controlStateMachine()
   {
     case ControlState::CONTROL_START_SAMPLING:
     {
-      // NOTE: All ADC sampling is triggered by timers
-
+      // NOTE: All ADC sampling is triggered by hardware timers configured in .ioc
       // Sample encoders
-      m_finger1.sampleEncoder();
-      m_finger2.sampleEncoder();
-      m_finger3.sampleEncoder();
-
+      // for (size_t index = 0; index < FINGER_COUNT; ++index)
+      // {
+      //   m_fingers[index].sampleEncoder();
+      // }
       m_controlState = ControlState::CONTROL_WAIT_SAMPLING;
       break;
     }
@@ -123,41 +135,36 @@ void PrometheUS_Gripper::controlStateMachine()
     }
     case ControlState::CONTROL_CALCULATE_CONTROL_LAWS:
     {
-      // Convert all raw data
+      // Convert potentiometer from ADC to degrees
       m_potentiometers.convertAll(m_potentiometerPositionsArray);
+      // Convert current from ADC to Amperes
+      for (size_t index = 0; index < FINGER_COUNT; ++index)
+      {
+        m_clutchCurrentsArray[index] = m_fingers[index].getClutchMeasuredCurrent();
+      }
+      // Convert temperature from ADC to Celsius
       m_clutchesTemperature.convertAll(m_clutchTemperaturesArray);
 
-      static TelemetryPacket packet;
-      packet.clear();
-
-      // packet.potentiometersPosition = m_potentiometerPositionsArray;
-
-      // packet.encoderPositions[FINGER_1_INDEX] = m_finger1.getEncoderPosition();
-      // packet.encoderPositions[FINGER_2_INDEX] = m_finger2.getEncoderPosition();
-      // packet.encoderPositions[FINGER_3_INDEX] = m_finger3.getEncoderPosition();
-
-      // packet.clutchCurrentsArray[FINGER_1_INDEX] = m_finger1.getClutchMeasuredCurrent();
-      // packet.clutchCurrentsArray[FINGER_2_INDEX] = m_finger2.getClutchMeasuredCurrent();
-      // packet.clutchCurrentsArray[FINGER_3_INDEX] = m_finger3.getClutchMeasuredCurrent();
+      uint32_t now = HAL_GetTick();
+      m_motorVelocity = m_motor.getMotorVelocity();
 
       // Send data @ 50 Hz
       if (++m_sendDataCounter >= SEND_DATA_TIMING)
       {
         m_sendDataCounter = 0;
-        // m_telemetrySender.send(m_potentiometerPositionsArray, m_encoderPositions, m_clutchCurrentsArray, m_motor.getMotorVelocity());
+        m_telemetrySender.send(now, m_potentiometerPositionsArray, m_clutchCurrentsArray, m_clutchCurrentsArray, m_motorVelocity, false, static_cast<uint8_t>(ErrorSource::NONE));
       }
 
-      /*
       // Check for errors
       checkForErrors();
       bool errorDetected = m_errorFlags.anyError();
       m_systemFlags.errorDetected.store(errorDetected, std::memory_order_relaxed);
-      */
 
       // Control laws
-      m_finger1.calculateCommand(m_potentiometerPositionsArray[FINGER_1_INDEX]);
-      m_finger2.calculateCommand(m_potentiometerPositionsArray[FINGER_2_INDEX]);
-      m_finger3.calculateCommand(m_potentiometerPositionsArray[FINGER_3_INDEX]);
+      for (size_t index = 0; index < FINGER_COUNT; ++index)
+      {
+        m_fingers[index].calculateCommand(m_potentiometerPositionsArray[index]);
+      }
 
       m_controlState = ControlState::CONTROL_FINISHED_CONTROL_LAWS;
       break;
@@ -181,9 +188,10 @@ void PrometheUS_Gripper::controlStateMachine()
       // Update PWM duty cycles with new values calculated in CONTROLE_CALCULATE_LAWS via burst DMA
       // else
       // {
-        m_finger1.updateCommand();
-        m_finger2.updateCommand();
-        m_finger3.updateCommand();
+        for (size_t index = 0; index < FINGER_COUNT; ++index)
+        {
+          m_fingers[index].updateCommand();
+        }
       // }
 
       m_controlState = ControlState::CONTROL_FINISHED_CYCLE;
@@ -238,39 +246,56 @@ void PrometheUS_Gripper::startTimers()
 
 void PrometheUS_Gripper::start()
 {
-  m_finger1.start();
-  m_finger2.start();
-  m_finger3.start();
-
+  for (size_t index = 0; index < FINGER_COUNT; ++index)
+  {
+    m_fingers[index].start();
+  }
   m_motor.start();
 }
 
 void PrometheUS_Gripper::stop()
 {
-  m_finger1.stop();
-  m_finger2.stop();
-  m_finger3.stop();
-
+  for (size_t index = 0; index < FINGER_COUNT; ++index)
+  {
+    m_fingers[index].stop();
+  }
   m_motor.stop();
 }
 
 void PrometheUS_Gripper::checkForErrors()
 {
-  // Clutch temperatures
   for (size_t index = 0; index < FINGER_COUNT; ++index)
   {
-    if (m_clutchTemperaturesArray[index] < MIN_CLUTCH_TEMPERATURE ||
-        m_clutchTemperaturesArray[index] > MAX_CLUTCH_TEMPERATURE)
+    // ----- Clutch temperatures -----
+    if (m_clutchTemperaturesArray[index] < MIN_CLUTCH_TEMPERATURE_CELSIUS ||
+        m_clutchTemperaturesArray[index] > MAX_CLUTCH_TEMPERATURE_CELSIUS)
     {
       m_errorFlags.clutchTemperatures[index] = true;
+
+      switch (index)
+      {
+        case FINGER_1_INDEX: m_errorSource = ErrorSource::CLUTCH_TEMPERATURE_1; break;
+        case FINGER_2_INDEX: m_errorSource = ErrorSource::CLUTCH_TEMPERATURE_2; break;
+        case FINGER_3_INDEX: m_errorSource = ErrorSource::CLUTCH_TEMPERATURE_3; break;
+      }
+    }
+    // ----- Clutch currents -----
+    if (m_fingers[index].isClutchError())
+    {
+      m_errorFlags.clutchCurrents[index] = true;
+
+      switch (index)
+      {
+        case FINGER_1_INDEX: m_errorSource = ErrorSource::CLUTCH_CURRENT_1; break;
+        case FINGER_2_INDEX: m_errorSource = ErrorSource::CLUTCH_CURRENT_2; break;
+        case FINGER_3_INDEX: m_errorSource = ErrorSource::CLUTCH_CURRENT_3; break;
+      }
     }
   }
 
-  // Clutch currents
-  m_errorFlags.clutchCurrents[FINGER_1_INDEX] = m_finger1.isClutchError();
-  m_errorFlags.clutchCurrents[FINGER_2_INDEX] = m_finger2.isClutchError();
-  m_errorFlags.clutchCurrents[FINGER_3_INDEX] = m_finger3.isClutchError();
-
-  // Motor error pin
-  m_motor.isError();
+  // ----- Motor error -----
+  if (m_motor.isError())
+  {
+    m_errorSource = ErrorSource::MOTOR_ERROR_PIN;
+  }
 }
