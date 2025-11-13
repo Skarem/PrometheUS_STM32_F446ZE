@@ -17,7 +17,7 @@ public:
   inline bool isOn() const
   {
     GPIO_PinState state = HAL_GPIO_ReadPin(m_port, m_pin);
-    return (state == GPIO_PIN_SET);
+    return state;
   }
 
 private:

@@ -18,7 +18,7 @@ extern "C" {
 #define TEST_MOTOR          0               // Tests::motor
 #define TEST_POTENTIOMETERS 0               // Tests::potentiometer
 #define TEST_TEMPERATURES   0               // Tests::clutchTemperatures
-#define TEST_CURRENTS       1               // Tests::clutchCurrents
+#define TEST_CURRENTS       0               // Tests::clutchCurrents
 #endif
 
 // ========== Flags ==========
@@ -47,7 +47,7 @@ void cppMain()
 
 void cppTests()
 {
-  // Tests::pwm();
+  Tests::pwm();
   // Tests::motor(&systemFlags, &motorVelocitySampler);
 
   // Tests::sender();

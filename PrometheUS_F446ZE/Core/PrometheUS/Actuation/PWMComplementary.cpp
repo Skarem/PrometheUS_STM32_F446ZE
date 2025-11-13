@@ -10,12 +10,12 @@ void PWMComplementary::init(TIM_HandleTypeDef* timer, uint32_t channel)
 void PWMComplementary::start()
 {
   HAL_TIM_PWM_Start(m_timer, m_channel);
-  HAL_TIMEx_PWMN_Start(m_timer, m_channel);
+  // HAL_TIMEx_PWMN_Start(m_timer, m_channel);
 }
 
 void PWMComplementary::stop()
 {
-  HAL_TIMEx_PWMN_Stop(m_timer, m_channel);
+  // HAL_TIMEx_PWMN_Stop(m_timer, m_channel);
   HAL_TIM_PWM_Stop(m_timer, m_channel);
 }
 

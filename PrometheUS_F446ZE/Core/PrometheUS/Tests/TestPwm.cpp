@@ -26,11 +26,11 @@
  */
 void Tests::pwm()
 {
-  PWM pwmMotor;
-  pwmMotor.init(&htim4, TIM_CHANNEL_1);
-  pwmMotor.start();
-  const float MOTOR_DUTY_CYCLE = 0.25f;
-  pwmMotor.update(MOTOR_DUTY_CYCLE);
+  // PWM pwmMotor;
+  // pwmMotor.init(&htim4, TIM_CHANNEL_1);
+  // pwmMotor.start();
+  // const float MOTOR_DUTY_CYCLE = 0.25f;
+  // pwmMotor.update(MOTOR_DUTY_CYCLE);
 
   PWMComplementary pwmClutch1;
   PWMComplementary pwmClutch2;
@@ -40,14 +40,25 @@ void Tests::pwm()
   pwmClutch2.init(&htim1, TIM_CHANNEL_2);
   pwmClutch3.init(&htim1, TIM_CHANNEL_3);
 
-  const float DUTY_CYCLES[3] = { 0.50f };
-  const size_t NUM_DUTY = sizeof(DUTY_CYCLES) / sizeof(DUTY_CYCLES[0]);
+  // const float DUTY_CYCLES[3] = { 0.10f };
+  // const size_t NUM_DUTY = sizeof(DUTY_CYCLES) / sizeof(DUTY_CYCLES[0]);
 
-  const uint32_t STEP_TIME_MS = 1;
-  const uint32_t OFF_TIME_MS  = 10;
+  // const uint32_t STEP_TIME_MS = 1;
+  // const uint32_t OFF_TIME_MS  = 10;
+
+  const float DUTY_CYCLE_TEST = 0.10f;
+
+  pwmClutch1.update(DUTY_CYCLE_TEST);
+  pwmClutch2.update(DUTY_CYCLE_TEST);
+  pwmClutch3.update(DUTY_CYCLE_TEST);
+
+  pwmClutch1.start();
+  pwmClutch2.start();
+  pwmClutch3.start();
 
   while (true)
   {
+	/*
     pwmClutch1.start();
     pwmClutch2.start();
     pwmClutch3.start();
@@ -68,5 +79,7 @@ void Tests::pwm()
     pwmClutch3.stop();
 
     HAL_Delay(OFF_TIME_MS);
+    */
+	HAL_Delay(10);
   }
 }
