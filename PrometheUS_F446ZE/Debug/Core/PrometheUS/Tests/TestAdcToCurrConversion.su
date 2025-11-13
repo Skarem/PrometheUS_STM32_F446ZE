@@ -1,0 +1,2 @@
+../Core/PrometheUS/System/DefineConstants.hpp:25:16:float AdcUtils::getAdcVoltage(uint16_t)	16	static
+../Core/PrometheUS/Tests/TestAdcToCurrConversion.cpp:9:6:void Tests::adcToCurrConversion()	120	static

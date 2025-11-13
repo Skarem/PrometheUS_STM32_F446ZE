@@ -22,7 +22,7 @@
  * ADC2_IN8 -> PB0  (ADC_Temp2)
  * ADC2_IN9 -> PB1  (ADC_Temp3)
  */
-void Tests::clutchTemperatures(SystemFlags &systemFlags)
+void Tests::clutchTemperatures(SystemFlags* systemFlags)
 {
   ClutchesTemperatureSampler clutchTemperatures;
   clutchTemperatures.init(&hadc2);
@@ -37,7 +37,7 @@ void Tests::clutchTemperatures(SystemFlags &systemFlags)
   while (true)
   {
     // Wait for ADC2 conversion completion flag
-    uint8_t flag = systemFlags.adcDoneMask.exchange(0, std::memory_order_relaxed);
+    uint8_t flag = systemFlags->adcDoneMask.exchange(0, std::memory_order_relaxed);
     if (flag & SystemFlags::TEMP)
     {
       // Convert raw ADC values to floats

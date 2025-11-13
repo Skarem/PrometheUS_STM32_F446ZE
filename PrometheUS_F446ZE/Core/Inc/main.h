@@ -74,6 +74,8 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define DEBUG_BUTTON_Pin GPIO_PIN_13
+#define DEBUG_BUTTON_GPIO_Port GPIOC
 #define PWM_Trigger_Pin GPIO_PIN_15
 #define PWM_Trigger_GPIO_Port GPIOA
 #define ADC_Trigger1_Pin GPIO_PIN_9
@@ -84,6 +86,8 @@ void Error_Handler(void);
 #define Motor_PWM_GPIO_Port GPIOB
 #define DEL_2_Pin GPIO_PIN_14
 #define DEL_2_GPIO_Port GPIOG
+#define LED_Debug_Run_Pin GPIO_PIN_7
+#define LED_Debug_Run_GPIO_Port GPIOB
 #define Clutch3_PWM_A_Pin GPIO_PIN_10
 #define Clutch3_PWM_A_GPIO_Port GPIOA
 #define Clutch2_PWM_A_Pin GPIO_PIN_9
@@ -110,6 +114,8 @@ void Error_Handler(void);
 #define Clutch3_PWM_B_GPIO_Port GPIOE
 #define ADC_Pot2_Pin GPIO_PIN_1
 #define ADC_Pot2_GPIO_Port GPIOA
+#define DEBUG_PIN_Pin GPIO_PIN_0
+#define DEBUG_PIN_GPIO_Port GPIOG
 #define Clutch1_PWM_A_Pin GPIO_PIN_9
 #define Clutch1_PWM_A_GPIO_Port GPIOE
 #define Encoder_CS_1_Pin GPIO_PIN_14
@@ -126,6 +132,8 @@ void Error_Handler(void);
 #define SWRUN_GPIO_Port GPIOF
 #define Clutch1_PWM_B_Pin GPIO_PIN_8
 #define Clutch1_PWM_B_GPIO_Port GPIOE
+#define LED_Debug_Error_Pin GPIO_PIN_14
+#define LED_Debug_Error_GPIO_Port GPIOB
 #define ADC_Motor_Speed_Pin GPIO_PIN_3
 #define ADC_Motor_Speed_GPIO_Port GPIOA
 #define ADC_Temp1_Pin GPIO_PIN_7

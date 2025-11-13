@@ -1,6 +1,7 @@
 ../Core/PrometheUS/System/DefineConstants.hpp:25:16:float AdcUtils::getAdcVoltage(uint16_t)	2
 ../Core/PrometheUS/Sensing/ClutchCurrentSampler.cpp:5:6:void ClutchCurrentSampler::init(ADC_HandleTypeDef*, uint32_t, uint8_t)	2
 ../Core/PrometheUS/Sensing/ClutchCurrentSampler.cpp:14:7:virtual float ClutchCurrentSampler::convertRawAdcValue() const	1
+../Core/PrometheUS/Sensing/ClutchCurrentSampler.cpp:21:7:static float ClutchCurrentSampler::testConversion(float)	1
 ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:9:11:GenericAdcChannelSampler::~GenericAdcChannelSampler()	1
 ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:9:11:virtual GenericAdcChannelSampler::~GenericAdcChannelSampler()	1
 ../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:6:7:ClutchCurrentSampler::~ClutchCurrentSampler()	1

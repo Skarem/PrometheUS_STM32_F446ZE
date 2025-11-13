@@ -7,13 +7,12 @@
 class Clutch
 {
 public:
-  Clutch() = default;
-  Clutch(ClutchCurrentSampler &clutchCurrentSampler);
+  Clutch(ClutchCurrentSampler* clutchCurrentSampler);
   ~Clutch() = default;
 
   void init(uint32_t currentChannel, uint8_t currentIndex, uint32_t pwmChannel);
 
-  void calculateCurrentPID(float targetCurrent, float measuredCurrent);
+  float calculateCurrentPID(float targetCurrent, float measuredCurrent);
 
   float getMeasuredCurrent();
   bool isInError();
@@ -28,7 +27,7 @@ private:
   // ===== Input =====
 
   // Clutch current
-  ClutchCurrentSampler  m_clutchCurrentSampler;
+  ClutchCurrentSampler* m_clutchCurrentSampler;
   float                 m_lastMeasuredClutchCurrent = 0.0f;
 
   const float MIN_CLUTCH_CURRENT = 0.0f;
@@ -38,7 +37,7 @@ private:
 
   // PWMs
   PWMComplementary  m_pwmComplementary;
-  uint16_t          m_dutyCycle = 0;
+  float             m_PIDResult = 0;
 
   // PID current controller
   PIDController m_pidController;

@@ -5,7 +5,7 @@
 #include "StateMachines.hpp"
 #include <cstdio>
 
-void Tests::motor(SystemFlags &systemFlags, MotorVelocitySampler &motorVelocitySampler)
+void Tests::motor(SystemFlags* systemFlags, MotorVelocitySampler* motorVelocitySampler)
 {
   Motor motor(motorVelocitySampler);
   motor.init();
@@ -27,7 +27,7 @@ void Tests::motor(SystemFlags &systemFlags, MotorVelocitySampler &motorVelocityS
     {
       if (controlState == ControlState::CONTROL_WAIT_SAMPLING)
       {
-        if (systemFlags.motorVelocityDone.exchange(false))
+        if (systemFlags->motorVelocityDone.exchange(false))
         {
           controlState = ControlState::CONTROL_CALCULATE_CONTROL_LAWS;
         }

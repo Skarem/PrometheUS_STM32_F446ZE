@@ -1,17 +1,18 @@
 #include "PrometheUS.hpp"
 
 PrometheUS_Gripper::PrometheUS_Gripper(
-    SystemFlags &systemFlags,
-    ClutchCurrentSampler &clutchCurrentSampler1,
-    ClutchCurrentSampler &clutchCurrentSampler2,
-    ClutchCurrentSampler &clutchCurrentSampler3,
-    MotorVelocitySampler &motorVelocitySampler)
+    SystemFlags* systemFlags,
+    ClutchCurrentSampler* clutchCurrentSampler1,
+    ClutchCurrentSampler* clutchCurrentSampler2,
+    ClutchCurrentSampler* clutchCurrentSampler3,
+    MotorVelocitySampler* motorVelocitySampler)
   : m_systemFlags(systemFlags),
+    m_finger1(clutchCurrentSampler1),
+    m_finger2(clutchCurrentSampler2),
+    m_finger3(clutchCurrentSampler3),
     m_motor(motorVelocitySampler)
 {
-  new (&m_fingers[FINGER_1_INDEX]) Finger(clutchCurrentSampler1);
-  new (&m_fingers[FINGER_2_INDEX]) Finger(clutchCurrentSampler2);
-  new (&m_fingers[FINGER_3_INDEX]) Finger(clutchCurrentSampler3);
+
 }
 
 void PrometheUS_Gripper::init()
@@ -30,9 +31,9 @@ void PrometheUS_Gripper::init()
   m_potentiometers.init(&hadc1);
   m_clutchesTemperature.init(&hadc2);
 
-  m_fingers[FINGER_1_INDEX].init(ADC_CHANNEL_4, FINGER_1_INDEX, Encoder_CS_1_GPIO_Port, Encoder_CS_1_Pin, TIM_CHANNEL_1);
-  m_fingers[FINGER_2_INDEX].init(ADC_CHANNEL_5, FINGER_2_INDEX, Encoder_CS_2_GPIO_Port, Encoder_CS_2_Pin, TIM_CHANNEL_2);
-  m_fingers[FINGER_3_INDEX].init(ADC_CHANNEL_6, FINGER_3_INDEX, Encoder_CS_3_GPIO_Port, Encoder_CS_3_Pin, TIM_CHANNEL_3);
+  m_finger1.init(ADC_CHANNEL_4, FINGER_1_INDEX, Encoder_CS_1_GPIO_Port, Encoder_CS_1_Pin, TIM_CHANNEL_1);
+  m_finger2.init(ADC_CHANNEL_5, FINGER_2_INDEX, Encoder_CS_2_GPIO_Port, Encoder_CS_2_Pin, TIM_CHANNEL_2);
+  m_finger3.init(ADC_CHANNEL_6, FINGER_3_INDEX, Encoder_CS_3_GPIO_Port, Encoder_CS_3_Pin, TIM_CHANNEL_3);
 
   m_motor.init();
 
@@ -126,7 +127,7 @@ void PrometheUS_Gripper::controlStateMachine()
     case ControlState::CONTROL_WAIT_SAMPLING:
     {
       // Waiting for all ADC transmissions to be done
-      uint8_t mask = m_systemFlags.adcDoneMask.load(std::memory_order_relaxed);
+      uint8_t mask = m_systemFlags->adcDoneMask.load(std::memory_order_relaxed);
       if ((mask & SystemFlags::ALL) == SystemFlags::ALL)
       {
         m_controlState = ControlState::CONTROL_CALCULATE_CONTROL_LAWS;
@@ -138,10 +139,9 @@ void PrometheUS_Gripper::controlStateMachine()
       // Convert potentiometer from ADC to degrees
       m_potentiometers.convertAll(m_potentiometerPositionsArray);
       // Convert current from ADC to Amperes
-      for (size_t index = 0; index < FINGER_COUNT; ++index)
-      {
-        m_clutchCurrentsArray[index] = m_fingers[index].getClutchMeasuredCurrent();
-      }
+      m_clutchCurrentsArray[FINGER_1_INDEX] = m_finger1.getClutchMeasuredCurrent();
+      m_clutchCurrentsArray[FINGER_2_INDEX] = m_finger2.getClutchMeasuredCurrent();
+      m_clutchCurrentsArray[FINGER_3_INDEX] = m_finger3.getClutchMeasuredCurrent();
       // Convert temperature from ADC to Celsius
       m_clutchesTemperature.convertAll(m_clutchTemperaturesArray);
 
@@ -149,7 +149,7 @@ void PrometheUS_Gripper::controlStateMachine()
       m_motorVelocity = m_motor.getMotorVelocity();
 
       // Send data @ 50 Hz
-      if (++m_sendDataCounter >= SEND_DATA_TIMING)
+      if (m_sendDataCounter++ >= SEND_DATA_TIMING)
       {
         m_sendDataCounter = 0;
         m_telemetrySender.send(now, m_potentiometerPositionsArray, m_clutchCurrentsArray, m_clutchCurrentsArray, m_motorVelocity, false, static_cast<uint8_t>(ErrorSource::NONE));
@@ -158,13 +158,12 @@ void PrometheUS_Gripper::controlStateMachine()
       // Check for errors
       checkForErrors();
       bool errorDetected = m_errorFlags.anyError();
-      m_systemFlags.errorDetected.store(errorDetected, std::memory_order_relaxed);
+      m_systemFlags->errorDetected.store(errorDetected, std::memory_order_relaxed);
 
       // Control laws
-      for (size_t index = 0; index < FINGER_COUNT; ++index)
-      {
-        m_fingers[index].calculateCommand(m_potentiometerPositionsArray[index]);
-      }
+      m_finger1.calculateCommand(m_potentiometerPositionsArray[FINGER_1_INDEX]);
+      m_finger2.calculateCommand(m_potentiometerPositionsArray[FINGER_2_INDEX]);
+      m_finger3.calculateCommand(m_potentiometerPositionsArray[FINGER_3_INDEX]);
 
       m_controlState = ControlState::CONTROL_FINISHED_CONTROL_LAWS;
       break;
@@ -172,7 +171,7 @@ void PrometheUS_Gripper::controlStateMachine()
     case ControlState::CONTROL_FINISHED_CONTROL_LAWS:
     {
       // Waiting for the timer trigger to update PWM duty cycles
-      if (m_systemFlags.updatePwmDutyCycles.exchange(false))
+      if (m_systemFlags->updatePwmDutyCycles.exchange(false))
       {
         m_controlState = ControlState::CONTROL_UPDATE_PWM_DUTY_CYCLES;
       }
@@ -188,10 +187,9 @@ void PrometheUS_Gripper::controlStateMachine()
       // Update PWM duty cycles with new values calculated in CONTROLE_CALCULATE_LAWS via burst DMA
       // else
       // {
-        for (size_t index = 0; index < FINGER_COUNT; ++index)
-        {
-          m_fingers[index].updateCommand();
-        }
+        m_finger1.updateCommand();
+        m_finger2.updateCommand();
+        m_finger3.updateCommand();
       // }
 
       m_controlState = ControlState::CONTROL_FINISHED_CYCLE;
@@ -201,7 +199,7 @@ void PrometheUS_Gripper::controlStateMachine()
     {
       // Done updating, cycle completed
       // Waiting for timer trigger to start next cycle
-      if (m_systemFlags.startControlCycle.exchange(false))
+      if (m_systemFlags->startControlCycle.exchange(false))
       {
         m_controlState = ControlState::CONTROL_START_SAMPLING;
       }
@@ -246,19 +244,17 @@ void PrometheUS_Gripper::startTimers()
 
 void PrometheUS_Gripper::start()
 {
-  for (size_t index = 0; index < FINGER_COUNT; ++index)
-  {
-    m_fingers[index].start();
-  }
+  m_finger1.start();
+  m_finger2.start();
+  m_finger3.start();
   m_motor.start();
 }
 
 void PrometheUS_Gripper::stop()
 {
-  for (size_t index = 0; index < FINGER_COUNT; ++index)
-  {
-    m_fingers[index].stop();
-  }
+  m_finger1.stop();
+  m_finger2.stop();
+  m_finger3.stop();
   m_motor.stop();
 }
 
@@ -279,18 +275,23 @@ void PrometheUS_Gripper::checkForErrors()
         case FINGER_3_INDEX: m_errorSource = ErrorSource::CLUTCH_TEMPERATURE_3; break;
       }
     }
-    // ----- Clutch currents -----
-    if (m_fingers[index].isClutchError())
-    {
-      m_errorFlags.clutchCurrents[index] = true;
+  }
 
-      switch (index)
-      {
-        case FINGER_1_INDEX: m_errorSource = ErrorSource::CLUTCH_CURRENT_1; break;
-        case FINGER_2_INDEX: m_errorSource = ErrorSource::CLUTCH_CURRENT_2; break;
-        case FINGER_3_INDEX: m_errorSource = ErrorSource::CLUTCH_CURRENT_3; break;
-      }
-    }
+  // ----- Clutch currents -----
+  if (m_finger1.isClutchError())
+  {
+    m_errorFlags.clutchCurrents[FINGER_1_INDEX] = true;
+    m_errorSource = ErrorSource::CLUTCH_CURRENT_1;
+  }
+  else if (m_finger2.isClutchError())
+  {
+    m_errorFlags.clutchCurrents[FINGER_2_INDEX] = true;
+    m_errorSource = ErrorSource::CLUTCH_CURRENT_2;
+  }
+  else if (m_finger3.isClutchError())
+  {
+    m_errorFlags.clutchCurrents[FINGER_3_INDEX] = true;
+    m_errorSource = ErrorSource::CLUTCH_CURRENT_3;
   }
 
   // ----- Motor error -----

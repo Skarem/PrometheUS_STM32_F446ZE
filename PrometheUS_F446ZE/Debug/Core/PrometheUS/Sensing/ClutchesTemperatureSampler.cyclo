@@ -5,6 +5,6 @@
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:11:11:virtual GenericAdcBurstSampler::~GenericAdcBurstSampler()	1
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.cpp:11:1:ClutchesTemperatureSampler::ClutchesTemperatureSampler()	2
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.cpp:20:6:virtual void ClutchesTemperatureSampler::convertAll(float (&)[3]) const	2
-../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.cpp:32:7:float ClutchesTemperatureSampler::testConversion(float)	1
+../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.cpp:32:7:static float ClutchesTemperatureSampler::testConversion(float)	1
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:6:7:ClutchesTemperatureSampler::~ClutchesTemperatureSampler()	1
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:6:7:virtual ClutchesTemperatureSampler::~ClutchesTemperatureSampler()	1

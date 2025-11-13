@@ -23,14 +23,14 @@
  * ADC3_IN5 -> PF7  (ADC_Current2)
  * ADC3_IN6 -> PF8  (ADC_Current3)
  */
-void Tests::clutchCurrents(SystemFlags &systemFlags,
-    ClutchCurrentSampler &clutchCurrentSampler1,
-    ClutchCurrentSampler &clutchCurrentSampler2,
-    ClutchCurrentSampler &clutchCurrentSampler3)
+void Tests::clutchCurrents(SystemFlags* systemFlags,
+    ClutchCurrentSampler* clutchCurrentSampler1,
+    ClutchCurrentSampler* clutchCurrentSampler2,
+    ClutchCurrentSampler* clutchCurrentSampler3)
 {
-  clutchCurrentSampler1.init(&hadc3, ADC_CHANNEL_4, FINGER_1_INDEX);
-  clutchCurrentSampler2.init(&hadc3, ADC_CHANNEL_5, FINGER_2_INDEX);
-  clutchCurrentSampler3.init(&hadc3, ADC_CHANNEL_6, FINGER_3_INDEX);
+  clutchCurrentSampler1->init(&hadc3, ADC_CHANNEL_4, FINGER_1_INDEX);
+  clutchCurrentSampler2->init(&hadc3, ADC_CHANNEL_5, FINGER_2_INDEX);
+  clutchCurrentSampler3->init(&hadc3, ADC_CHANNEL_6, FINGER_3_INDEX);
 
   PrometheUS_Gripper::startTimers();
   // TIM2 and TIM3 need TIM1
@@ -42,13 +42,13 @@ void Tests::clutchCurrents(SystemFlags &systemFlags,
   while (true)
   {
     // Wait for all currents read completion flag
-    uint8_t flag = systemFlags.adcDoneMask.exchange(0, std::memory_order_relaxed);
+    uint8_t flag = systemFlags->adcDoneMask.exchange(0, std::memory_order_relaxed);
     if (flag & SystemFlags::CURR)
     {
       // Convert raw ADC values to floats
-      currValues[0] = clutchCurrentSampler1.convertRawAdcValue();
-      currValues[1] = clutchCurrentSampler2.convertRawAdcValue();
-      currValues[2] = clutchCurrentSampler3.convertRawAdcValue();
+      currValues[0] = clutchCurrentSampler1->convertRawAdcValue();
+      currValues[1] = clutchCurrentSampler2->convertRawAdcValue();
+      currValues[2] = clutchCurrentSampler3->convertRawAdcValue();
 
       // Format into human-readable ASCII
       int len = snprintf(txBuf, sizeof(txBuf), "%.2f %.2f %.2f\r\n",

@@ -5,6 +5,6 @@
 ../Core/PrometheUS/Control/Finger.cpp:30:6:bool Finger::isClutchError()	1
 ../Core/PrometheUS/Control/Finger.cpp:35:7:float Finger::getEncoderPosition()	1
 ../Core/PrometheUS/Control/Finger.cpp:40:6:void Finger::calculateCommand(float)	1
-../Core/PrometheUS/Control/Finger.cpp:53:6:void Finger::updateCommand()	1
-../Core/PrometheUS/Control/Finger.cpp:58:6:void Finger::start()	1
-../Core/PrometheUS/Control/Finger.cpp:63:6:void Finger::stop()	1
+../Core/PrometheUS/Control/Finger.cpp:51:6:void Finger::updateCommand()	1
+../Core/PrometheUS/Control/Finger.cpp:56:6:void Finger::start()	1
+../Core/PrometheUS/Control/Finger.cpp:61:6:void Finger::stop()	1

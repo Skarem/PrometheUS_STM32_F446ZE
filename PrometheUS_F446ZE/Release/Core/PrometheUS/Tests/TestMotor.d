@@ -38,11 +38,12 @@ Core/PrometheUS/Tests/TestMotor.o: ../Core/PrometheUS/Tests/TestMotor.cpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/PrometheUS/System/DefineConstants.hpp \
+ ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp ../Core/Inc/main.h \
  ../Core/PrometheUS/Actuation/Motor.hpp \
  ../Core/PrometheUS/Actuation/PWM.hpp \
- ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp \
  ../Core/PrometheUS/Actuation/DigitalInput.hpp \
- ../Core/PrometheUS/Actuation/DigitalOutput.hpp
+ ../Core/PrometheUS/Actuation/DigitalOutput.hpp \
+ ../Core/PrometheUS/System/StateMachines.hpp
 ../Core/PrometheUS/Tests/TestsNamespace.hpp:
 ../Core/PrometheUS/System/SystemFlags.hpp:
 ../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:
@@ -82,8 +83,10 @@ Core/PrometheUS/Tests/TestMotor.o: ../Core/PrometheUS/Tests/TestMotor.cpp \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/PrometheUS/System/DefineConstants.hpp:
+../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:
+../Core/Inc/main.h:
 ../Core/PrometheUS/Actuation/Motor.hpp:
 ../Core/PrometheUS/Actuation/PWM.hpp:
-../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:
 ../Core/PrometheUS/Actuation/DigitalInput.hpp:
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:
+../Core/PrometheUS/System/StateMachines.hpp:

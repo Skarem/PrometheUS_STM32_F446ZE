@@ -6,8 +6,7 @@
 class Finger
 {
 public:
-  Finger() = default;
-  Finger(ClutchCurrentSampler &clutchCurrentSampler);
+  Finger(ClutchCurrentSampler* clutchCurrentSampler);
   ~Finger() = default;
 
   void init(

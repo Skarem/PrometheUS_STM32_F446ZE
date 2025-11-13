@@ -38,7 +38,8 @@ Core/PrometheUS/Tests/TestAdcToVoltConversion.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
- ../Core/PrometheUS/System/DefineConstants.hpp ../Core/Inc/main.h
+ ../Core/PrometheUS/System/DefineConstants.hpp \
+ ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp ../Core/Inc/main.h
 ../Core/PrometheUS/Tests/TestsNamespace.hpp:
 ../Core/PrometheUS/System/SystemFlags.hpp:
 ../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:
@@ -78,4 +79,5 @@ Core/PrometheUS/Tests/TestAdcToVoltConversion.o: \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/PrometheUS/System/DefineConstants.hpp:
+../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:
 ../Core/Inc/main.h:

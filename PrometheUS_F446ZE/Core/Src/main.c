@@ -786,16 +786,19 @@ static void MX_GPIO_Init(void)
   /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOG_CLK_ENABLE();
   __HAL_RCC_GPIOF_CLK_ENABLE();
-  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOG, DEL_2_Pin|DEL_1_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOG, DEL_2_Pin|DEL_1_Pin|DEBUG_PIN_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, LED_Debug_Run_Pin|LED_Debug_Error_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(Motor_Enable_GPIO_Port, Motor_Enable_Pin, GPIO_PIN_RESET);
@@ -806,12 +809,25 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, Encoder_CS_1_Pin|Encoder_CS_2_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : DEL_2_Pin DEL_1_Pin */
-  GPIO_InitStruct.Pin = DEL_2_Pin|DEL_1_Pin;
+  /*Configure GPIO pin : DEBUG_BUTTON_Pin */
+  GPIO_InitStruct.Pin = DEBUG_BUTTON_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  HAL_GPIO_Init(DEBUG_BUTTON_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : DEL_2_Pin DEL_1_Pin DEBUG_PIN_Pin */
+  GPIO_InitStruct.Pin = DEL_2_Pin|DEL_1_Pin|DEBUG_PIN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : LED_Debug_Run_Pin LED_Debug_Error_Pin */
+  GPIO_InitStruct.Pin = LED_Debug_Run_Pin|LED_Debug_Error_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pin : Motor_Enable_Pin */
   GPIO_InitStruct.Pin = Motor_Enable_Pin;

@@ -9,7 +9,7 @@
 class Motor
 {
 public:
-  Motor(MotorVelocitySampler &motorVelocitySampler);
+  Motor(MotorVelocitySampler* motorVelocitySampler);
   ~Motor() = default;
 
   void init();
@@ -25,7 +25,7 @@ private:
   // ===== Input =====
 
   // Motor speed
-  MotorVelocitySampler m_motorVelocitySampler;
+  MotorVelocitySampler* m_motorVelocitySampler;
 
   // GPIO pin in error mode or not
   DigitalInput m_error;

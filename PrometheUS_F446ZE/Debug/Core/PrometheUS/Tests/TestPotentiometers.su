@@ -1,1 +1,1 @@
-../Core/PrometheUS/Tests/TestPotentiometers.cpp:25:6:void Tests::potentiometers(SystemFlags&)	168	static
+../Core/PrometheUS/Tests/TestPotentiometers.cpp:25:6:void Tests::potentiometers(SystemFlags*)	168	static

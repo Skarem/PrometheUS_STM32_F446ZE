@@ -10,7 +10,7 @@ public:
 
   void convertAll(float (&outValues)[FINGER_COUNT]) const override;
 
-  float testConversion(float voltage);
+  static float testConversion(float voltage);
 
 private:
   // Length of tables

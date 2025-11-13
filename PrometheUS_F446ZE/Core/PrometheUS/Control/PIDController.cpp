@@ -7,7 +7,7 @@
  * Output:
  * float: [0.05f - 0.95f]
  */
-uint16_t PIDController::update(float setpointCurrent_A, float feedbackCurrent_A)
+float PIDController::update(float setpointCurrent_A, float feedbackCurrent_A)
 {
   float error = setpointCurrent_A - feedbackCurrent_A;
 

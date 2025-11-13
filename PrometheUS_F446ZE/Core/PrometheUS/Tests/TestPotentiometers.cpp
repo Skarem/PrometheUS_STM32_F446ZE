@@ -22,7 +22,7 @@
  * ADC1_IN1 -> PA1  (ADC_Pot2)
  * ADC1_IN2 -> PA2  (ADC_Pot3)
  */
-void Tests::potentiometers(SystemFlags &systemFlags)
+void Tests::potentiometers(SystemFlags* systemFlags)
 {
   PotentiometersSampler potentiometers;
   potentiometers.init(&hadc1);
@@ -37,7 +37,7 @@ void Tests::potentiometers(SystemFlags &systemFlags)
   while (true)
   {
     // Wait for ADC1 conversion completion flag
-    uint8_t flag = systemFlags.adcDoneMask.exchange(0, std::memory_order_relaxed);
+    uint8_t flag = systemFlags->adcDoneMask.exchange(0, std::memory_order_relaxed);
     if (flag & SystemFlags::POTS)
     {
       // Convert raw ADC values to floats

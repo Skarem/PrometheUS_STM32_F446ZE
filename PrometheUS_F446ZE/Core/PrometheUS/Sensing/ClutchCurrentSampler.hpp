@@ -12,6 +12,8 @@ public:
 
   float convertRawAdcValue() const override;
 
+  static float testConversion(float voltage);
+
 private:
   static constexpr float OFFSET_ADC_VOLT          = 0.171f;
   static constexpr float GAIN_AMPERE_PER_ADC_VOLT = 12.22249f;

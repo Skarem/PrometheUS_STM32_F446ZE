@@ -1,9 +1,9 @@
-../Core/PrometheUS/System/PrometheUS.cpp:3:1:PrometheUS_Gripper::PrometheUS_Gripper(SystemFlags&, ClutchCurrentSampler&, ClutchCurrentSampler&, ClutchCurrentSampler&, MotorVelocitySampler&)	1
-../Core/PrometheUS/System/PrometheUS.cpp:205:6:static void PrometheUS_Gripper::startTimers()	1
-../Core/PrometheUS/System/PrometheUS.cpp:239:6:void PrometheUS_Gripper::start()	1
-../Core/PrometheUS/System/PrometheUS.cpp:18:6:void PrometheUS_Gripper::init()	1
-../Core/PrometheUS/System/PrometheUS.cpp:248:6:void PrometheUS_Gripper::stop()	1
-../Core/PrometheUS/System/PrometheUS.cpp:257:6:void PrometheUS_Gripper::checkForErrors()	4
-../Core/PrometheUS/System/PrometheUS.cpp:98:6:void PrometheUS_Gripper::controlStateMachine()	12
-../Core/PrometheUS/System/PrometheUS.cpp:50:6:void PrometheUS_Gripper::systemStateMachine()	4
-../Core/PrometheUS/System/PrometheUS.cpp:45:6:void PrometheUS_Gripper::execute()	1
+../Core/PrometheUS/System/PrometheUS.cpp:3:1:PrometheUS_Gripper::PrometheUS_Gripper(SystemFlags&, ClutchCurrentSampler&, ClutchCurrentSampler&, ClutchCurrentSampler&, MotorVelocitySampler&)	2
+../Core/PrometheUS/System/PrometheUS.cpp:213:6:static void PrometheUS_Gripper::startTimers()	1
+../Core/PrometheUS/System/PrometheUS.cpp:247:6:void PrometheUS_Gripper::start()	1
+../Core/PrometheUS/System/PrometheUS.cpp:17:6:void PrometheUS_Gripper::init()	1
+../Core/PrometheUS/System/PrometheUS.cpp:256:6:void PrometheUS_Gripper::stop()	1
+../Core/PrometheUS/System/PrometheUS.cpp:265:6:void PrometheUS_Gripper::checkForErrors()	10
+../Core/PrometheUS/System/PrometheUS.cpp:111:6:void PrometheUS_Gripper::controlStateMachine()	16
+../Core/PrometheUS/System/PrometheUS.cpp:49:6:void PrometheUS_Gripper::systemStateMachine()	7
+../Core/PrometheUS/System/PrometheUS.cpp:44:6:void PrometheUS_Gripper::execute()	1

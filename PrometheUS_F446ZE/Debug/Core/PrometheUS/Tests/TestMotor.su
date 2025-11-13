@@ -1,2 +1,2 @@
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/atomic:119:5:bool std::atomic<bool>::exchange(bool, std::memory_order)	24	static
-../Core/PrometheUS/Tests/TestMotor.cpp:8:6:void Tests::motor(SystemFlags&, MotorVelocitySampler&)	144	static
+../Core/PrometheUS/Tests/TestMotor.cpp:8:6:void Tests::motor(SystemFlags*, MotorVelocitySampler*)	120	static

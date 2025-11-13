@@ -23,11 +23,11 @@ class PrometheUS_Gripper
 public:
 
   PrometheUS_Gripper(
-      SystemFlags &systemFlags,
-      ClutchCurrentSampler &clutchCurrentSampler1,
-      ClutchCurrentSampler &clutchCurrentSampler2,
-      ClutchCurrentSampler &clutchCurrentSampler3,
-      MotorVelocitySampler &motorVelocitySampler);
+      SystemFlags* systemFlags,
+      ClutchCurrentSampler* clutchCurrentSampler1,
+      ClutchCurrentSampler* clutchCurrentSampler2,
+      ClutchCurrentSampler* clutchCurrentSampler3,
+      MotorVelocitySampler* motorVelocitySampler);
 
   void init();
 
@@ -44,7 +44,7 @@ private:
   const uint8_t SEND_DATA_TIMING = 200; // 1000 Hz / 50 Hz
 
   // System flags
-  SystemFlags &m_systemFlags;
+  SystemFlags* m_systemFlags;
   // Error flags
   ErrorFlags m_errorFlags;
   // Error source
@@ -73,7 +73,9 @@ private:
   // float m_encoderPositions[FINGER_COUNT]    = {0};
 
   // Fingers
-  Finger m_fingers[FINGER_COUNT];
+  Finger m_finger1;
+  Finger m_finger2;
+  Finger m_finger3;
 
   // Motor (ESCON 5/50 Drive)
   Motor m_motor;

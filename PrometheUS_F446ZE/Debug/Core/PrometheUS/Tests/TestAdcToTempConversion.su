@@ -1,2 +1,2 @@
 ../Core/PrometheUS/System/DefineConstants.hpp:25:16:float AdcUtils::getAdcVoltage(uint16_t)	16	static
-../Core/PrometheUS/Tests/TestAdcToTempConversion.cpp:9:6:void Tests::adcToTempConversion()	136	static
+../Core/PrometheUS/Tests/TestAdcToTempConversion.cpp:9:6:void Tests::adcToTempConversion()	120	static

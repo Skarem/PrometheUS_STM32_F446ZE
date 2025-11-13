@@ -29,6 +29,12 @@ public:
     HAL_GPIO_TogglePin(m_port, m_pin);
   }
 
+  inline void pulse()
+  {
+    HAL_GPIO_WritePin(m_port, m_pin, GPIO_PIN_SET);
+    HAL_GPIO_WritePin(m_port, m_pin, GPIO_PIN_RESET);
+  }
+
 private:
   GPIO_TypeDef* m_port  = nullptr;
   uint16_t      m_pin   = 0;

@@ -15,10 +15,10 @@ extern "C" {
 // ----- Running unit tests -----
 #if not RUN_INTERRUPT_CALLBACKS
 // Need any specific callback sections
-#define TEST_MOTOR          1               // Tests::motor
+#define TEST_MOTOR          0               // Tests::motor
 #define TEST_POTENTIOMETERS 0               // Tests::potentiometer
 #define TEST_TEMPERATURES   0               // Tests::clutchTemperatures
-#define TEST_CURRENTS       0               // Tests::clutchCurrents
+#define TEST_CURRENTS       1               // Tests::clutchCurrents
 #endif
 
 // ========== Flags ==========
@@ -33,7 +33,7 @@ MotorVelocitySampler motorVelocitySampler;
 void cppMain()
 {
 #if RUN_INTERRUPT_CALLBACKS
-  PrometheUS_Gripper gripper(systemFlags, clutchCurrentSampler1, clutchCurrentSampler2, clutchCurrentSampler3, motorVelocitySampler);
+  PrometheUS_Gripper gripper(&systemFlags, &clutchCurrentSampler1, &clutchCurrentSampler2, &clutchCurrentSampler3, &motorVelocitySampler);
   gripper.init();
 
   while (true)
@@ -48,20 +48,27 @@ void cppMain()
 void cppTests()
 {
   // Tests::pwm();
-  // Tests::motor();
+  // Tests::motor(&systemFlags, &motorVelocitySampler);
 
   // Tests::sender();
   // Tests::senderErrors();
 
-  // Tests::potentiometers(systemFlags);
-  // Tests::clutchTemperatures(systemFlags);
-  // Tests::clutchCurrents(systemFlags, clutchCurrentSampler1, clutchCurrentSampler2, clutchCurrentSampler3);
+  // Tests::potentiometers(&systemFlags);
+  // Tests::clutchTemperatures(&systemFlags);
+  // Tests::clutchCurrents(&systemFlags, &clutchCurrentSampler1, &clutchCurrentSampler2, &clutchCurrentSampler3);
 
   // Tests::button();
+  // Tests::buttonDebug();
   // Tests::LEDs();
+  // Tests::LEDsDebug();
 
   // Tests::adcToVoltConversion();
+  // Tests::adcToCurrConversion();
   // Tests::adcToTempConversion();
+
+  Tests::stateMachines(&systemFlags, &clutchCurrentSampler1, &clutchCurrentSampler2, &clutchCurrentSampler3, &motorVelocitySampler);
+
+  // Tests::PIDClutch(&systemFlags, &clutchCurrentSampler1, &clutchCurrentSampler2, &clutchCurrentSampler3);
 }
 
 extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
@@ -101,7 +108,8 @@ extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
       ClutchCurrentSampler::instances[FINGER_3_INDEX]->startSamplingRawAdcValue();
     }
   }
-#elif TEST_MOTOR
+#endif
+#if TEST_MOTOR
   if (htim->Instance == TIM2)
   {
     if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
@@ -110,11 +118,17 @@ extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
       MotorVelocitySampler::instance->startSamplingRawAdcValue();
     }
   }
-#elif TEST_CURRENTS
+#endif
+#if TEST_CURRENTS
   if (htim->Instance == TIM2)
   {
-    if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2)
+    if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
     {
+      SystemFlags::instance->updatePwmDutyCycles.store(true, std::memory_order_relaxed);
+    }
+    else if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2)
+    {
+      SystemFlags::instance->startControlCycle.store(true, std::memory_order_relaxed);
       SystemFlags::instance->lastActiveADC.store(SystemFlags::ADCSource::CLUTCH_1, std::memory_order_relaxed);
       ClutchCurrentSampler::instances[FINGER_1_INDEX]->startSamplingRawAdcValue();
     }
@@ -135,7 +149,7 @@ extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 extern "C" void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 {
   // ----- Normal operation -----
-#if RUN_INTERRUPT_CALLBACKS
+#if (RUN_INTERRUPT_CALLBACKS || TEST_STATE_MACHINES)
   if (hadc->Instance == ADC1)
   {
     // Done reading potentiometer data
@@ -155,8 +169,9 @@ extern "C" void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
       SystemFlags::instance->adcDoneMask.fetch_or(SystemFlags::CURR, std::memory_order_relaxed);
     }
   }
+#endif
   // ----- Tests -----
-#elif TEST_MOTOR
+#if TEST_MOTOR
   if (hadc->Instance == ADC3)
   {
     auto lastADCSource = SystemFlags::instance->lastActiveADC.load();
@@ -165,17 +180,20 @@ extern "C" void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
       SystemFlags::instance->motorVelocityDone.store(true, std::memory_order_relaxed);
     }
   }
-#elif TEST_POTENTIOMETERS
+#endif
+#if TEST_POTENTIOMETERS
   if (hadc->Instance == ADC1)
   {
     SystemFlags::instance->adcDoneMask.fetch_or(SystemFlags::POTS, std::memory_order_relaxed);
   }
-#elif TEST_TEMPERATURES
+#endif
+#if TEST_TEMPERATURES
   if (hadc->Instance == ADC2)
   {
     SystemFlags::instance->adcDoneMask.fetch_or(SystemFlags::TEMP, std::memory_order_relaxed);
   }
-#elif TEST_CURRENTS
+#endif
+#if TEST_CURRENTS
   if (hadc->Instance == ADC3)
   {
     auto lastADCSource = SystemFlags::instance->lastActiveADC.load();
@@ -188,5 +206,5 @@ extern "C" void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
       SystemFlags::instance->motorVelocityDone.store(true, std::memory_order_relaxed);
     }
   }
-  #endif
+#endif
 }

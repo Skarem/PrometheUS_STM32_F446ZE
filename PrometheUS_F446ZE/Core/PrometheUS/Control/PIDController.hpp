@@ -8,7 +8,7 @@ public:
   PIDController()   = default;
   ~PIDController()  = default;
 
-  uint16_t update(float targetCurrent, float measuredCurrent);
+  float update(float setpointCurrent_A, float feedbackCurrent_A);
 
 private:
   // PID Gains
