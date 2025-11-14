@@ -17,7 +17,7 @@ public:
 
   inline bool pressed()
   {
-    bool now = (HAL_GPIO_ReadPin(m_port, m_pin) == GPIO_PIN_SET);
+    bool now = (HAL_GPIO_ReadPin(m_port, m_pin) == GPIO_PIN_RESET);
 
     if (now != m_lastState)
     {

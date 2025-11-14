@@ -17,6 +17,8 @@ public:
   std::atomic<bool> updatePwmDutyCycles { false };
   std::atomic<bool> errorDetected       { false };
 
+  std::atomic<bool> buttonPressed       { false };
+
   // ===== ADC sampling flags =====
    std::atomic<bool> motorVelocityDone  { false };
 

@@ -5,10 +5,7 @@
 
 #include <string>
 
-static void printToConsole(std::string msg)
-{
-  HAL_UART_Transmit(&huart3, (uint8_t*)msg.c_str(), msg.length(), HAL_MAX_DELAY);
-}
+// NEED TEST_CURRENT
 
 class TestStateMachines
 {
@@ -34,7 +31,7 @@ public:
   {
     PrometheUS_Gripper::startTimers();
 
-    m_button.init(DEBUG_BUTTON_GPIO_Port, DEBUG_BUTTON_Pin);
+    m_button.init(Button_Software_Run_GPIO_Port, Button_Software_Run_Pin);
 
     m_ledRun.init(LED_Debug_Run_GPIO_Port, LED_Debug_Run_Pin);
     m_ledError.init(LED_Debug_Error_GPIO_Port, LED_Debug_Error_Pin);

@@ -18,7 +18,8 @@ extern "C" {
 #define TEST_MOTOR          0               // Tests::motor
 #define TEST_POTENTIOMETERS 0               // Tests::potentiometer
 #define TEST_TEMPERATURES   0               // Tests::clutchTemperatures
-#define TEST_CURRENTS       0               // Tests::clutchCurrents
+#define TEST_CURRENTS       1               // Tests::clutchCurrents
+#define TEST_BUTTON         0
 #endif
 
 // ========== Flags ==========
@@ -47,7 +48,7 @@ void cppMain()
 
 void cppTests()
 {
-  Tests::pwm();
+  // Tests::pwm();
   // Tests::motor(&systemFlags, &motorVelocitySampler);
 
   // Tests::sender();
@@ -57,8 +58,8 @@ void cppTests()
   // Tests::clutchTemperatures(&systemFlags);
   // Tests::clutchCurrents(&systemFlags, &clutchCurrentSampler1, &clutchCurrentSampler2, &clutchCurrentSampler3);
 
-  // Tests::button();
-  // Tests::buttonDebug();
+  // Tests::button(&systemFlags);
+  // Tests::buttonDebug(&systemFlags);
   // Tests::LEDs();
   // Tests::LEDsDebug();
 
@@ -141,6 +142,15 @@ extern "C" void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
     {
       SystemFlags::instance->lastActiveADC.store(SystemFlags::ADCSource::CLUTCH_3, std::memory_order_relaxed);
       ClutchCurrentSampler::instances[FINGER_3_INDEX]->startSamplingRawAdcValue();
+    }
+  }
+#endif
+#if TEST_BUTTON
+  if (htim->Instance == TIM2)
+  {
+    if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2)
+    {
+      SystemFlags::instance->startControlCycle.store(true, std::memory_order_relaxed);
     }
   }
 #endif

@@ -34,8 +34,8 @@ namespace Tests
   void adcToCurrConversion();
   void adcToTempConversion();
 
-  void button();
-  void buttonDebug();
+  void button(SystemFlags* systemFlags);
+  void buttonDebug(SystemFlags* systemFlags);
 
   void LEDs();
   void LEDsDebug();

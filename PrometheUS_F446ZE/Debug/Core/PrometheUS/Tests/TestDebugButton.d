@@ -40,7 +40,23 @@ Core/PrometheUS/Tests/TestDebugButton.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/PrometheUS/System/DefineConstants.hpp \
  ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp ../Core/Inc/main.h \
- ../Core/PrometheUS/Actuation/DebugButton.hpp
+ ../Core/PrometheUS/Actuation/DebugButton.hpp \
+ ../Core/PrometheUS/Actuation/DigitalOutput.hpp \
+ ../Core/PrometheUS/System/PrometheUS.hpp \
+ ../Core/PrometheUS/Actuation/DigitalInput.hpp \
+ ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp \
+ ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp \
+ ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp \
+ ../Core/PrometheUS/Control/Finger.hpp \
+ ../Core/PrometheUS/Actuation/Clutch.hpp \
+ ../Core/PrometheUS/Actuation/PWMComplementary.hpp \
+ ../Core/PrometheUS/Control/PIDController.hpp \
+ ../Core/PrometheUS/Sensing/EncoderSampler.hpp \
+ ../Core/PrometheUS/Actuation/Motor.hpp \
+ ../Core/PrometheUS/Actuation/PWM.hpp \
+ ../Core/PrometheUS/System/StateMachines.hpp \
+ ../Core/PrometheUS/System/ErrorFlags.hpp \
+ ../Core/PrometheUS/System/TelemetrySender.hpp
 ../Core/PrometheUS/Tests/TestsNamespace.hpp:
 ../Core/PrometheUS/System/SystemFlags.hpp:
 ../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:
@@ -83,3 +99,19 @@ Core/PrometheUS/Tests/TestDebugButton.o: \
 ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:
 ../Core/Inc/main.h:
 ../Core/PrometheUS/Actuation/DebugButton.hpp:
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:
+../Core/PrometheUS/System/PrometheUS.hpp:
+../Core/PrometheUS/Actuation/DigitalInput.hpp:
+../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:
+../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:
+../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:
+../Core/PrometheUS/Control/Finger.hpp:
+../Core/PrometheUS/Actuation/Clutch.hpp:
+../Core/PrometheUS/Actuation/PWMComplementary.hpp:
+../Core/PrometheUS/Control/PIDController.hpp:
+../Core/PrometheUS/Sensing/EncoderSampler.hpp:
+../Core/PrometheUS/Actuation/Motor.hpp:
+../Core/PrometheUS/Actuation/PWM.hpp:
+../Core/PrometheUS/System/StateMachines.hpp:
+../Core/PrometheUS/System/ErrorFlags.hpp:
+../Core/PrometheUS/System/TelemetrySender.hpp:

@@ -26,7 +26,7 @@ void PrometheUS_Gripper::init()
   m_led1.init(DEL_1_GPIO_Port, DEL_1_Pin);
   m_led2.init(DEL_2_GPIO_Port, DEL_2_Pin);
 
-  m_switch.init(SWRUN_GPIO_Port, SWRUN_Pin);
+  // m_switch.init(SWRUN_GPIO_Port, SWRUN_Pin);
 
   m_potentiometers.init(&hadc1);
   m_clutchesTemperature.init(&hadc2);

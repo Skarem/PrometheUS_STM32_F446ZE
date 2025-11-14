@@ -128,8 +128,8 @@ void Error_Handler(void);
 #define ADC_Temp2_GPIO_Port GPIOB
 #define Encoder_CS_3_Pin GPIO_PIN_12
 #define Encoder_CS_3_GPIO_Port GPIOF
-#define SWRUN_Pin GPIO_PIN_15
-#define SWRUN_GPIO_Port GPIOF
+#define Button_Software_Run_Pin GPIO_PIN_15
+#define Button_Software_Run_GPIO_Port GPIOF
 #define Clutch1_PWM_B_Pin GPIO_PIN_8
 #define Clutch1_PWM_B_GPIO_Port GPIOE
 #define LED_Debug_Error_Pin GPIO_PIN_14
