@@ -538,10 +538,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
     /**TIM1 GPIO Configuration
     PA10     ------> TIM1_CH3
     PA9     ------> TIM1_CH2
-    PE10     ------> TIM1_CH2N
-    PE12     ------> TIM1_CH3N
     PE9     ------> TIM1_CH1
-    PE8     ------> TIM1_CH1N
     */
     GPIO_InitStruct.Pin = Clutch3_PWM_A_Pin|Clutch2_PWM_A_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -550,12 +547,12 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
     GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-    GPIO_InitStruct.Pin = Clutch2_PWM_B_Pin|Clutch3_PWM_B_Pin|Clutch1_PWM_A_Pin|Clutch1_PWM_B_Pin;
+    GPIO_InitStruct.Pin = Clutch1_PWM_A_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
-    HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+    HAL_GPIO_Init(Clutch1_PWM_A_GPIO_Port, &GPIO_InitStruct);
 
     /* USER CODE BEGIN TIM1_MspPostInit 1 */
 

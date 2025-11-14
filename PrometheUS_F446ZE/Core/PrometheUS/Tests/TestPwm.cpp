@@ -32,6 +32,10 @@ void Tests::pwm()
   // const float MOTOR_DUTY_CYCLE = 0.25f;
   // pwmMotor.update(MOTOR_DUTY_CYCLE);
 
+  HAL_GPIO_WritePin(Clutch_1_PWM_B_GPIO_Port, Clutch_1_PWM_B_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Clutch_2_PWM_B_GPIO_Port, Clutch_2_PWM_B_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Clutch_3_PWM_B_GPIO_Port, Clutch_3_PWM_B_Pin, GPIO_PIN_RESET);
+
   PWMComplementary pwmClutch1;
   PWMComplementary pwmClutch2;
   PWMComplementary pwmClutch3;
