@@ -15,7 +15,7 @@ float ClutchCurrentSampler::convertRawAdcValue() const
 {
   float voltage = AdcUtils::getAdcVoltage(m_rawAdcValue);
   float current = (voltage - OFFSET_ADC_VOLT) * GAIN_AMPERE_PER_ADC_VOLT;
-  return current;
+  return voltage;
 }
 
 float ClutchCurrentSampler::testConversion(float voltage)

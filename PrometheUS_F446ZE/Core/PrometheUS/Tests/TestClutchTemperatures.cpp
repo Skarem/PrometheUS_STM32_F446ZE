@@ -34,6 +34,9 @@ void Tests::clutchTemperatures(SystemFlags* systemFlags)
   char txBuf[64];
   float tempValues[3];
 
+  uint32_t counter = 0;
+  const uint32_t PERIOD_WAIT_ITER = 100;
+
   while (true)
   {
     // Wait for ADC2 conversion completion flag
@@ -43,12 +46,14 @@ void Tests::clutchTemperatures(SystemFlags* systemFlags)
       // Convert raw ADC values to floats
       clutchTemperatures.convertAll(tempValues);
 
-      // Format into human-readable ASCII
-      int len = snprintf(txBuf, sizeof(txBuf), "%.2f %.2f %.2f\r\n",
-          tempValues[0], tempValues[1], tempValues[2]);
+      if ((++counter % PERIOD_WAIT_ITER) == 0)
+      {
+        // Format into human-readable ASCII
+        int len = snprintf(txBuf, sizeof(txBuf), "%.2f %.2f %.2f\r\n", tempValues[0], tempValues[1], tempValues[2]);
 
-      // Transmit
-      HAL_UART_Transmit_DMA(&huart3, reinterpret_cast<uint8_t*>(txBuf), len);
+        // Transmit
+        HAL_UART_Transmit_DMA(&huart3, reinterpret_cast<uint8_t*>(txBuf), len);
+      }
     }
   }
 }

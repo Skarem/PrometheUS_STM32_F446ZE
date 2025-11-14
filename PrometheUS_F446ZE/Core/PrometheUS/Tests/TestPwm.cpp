@@ -50,7 +50,7 @@ void Tests::pwm()
   // const uint32_t STEP_TIME_MS = 1;
   // const uint32_t OFF_TIME_MS  = 10;
 
-  const float DUTY_CYCLE_TEST = 0.10f;
+  const float DUTY_CYCLE_TEST = 0.57f;
 
   pwmClutch1.update(DUTY_CYCLE_TEST);
   pwmClutch2.update(DUTY_CYCLE_TEST);

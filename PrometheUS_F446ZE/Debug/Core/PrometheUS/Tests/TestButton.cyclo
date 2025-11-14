@@ -1,3 +1,6 @@
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/atomic:119:5:bool std::atomic<bool>::exchange(bool, std::memory_order)	1
-../Core/PrometheUS/Tests/TestButton.cpp:17:6:void update(SystemFlags*)	4
-../Core/PrometheUS/Tests/TestButton.cpp:41:6:void Tests::button(SystemFlags*)	1
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:11:8:void DigitalOutput::init(GPIO_TypeDef*, uint16_t)	1
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:17:15:void DigitalOutput::on()	1
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:22:15:void DigitalOutput::off()	1
+../Core/PrometheUS/Tests/TestButton.cpp:13:6:void update(SystemFlags*, DigitalOutput*)	5
+../Core/PrometheUS/Tests/TestButton.cpp:53:6:void Tests::button(SystemFlags*)	2

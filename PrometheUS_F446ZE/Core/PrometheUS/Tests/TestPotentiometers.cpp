@@ -34,6 +34,9 @@ void Tests::potentiometers(SystemFlags* systemFlags)
   char txBuf[64];
   float potValues[3];
 
+  uint32_t counter = 0;
+  const uint32_t PERIOD_WAIT_ITER = 100;
+
   while (true)
   {
     // Wait for ADC1 conversion completion flag
@@ -43,12 +46,14 @@ void Tests::potentiometers(SystemFlags* systemFlags)
       // Convert raw ADC values to floats
       potentiometers.convertAll(potValues);
 
-      // Format into human-readable ASCII
-      int len = snprintf(txBuf, sizeof(txBuf), "%.1f %.1f %.1f\r\n",
-          potValues[0], potValues[1], potValues[2]);
-
-      // Transmit
-      HAL_UART_Transmit_DMA(&huart3, reinterpret_cast<uint8_t*>(txBuf), len);
+      if (++counter % PERIOD_WAIT_ITER == 0)
+      {
+        // Format into human-readable ASCII
+        // int len = snprintf(txBuf, sizeof(txBuf), "%.1f %.1f %.1f\r\n", potValues[0], potValues[1], potValues[2]);
+        int len = snprintf(txBuf, sizeof(txBuf), "%.2f\r\n", potValues[0]);
+        // Transmit
+        HAL_UART_Transmit_DMA(&huart3, reinterpret_cast<uint8_t*>(txBuf), len);
+      }
     }
   }
 }

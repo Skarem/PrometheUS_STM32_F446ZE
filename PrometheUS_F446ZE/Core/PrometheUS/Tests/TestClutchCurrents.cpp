@@ -28,13 +28,37 @@ void Tests::clutchCurrents(SystemFlags* systemFlags,
     ClutchCurrentSampler* clutchCurrentSampler2,
     ClutchCurrentSampler* clutchCurrentSampler3)
 {
+
+  HAL_GPIO_WritePin(Clutch_1_PWM_B_GPIO_Port, Clutch_1_PWM_B_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Clutch_2_PWM_B_GPIO_Port, Clutch_2_PWM_B_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(Clutch_3_PWM_B_GPIO_Port, Clutch_3_PWM_B_Pin, GPIO_PIN_RESET);
+
+  PWMComplementary pwmClutch1;
+  PWMComplementary pwmClutch2;
+  PWMComplementary pwmClutch3;
+
+  pwmClutch1.init(&htim1, TIM_CHANNEL_1);
+  pwmClutch2.init(&htim1, TIM_CHANNEL_2);
+  pwmClutch3.init(&htim1, TIM_CHANNEL_3);
+
+  const float DUTY_CYCLE_TEST = 0.57f;
+
+  pwmClutch1.update(DUTY_CYCLE_TEST);
+  pwmClutch2.update(DUTY_CYCLE_TEST);
+  pwmClutch3.update(DUTY_CYCLE_TEST);
+
+  PrometheUS_Gripper::startTimers();
+
+  pwmClutch1.start();
+  pwmClutch2.start();
+  pwmClutch3.start();
+
   clutchCurrentSampler1->init(&hadc3, ADC_CHANNEL_4, FINGER_1_INDEX);
   clutchCurrentSampler2->init(&hadc3, ADC_CHANNEL_5, FINGER_2_INDEX);
   clutchCurrentSampler3->init(&hadc3, ADC_CHANNEL_6, FINGER_3_INDEX);
 
-  PrometheUS_Gripper::startTimers();
-  // TIM2 and TIM3 need TIM1
-  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  uint32_t counter = 0;
+  const uint32_t PERIOD_WAIT_ITER = 100;
 
   char txBuf[64];
   float currValues[3];
@@ -50,12 +74,15 @@ void Tests::clutchCurrents(SystemFlags* systemFlags,
       currValues[1] = clutchCurrentSampler2->convertRawAdcValue();
       currValues[2] = clutchCurrentSampler3->convertRawAdcValue();
 
-      // Format into human-readable ASCII
-      int len = snprintf(txBuf, sizeof(txBuf), "%.2f %.2f %.2f\r\n",
-          currValues[0], currValues[1], currValues[2]);
+      if (++counter % PERIOD_WAIT_ITER == 0)
+      {
+        // Format into human-readable ASCII
+        // int len = snprintf(txBuf, sizeof(txBuf), "%.2f %.2f %.2f\r\n", currValues[0], currValues[1], currValues[2]);
+        int len = snprintf(txBuf, sizeof(txBuf), "%.2f\r\n", currValues[0]);
 
-      // Transmit
-      HAL_UART_Transmit_DMA(&huart3, reinterpret_cast<uint8_t*>(txBuf), len);
+        // Transmit
+        HAL_UART_Transmit_DMA(&huart3, reinterpret_cast<uint8_t*>(txBuf), len);
+      }
     }
   }
 }

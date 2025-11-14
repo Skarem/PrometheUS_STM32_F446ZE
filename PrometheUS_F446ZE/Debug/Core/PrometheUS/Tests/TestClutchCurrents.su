@@ -1,1 +1,2 @@
-../Core/PrometheUS/Tests/TestClutchCurrents.cpp:26:6:void Tests::clutchCurrents(SystemFlags*, ClutchCurrentSampler*, ClutchCurrentSampler*, ClutchCurrentSampler*)	160	static
+../Core/PrometheUS/Actuation/PWMComplementary.hpp:8:3:PWMComplementary::PWMComplementary()	16	static
+../Core/PrometheUS/Tests/TestClutchCurrents.cpp:26:6:void Tests::clutchCurrents(SystemFlags*, ClutchCurrentSampler*, ClutchCurrentSampler*, ClutchCurrentSampler*)	176	static
