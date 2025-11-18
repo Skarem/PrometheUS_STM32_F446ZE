@@ -8,7 +8,7 @@ public:
   PWMComplementary()  = default;
   ~PWMComplementary() = default;
 
-  void init(TIM_HandleTypeDef* timer, uint32_t channel);
+  void init(TIM_HandleTypeDef* timer, uint32_t channel, GPIO_TypeDef* port, uint16_t pin);
 
   void update(float dutyCycle);
 
@@ -18,6 +18,9 @@ public:
 private:
   TIM_HandleTypeDef*  m_timer   = nullptr;
   uint32_t            m_channel = 0;
+
+  GPIO_TypeDef* m_port  = nullptr;
+  uint16_t      m_pin   = 0;
 
   uint32_t m_arr;
 

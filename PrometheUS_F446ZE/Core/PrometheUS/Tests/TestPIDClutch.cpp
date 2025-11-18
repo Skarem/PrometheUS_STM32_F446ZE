@@ -22,9 +22,9 @@ void Tests::PIDClutch(SystemFlags* systemFlags,
   Clutch clutch2(currentSampler2);
   Clutch clutch3(currentSampler3);
 
-  clutch1.init(ADC_CHANNEL_4, FINGER_1_INDEX, TIM_CHANNEL_1);
-  clutch1.init(ADC_CHANNEL_5, FINGER_2_INDEX, TIM_CHANNEL_2);
-  clutch1.init(ADC_CHANNEL_6, FINGER_3_INDEX, TIM_CHANNEL_3);
+  clutch1.init(ADC_CHANNEL_4, FINGER_1_INDEX, TIM_CHANNEL_1, Clutch_1_PWM_B_GPIO_Port, Clutch_1_PWM_B_Pin);
+  clutch1.init(ADC_CHANNEL_5, FINGER_2_INDEX, TIM_CHANNEL_2, Clutch_2_PWM_B_GPIO_Port, Clutch_2_PWM_B_Pin);
+  clutch1.init(ADC_CHANNEL_6, FINGER_3_INDEX, TIM_CHANNEL_3, Clutch_3_PWM_B_GPIO_Port, Clutch_3_PWM_B_Pin);
 
   PrometheUS_Gripper::startTimers();
 

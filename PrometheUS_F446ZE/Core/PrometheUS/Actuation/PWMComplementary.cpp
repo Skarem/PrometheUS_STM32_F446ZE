@@ -1,9 +1,15 @@
 #include "PWMComplementary.hpp"
 
-void PWMComplementary::init(TIM_HandleTypeDef* timer, uint32_t channel)
+void PWMComplementary::init(TIM_HandleTypeDef* timer, uint32_t channel, GPIO_TypeDef* port, uint16_t pin)
 {
   m_timer   = timer;
   m_channel = channel;
+
+  m_port = port;
+  m_pin = pin;
+
+  HAL_GPIO_WritePin(m_port, m_pin, GPIO_PIN_RESET);
+
   m_arr = __HAL_TIM_GET_AUTORELOAD(m_timer);
 }
 

@@ -10,7 +10,7 @@ public:
   Clutch(ClutchCurrentSampler* clutchCurrentSampler);
   ~Clutch() = default;
 
-  void init(uint32_t currentChannel, uint8_t currentIndex, uint32_t pwmChannel);
+  void init(uint32_t currentChannel, uint8_t currentIndex, uint32_t pwmChannel, GPIO_TypeDef* portPWMn, uint16_t pinPWMn);
 
   float calculateCurrentPID(float targetCurrent, float measuredCurrent);
 

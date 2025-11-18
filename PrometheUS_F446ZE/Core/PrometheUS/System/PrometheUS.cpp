@@ -17,8 +17,6 @@ PrometheUS_Gripper::PrometheUS_Gripper(
 
 void PrometheUS_Gripper::init()
 {
-  // __disable_irq();
-
   startTimers();
 
   m_telemetrySender.init(&huart3);
@@ -31,15 +29,13 @@ void PrometheUS_Gripper::init()
   m_potentiometers.init(&hadc1);
   m_clutchesTemperature.init(&hadc2);
 
-  m_finger1.init(ADC_CHANNEL_4, FINGER_1_INDEX, Encoder_CS_1_GPIO_Port, Encoder_CS_1_Pin, TIM_CHANNEL_1);
-  m_finger2.init(ADC_CHANNEL_5, FINGER_2_INDEX, Encoder_CS_2_GPIO_Port, Encoder_CS_2_Pin, TIM_CHANNEL_2);
-  m_finger3.init(ADC_CHANNEL_6, FINGER_3_INDEX, Encoder_CS_3_GPIO_Port, Encoder_CS_3_Pin, TIM_CHANNEL_3);
+  m_finger1.init(ADC_CHANNEL_4, FINGER_1_INDEX, Encoder_CS_1_GPIO_Port, Encoder_CS_1_Pin, TIM_CHANNEL_1, Clutch_1_PWM_B_GPIO_Port, Clutch_1_PWM_B_Pin);
+  m_finger2.init(ADC_CHANNEL_5, FINGER_2_INDEX, Encoder_CS_2_GPIO_Port, Encoder_CS_2_Pin, TIM_CHANNEL_2, Clutch_2_PWM_B_GPIO_Port, Clutch_2_PWM_B_Pin);
+  m_finger3.init(ADC_CHANNEL_6, FINGER_3_INDEX, Encoder_CS_3_GPIO_Port, Encoder_CS_3_Pin, TIM_CHANNEL_3, Clutch_3_PWM_B_GPIO_Port, Clutch_3_PWM_B_Pin);
 
   m_motor.init();
 
   start();
-
-  // __enable_irq();
 }
 
 void PrometheUS_Gripper::execute()

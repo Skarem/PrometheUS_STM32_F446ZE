@@ -1,2 +1,2 @@
 ../Core/PrometheUS/Actuation/PWMComplementary.hpp:8:3:PWMComplementary::PWMComplementary()	16	static
-../Core/PrometheUS/Tests/TestPwm.cpp:27:6:void Tests::pwm()	48	static
+../Core/PrometheUS/Tests/TestPwm.cpp:27:6:void Tests::pwm()	80	static

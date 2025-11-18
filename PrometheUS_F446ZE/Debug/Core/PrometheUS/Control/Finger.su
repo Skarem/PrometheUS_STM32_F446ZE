@@ -1,11 +1,11 @@
 ../Core/PrometheUS/Sensing/EncoderSampler.hpp:9:3:constexpr EncoderSampler::EncoderSampler()	16	static
 ../Core/PrometheUS/Control/Finger.cpp:3:1:Finger::Finger(ClutchCurrentSampler*)	16	static
-../Core/PrometheUS/Control/Finger.cpp:9:6:void Finger::init(uint32_t, uint8_t, GPIO_TypeDef*, uint16_t, uint32_t)	24	static
-../Core/PrometheUS/Control/Finger.cpp:20:6:void Finger::sampleEncoder()	16	static
-../Core/PrometheUS/Control/Finger.cpp:25:7:float Finger::getClutchMeasuredCurrent()	16	static
-../Core/PrometheUS/Control/Finger.cpp:30:6:bool Finger::isClutchError()	16	static
-../Core/PrometheUS/Control/Finger.cpp:35:7:float Finger::getEncoderPosition()	16	static
-../Core/PrometheUS/Control/Finger.cpp:40:6:void Finger::calculateCommand(float)	24	static
-../Core/PrometheUS/Control/Finger.cpp:51:6:void Finger::updateCommand()	16	static
-../Core/PrometheUS/Control/Finger.cpp:56:6:void Finger::start()	16	static
-../Core/PrometheUS/Control/Finger.cpp:61:6:void Finger::stop()	16	static
+../Core/PrometheUS/Control/Finger.cpp:9:6:void Finger::init(uint32_t, uint8_t, GPIO_TypeDef*, uint16_t, uint32_t, GPIO_TypeDef*, uint16_t)	32	static
+../Core/PrometheUS/Control/Finger.cpp:22:6:void Finger::sampleEncoder()	16	static
+../Core/PrometheUS/Control/Finger.cpp:27:7:float Finger::getClutchMeasuredCurrent()	16	static
+../Core/PrometheUS/Control/Finger.cpp:32:6:bool Finger::isClutchError()	16	static
+../Core/PrometheUS/Control/Finger.cpp:37:7:float Finger::getEncoderPosition()	16	static
+../Core/PrometheUS/Control/Finger.cpp:42:6:void Finger::calculateCommand(float)	24	static
+../Core/PrometheUS/Control/Finger.cpp:53:6:void Finger::updateCommand()	16	static
+../Core/PrometheUS/Control/Finger.cpp:58:6:void Finger::start()	16	static
+../Core/PrometheUS/Control/Finger.cpp:63:6:void Finger::stop()	16	static

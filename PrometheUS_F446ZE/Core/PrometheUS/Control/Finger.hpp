@@ -14,7 +14,9 @@ public:
       uint8_t       clutchCurrentIndex,
       GPIO_TypeDef* encoderChipSelectPeripheral,
       uint16_t      encoderChipSelectPin,
-      uint32_t      pwmChannel);
+      uint32_t      pwmChannel,
+      GPIO_TypeDef* portPWMn,
+      uint16_t      pinPWMn);
 
   // Read encoder
   void sampleEncoder();

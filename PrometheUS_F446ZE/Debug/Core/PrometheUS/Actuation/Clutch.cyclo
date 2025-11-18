@@ -1,7 +1,7 @@
 ../Core/PrometheUS/Actuation/PWMComplementary.hpp:8:3:PWMComplementary::PWMComplementary()	1
 ../Core/PrometheUS/Control/PIDController.hpp:8:3:PIDController::PIDController()	1
 ../Core/PrometheUS/Actuation/Clutch.cpp:5:1:Clutch::Clutch(ClutchCurrentSampler*)	1
-../Core/PrometheUS/Actuation/Clutch.cpp:11:6:void Clutch::init(uint32_t, uint8_t, uint32_t)	1
+../Core/PrometheUS/Actuation/Clutch.cpp:11:6:void Clutch::init(uint32_t, uint8_t, uint32_t, GPIO_TypeDef*, uint16_t)	1
 ../Core/PrometheUS/Actuation/Clutch.cpp:17:7:float Clutch::calculateCurrentPID(float, float)	1
 ../Core/PrometheUS/Actuation/Clutch.cpp:23:7:float Clutch::getMeasuredCurrent()	1
 ../Core/PrometheUS/Actuation/Clutch.cpp:29:6:bool Clutch::isInError()	3

@@ -11,9 +11,11 @@ void Finger::init(
     uint8_t       clutchCurrentIndex,
     GPIO_TypeDef* encoderChipSelectPeripheral,
     uint16_t      encoderChipSelectPin,
-    uint32_t      pwmChannel)
+    uint32_t      pwmChannel,
+    GPIO_TypeDef* portPWMn,
+    uint16_t      pinPWMn)
 {
-  m_clutch.init(clutchCurrentChannel, clutchCurrentIndex, pwmChannel);
+  m_clutch.init(clutchCurrentChannel, clutchCurrentIndex, pwmChannel, portPWMn, pinPWMn);
   m_encoder.init(&hspi1, encoderChipSelectPeripheral, encoderChipSelectPin);
 }
 

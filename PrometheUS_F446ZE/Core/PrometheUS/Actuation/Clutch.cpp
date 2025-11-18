@@ -8,10 +8,10 @@ Clutch::Clutch(ClutchCurrentSampler* clutchCurrentSampler)
 
 }
 
-void Clutch::init(uint32_t currentChannel, uint8_t currentIndex, uint32_t pwmChannel)
+void Clutch::init(uint32_t currentChannel, uint8_t currentIndex, uint32_t pwmChannel, GPIO_TypeDef* portPWMn, uint16_t pin_PWMn)
 {
   m_clutchCurrentSampler->init(&hadc3, currentChannel, currentIndex);
-  m_pwmComplementary.init(&htim1, pwmChannel);
+  m_pwmComplementary.init(&htim1, pwmChannel, portPWMn, pin_PWMn);
 }
 
 float Clutch::calculateCurrentPID(float targetCurrent, float measuredCurrent)

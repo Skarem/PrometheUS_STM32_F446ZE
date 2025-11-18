@@ -26,23 +26,13 @@
  */
 void Tests::pwm()
 {
-  // PWM pwmMotor;
-  // pwmMotor.init(&htim4, TIM_CHANNEL_1);
-  // pwmMotor.start();
-  // const float MOTOR_DUTY_CYCLE = 0.25f;
-  // pwmMotor.update(MOTOR_DUTY_CYCLE);
-
-  HAL_GPIO_WritePin(Clutch_1_PWM_B_GPIO_Port, Clutch_1_PWM_B_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(Clutch_2_PWM_B_GPIO_Port, Clutch_2_PWM_B_Pin, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(Clutch_3_PWM_B_GPIO_Port, Clutch_3_PWM_B_Pin, GPIO_PIN_RESET);
-
   PWMComplementary pwmClutch1;
   PWMComplementary pwmClutch2;
   PWMComplementary pwmClutch3;
 
-  pwmClutch1.init(&htim1, TIM_CHANNEL_1);
-  pwmClutch2.init(&htim1, TIM_CHANNEL_2);
-  pwmClutch3.init(&htim1, TIM_CHANNEL_3);
+  pwmClutch1.init(&htim1, TIM_CHANNEL_1, Clutch_1_PWM_B_GPIO_Port, Clutch_1_PWM_B_Pin);
+  pwmClutch2.init(&htim1, TIM_CHANNEL_2, Clutch_2_PWM_B_GPIO_Port, Clutch_2_PWM_B_Pin);
+  pwmClutch3.init(&htim1, TIM_CHANNEL_3, Clutch_3_PWM_B_GPIO_Port, Clutch_3_PWM_B_Pin);
 
   // const float DUTY_CYCLES[3] = { 0.10f };
   // const size_t NUM_DUTY = sizeof(DUTY_CYCLES) / sizeof(DUTY_CYCLES[0]);
