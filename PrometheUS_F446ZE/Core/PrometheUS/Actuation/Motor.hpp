@@ -17,6 +17,8 @@ public:
   void start();
   void stop();
 
+  void setRPM(float rpm);
+
   float getMotorVelocity();
 
   bool isError();

@@ -12,6 +12,14 @@ void Tests::motor(SystemFlags* systemFlags, MotorVelocitySampler* motorVelocityS
 
   motor.start();
 
+  motor.setRPM(403);
+
+  while (true)
+  {
+	HAL_Delay(100);
+  }
+
+  /*
   SystemState systemState = SystemState::SYS_RUN;
   ControlState controlState = ControlState::CONTROL_WAIT_SAMPLING;
 
@@ -60,4 +68,5 @@ void Tests::motor(SystemFlags* systemFlags, MotorVelocitySampler* motorVelocityS
 
     }
   }
+  */
 }

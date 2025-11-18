@@ -42,4 +42,4 @@ constexpr float MIN_CLUTCH_CURRENT_AMPERE = 0.0f;
 constexpr float MAX_CLUTCH_CURRENT_AMPERE = 4.0f;
 
 constexpr float MIN_MOTOR_VELOCITY_RPM = 0.0f;
-constexpr float MAX_MOTOR_VELOCITY_RPM = 5000.0f;
+constexpr float MAX_MOTOR_VELOCITY_RPM = 750.0f;
