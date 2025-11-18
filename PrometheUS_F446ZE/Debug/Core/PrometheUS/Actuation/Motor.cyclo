@@ -6,9 +6,10 @@
 ../Core/PrometheUS/Actuation/DigitalInput.hpp:8:3:constexpr DigitalInput::DigitalInput()	1
 ../Core/PrometheUS/Actuation/PWM.hpp:8:3:PWM::PWM()	1
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:8:3:constexpr DigitalOutput::DigitalOutput()	1
-../Core/PrometheUS/Actuation/Motor.cpp:5:1:Motor::Motor(MotorVelocitySampler*)	1
-../Core/PrometheUS/Actuation/Motor.cpp:11:6:void Motor::init()	1
-../Core/PrometheUS/Actuation/Motor.cpp:23:6:void Motor::start()	1
-../Core/PrometheUS/Actuation/Motor.cpp:28:6:void Motor::stop()	1
-../Core/PrometheUS/Actuation/Motor.cpp:33:7:float Motor::getMotorVelocity()	1
-../Core/PrometheUS/Actuation/Motor.cpp:38:6:bool Motor::isError()	1
+../Core/PrometheUS/Actuation/Motor.cpp:7:1:Motor::Motor(MotorVelocitySampler*)	1
+../Core/PrometheUS/Actuation/Motor.cpp:13:6:void Motor::init()	1
+../Core/PrometheUS/Actuation/Motor.cpp:25:6:void Motor::start()	1
+../Core/PrometheUS/Actuation/Motor.cpp:30:6:void Motor::stop()	1
+../Core/PrometheUS/Actuation/Motor.cpp:35:6:void Motor::setRPM(float)	3
+../Core/PrometheUS/Actuation/Motor.cpp:47:7:float Motor::getMotorVelocity()	1
+../Core/PrometheUS/Actuation/Motor.cpp:52:6:bool Motor::isError()	1

@@ -1,4 +1,4 @@
-../Core/PrometheUS/System/DefineConstants.hpp:25:16:float AdcUtils::getAdcVoltage(uint16_t)	2
+../Core/PrometheUS/System/DefineConstants.hpp:26:16:float AdcUtils::getAdcVoltage(uint16_t)	2
 ../Core/PrometheUS/Sensing/Lookup.hpp:3:14:float lookup1d(float, const float*, const float*, uint16_t)	5
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:10:3:constexpr GenericAdcBurstSampler::GenericAdcBurstSampler()	1
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:11:11:GenericAdcBurstSampler::~GenericAdcBurstSampler()	1

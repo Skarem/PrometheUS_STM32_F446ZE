@@ -1,3 +1,3 @@
-../Core/PrometheUS/Sensing/GenericAdcChannelSampler.cpp:3:6:void GenericAdcChannelSampler::init(ADC_HandleTypeDef*, uint32_t)	48	static
-../Core/PrometheUS/Sensing/GenericAdcChannelSampler.cpp:9:6:void GenericAdcChannelSampler::startSamplingRawAdcValue()	16	static
-../Core/PrometheUS/Sensing/GenericAdcChannelSampler.cpp:17:24:static ADC_ChannelConfTypeDef GenericAdcChannelSampler::CreateAdcConfiguration(uint32_t)	16	static
+../Core/PrometheUS/Sensing/GenericAdcChannelSampler.cpp:6:6:void GenericAdcChannelSampler::init(ADC_HandleTypeDef*, uint32_t, uint8_t)	48	static
+../Core/PrometheUS/Sensing/GenericAdcChannelSampler.cpp:17:6:void GenericAdcChannelSampler::startSamplingRawAdcValue()	16	static
+../Core/PrometheUS/Sensing/GenericAdcChannelSampler.cpp:32:24:static ADC_ChannelConfTypeDef GenericAdcChannelSampler::CreateAdcConfiguration(uint32_t)	16	static

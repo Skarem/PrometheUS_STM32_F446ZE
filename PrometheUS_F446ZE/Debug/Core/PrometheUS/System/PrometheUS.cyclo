@@ -13,10 +13,10 @@ C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:5:7:constexpr PotentiometersSampler::PotentiometersSampler()	1
 ../Core/PrometheUS/System/PrometheUS.cpp:3:1:PrometheUS_Gripper::PrometheUS_Gripper(SystemFlags*, ClutchCurrentSampler*, ClutchCurrentSampler*, ClutchCurrentSampler*, MotorVelocitySampler*)	1
 ../Core/PrometheUS/System/PrometheUS.cpp:18:6:void PrometheUS_Gripper::init()	1
-../Core/PrometheUS/System/PrometheUS.cpp:45:6:void PrometheUS_Gripper::execute()	1
-../Core/PrometheUS/System/PrometheUS.cpp:50:6:void PrometheUS_Gripper::systemStateMachine()	7
-../Core/PrometheUS/System/PrometheUS.cpp:112:6:void PrometheUS_Gripper::controlStateMachine()	15
-../Core/PrometheUS/System/PrometheUS.cpp:211:6:static void PrometheUS_Gripper::startTimers()	1
-../Core/PrometheUS/System/PrometheUS.cpp:245:6:void PrometheUS_Gripper::start()	1
-../Core/PrometheUS/System/PrometheUS.cpp:253:6:void PrometheUS_Gripper::stop()	1
-../Core/PrometheUS/System/PrometheUS.cpp:261:6:void PrometheUS_Gripper::checkForErrors()	12
+../Core/PrometheUS/System/PrometheUS.cpp:41:6:void PrometheUS_Gripper::execute()	1
+../Core/PrometheUS/System/PrometheUS.cpp:46:6:void PrometheUS_Gripper::systemStateMachine()	7
+../Core/PrometheUS/System/PrometheUS.cpp:108:6:void PrometheUS_Gripper::controlStateMachine()	15
+../Core/PrometheUS/System/PrometheUS.cpp:207:6:static void PrometheUS_Gripper::startTimers()	1
+../Core/PrometheUS/System/PrometheUS.cpp:241:6:void PrometheUS_Gripper::start()	1
+../Core/PrometheUS/System/PrometheUS.cpp:249:6:void PrometheUS_Gripper::stop()	1
+../Core/PrometheUS/System/PrometheUS.cpp:257:6:void PrometheUS_Gripper::checkForErrors()	12

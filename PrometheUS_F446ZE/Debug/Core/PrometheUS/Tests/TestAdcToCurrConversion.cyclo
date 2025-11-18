@@ -1,2 +1,2 @@
-../Core/PrometheUS/System/DefineConstants.hpp:25:16:float AdcUtils::getAdcVoltage(uint16_t)	2
+../Core/PrometheUS/System/DefineConstants.hpp:26:16:float AdcUtils::getAdcVoltage(uint16_t)	2
 ../Core/PrometheUS/Tests/TestAdcToCurrConversion.cpp:9:6:void Tests::adcToCurrConversion()	2

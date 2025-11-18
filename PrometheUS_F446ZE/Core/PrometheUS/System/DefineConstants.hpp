@@ -3,9 +3,10 @@
 // ---------- System-wide ----------
 static constexpr uint8_t FINGER_COUNT = 3;
 
-static constexpr uint8_t FINGER_1_INDEX = 0;
-static constexpr uint8_t FINGER_2_INDEX = 1;
-static constexpr uint8_t FINGER_3_INDEX = 2;
+static constexpr uint8_t FINGER_1_INDEX   = 0;
+static constexpr uint8_t FINGER_2_INDEX   = 1;
+static constexpr uint8_t FINGER_3_INDEX   = 2;
+static constexpr uint8_t NOT_FINGER_INDEX = 100;
 
 // ---------- Telemetry sender ----------
 static constexpr uint16_t TELEMETRY_HEADER = 0xABCD;
@@ -41,5 +42,5 @@ constexpr float MAX_CLUTCH_TEMPERATURE_CELSIUS = 80.0f;
 constexpr float MIN_CLUTCH_CURRENT_AMPERE = 0.0f;
 constexpr float MAX_CLUTCH_CURRENT_AMPERE = 4.0f;
 
-constexpr float MIN_MOTOR_VELOCITY_RPM = 0.0f;
-constexpr float MAX_MOTOR_VELOCITY_RPM = 5000.0f;
+constexpr float MIN_MOTOR_VELOCITY_RPM = 40.0f;
+constexpr float MAX_MOTOR_VELOCITY_RPM = 1000.0f;

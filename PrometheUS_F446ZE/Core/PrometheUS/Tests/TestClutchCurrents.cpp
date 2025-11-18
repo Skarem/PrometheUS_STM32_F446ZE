@@ -53,7 +53,7 @@ void Tests::clutchCurrents(SystemFlags* systemFlags,
   clutchCurrentSampler3->init(&hadc3, ADC_CHANNEL_6, FINGER_3_INDEX);
 
   uint32_t counter = 0;
-  const uint32_t PERIOD_WAIT_ITER = 100;
+  const uint32_t PERIOD_WAIT_ITER = 10;
 
   char txBuf[64];
   float currValues[3];
@@ -72,8 +72,8 @@ void Tests::clutchCurrents(SystemFlags* systemFlags,
       if (++counter % PERIOD_WAIT_ITER == 0)
       {
         // Format into human-readable ASCII
-        // int len = snprintf(txBuf, sizeof(txBuf), "%.2f %.2f %.2f\r\n", currValues[0], currValues[1], currValues[2]);
-        int len = snprintf(txBuf, sizeof(txBuf), "%.2f\r\n", currValues[0]);
+        int len = snprintf(txBuf, sizeof(txBuf), "%.2f   %.2f   %.2f\r\n", currValues[0], currValues[1], currValues[2]);
+        // int len = snprintf(txBuf, sizeof(txBuf), "%.2f\r\n", currValues[0]);
 
         // Transmit
         HAL_UART_Transmit_DMA(&huart3, reinterpret_cast<uint8_t*>(txBuf), len);

@@ -38,7 +38,8 @@ Core/PrometheUS/Actuation/Motor.o: ../Core/PrometheUS/Actuation/Motor.cpp \
  ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp \
  ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp \
  ../Core/PrometheUS/Actuation/DigitalInput.hpp \
- ../Core/PrometheUS/Actuation/DigitalOutput.hpp ../Core/Inc/main.h
+ ../Core/PrometheUS/Actuation/DigitalOutput.hpp ../Core/Inc/main.h \
+ ../Core/PrometheUS/System/DefineConstants.hpp
 ../Core/PrometheUS/Actuation/Motor.hpp:
 ../Core/PrometheUS/Actuation/PWM.hpp:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
@@ -80,3 +81,4 @@ Core/PrometheUS/Actuation/Motor.o: ../Core/PrometheUS/Actuation/Motor.cpp \
 ../Core/PrometheUS/Actuation/DigitalInput.hpp:
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:
 ../Core/Inc/main.h:
+../Core/PrometheUS/System/DefineConstants.hpp:

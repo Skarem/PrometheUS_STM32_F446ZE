@@ -17,9 +17,9 @@ extern "C" {
 // Need any specific callback sections
 #define TEST_MOTOR          0               // Tests::motor
 #define TEST_POTENTIOMETERS 0               // Tests::potentiometer
-#define TEST_TEMPERATURES   0               // Tests::clutchTemperatures
+#define TEST_TEMPERATURES   1               // Tests::clutchTemperatures
 #define TEST_CURRENTS       0               // Tests::clutchCurrents
-#define TEST_BUTTON         1
+#define TEST_BUTTON         0
 #endif
 
 // ========== Flags ==========
@@ -55,11 +55,11 @@ void cppTests()
   // Tests::senderErrors();
 
   // Tests::potentiometers(&systemFlags);
-  // Tests::clutchTemperatures(&systemFlags);
+  // ests::clutchTemperatures(&systemFlags);
   // Tests::clutchCurrents(&systemFlags, &clutchCurrentSampler1, &clutchCurrentSampler2, &clutchCurrentSampler3);
 
   // Tests::button(&systemFlags);
-  // Tests::buttonDebug(&systemFlags);
+  Tests::buttonDebug(&systemFlags);
   // Tests::LEDs();
   // Tests::LEDsDebug();
 
@@ -215,6 +215,21 @@ extern "C" void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
     {
       SystemFlags::instance->motorVelocityDone.store(true, std::memory_order_relaxed);
     }
+  }
+#endif
+}
+
+extern "C" void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
+{
+  // char txBuf[8];
+  // int len = snprintf(txBuf, sizeof(txBuf), "1\r\n");
+  // HAL_UART_Transmit(&huart3, reinterpret_cast<uint8_t*>(txBuf), len, HAL_MAX_DELAY);
+
+#if (RUN_INTERRUPT_CALLBACKS || TEST_CURRENTS)
+  if (hadc->Instance == ADC2)
+  {
+    uint32_t val = HAL_ADCEx_InjectedGetValue(hadc, ADC_INJECTED_RANK_1);
+    ClutchCurrentSampler::instances[FINGER_2_INDEX]->getInjectedValue(static_cast<uint16_t>(val));
   }
 #endif
 }

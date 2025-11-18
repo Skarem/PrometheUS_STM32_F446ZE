@@ -9,7 +9,7 @@ public:
   virtual ~GenericAdcChannelSampler() = default;
 
   // Initialize with ADC handle and channel number
-  void init(ADC_HandleTypeDef* hadc, uint32_t adcChannel);
+  void init(ADC_HandleTypeDef* hadc, uint32_t adcChannel, uint8_t index);
 
   // Start sampling this channel
   void startSamplingRawAdcValue();
@@ -25,6 +25,8 @@ protected:
 private:
   ADC_HandleTypeDef* m_hadc = nullptr;
   ADC_ChannelConfTypeDef m_adcConfiguration = {};
+
+  uint8_t m_index = 0;
 
   static constexpr uint32_t ADC3_CONFIGURATION_RANK          = 1;
   static constexpr uint32_t ADC3_CONFIGURATION_SAMPLING_TIME = ADC_SAMPLETIME_3CYCLES;

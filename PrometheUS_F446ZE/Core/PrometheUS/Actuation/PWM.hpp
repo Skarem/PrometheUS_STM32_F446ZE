@@ -21,8 +21,8 @@ private:
 
   uint32_t m_arr;
 
-  static constexpr float MIN_DUTY_CYCLE = 0.0f;
-  static constexpr float MAX_DUTY_CYCLE = 1.0f;
+  static constexpr float MIN_DUTY_CYCLE = 0.10f;
+  static constexpr float MAX_DUTY_CYCLE = 0.90f;
 
   inline uint32_t roundToInt(float x);
 };

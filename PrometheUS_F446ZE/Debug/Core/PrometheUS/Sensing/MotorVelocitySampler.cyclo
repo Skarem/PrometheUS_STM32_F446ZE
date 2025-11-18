@@ -1,5 +1,5 @@
-../Core/PrometheUS/Sensing/MotorVelocitySampler.cpp:5:6:void MotorVelocitySampler::init(ADC_HandleTypeDef*, uint32_t)	1
-../Core/PrometheUS/Sensing/MotorVelocitySampler.cpp:11:7:virtual float MotorVelocitySampler::convertRawAdcValue() const	1
+../Core/PrometheUS/Sensing/MotorVelocitySampler.cpp:6:6:void MotorVelocitySampler::init(ADC_HandleTypeDef*, uint32_t)	1
+../Core/PrometheUS/Sensing/MotorVelocitySampler.cpp:12:7:virtual float MotorVelocitySampler::convertRawAdcValue() const	1
 ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:9:11:GenericAdcChannelSampler::~GenericAdcChannelSampler()	1
 ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:9:11:virtual GenericAdcChannelSampler::~GenericAdcChannelSampler()	1
 ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:5:7:MotorVelocitySampler::~MotorVelocitySampler()	1

@@ -12,6 +12,8 @@ public:
 
   float convertRawAdcValue() const override;
 
+  void getInjectedValue(uint16_t value);
+
   static float testConversion(float voltage);
 
 private:

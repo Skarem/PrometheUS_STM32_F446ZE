@@ -2,6 +2,8 @@
 
 #include "main.h"
 
+#include "DefineConstants.hpp"
+
 Motor::Motor(MotorVelocitySampler* motorVelocitySampler)
   : m_motorVelocitySampler(motorVelocitySampler)
 {
@@ -28,6 +30,18 @@ void Motor::start()
 void Motor::stop()
 {
   m_enable.off();
+}
+
+void Motor::setRPM(float rpm)
+{
+ if (rpm < MIN_MOTOR_VELOCITY_RPM) rpm = MIN_MOTOR_VELOCITY_RPM;
+ if (rpm > MAX_MOTOR_VELOCITY_RPM) rpm = MAX_MOTOR_VELOCITY_RPM;
+
+  const float A = 0.0008f;
+  const float B = 0.10f;
+
+  float dutyCycle = A * rpm + B;
+  m_pwm.update(dutyCycle);
 }
 
 float Motor::getMotorVelocity()
