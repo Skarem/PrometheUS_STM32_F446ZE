@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DigitalOutput.hpp"
-#include "DigitalInput.hpp"
+#include "DebouncedButton.hpp"
 
 #include "PotentiometersSampler.hpp"
 #include "ClutchesTemperatureSampler.hpp"
@@ -37,6 +37,13 @@ public:
 
 private:
 
+  const bool verbose    = true;
+  const bool visualize  = false;
+
+  void printConsole(const char message[], uint16_t messageLength);
+
+  DigitalOutput m_debugPin;
+
   // Data sender
   TelemetrySender m_telemetrySender;
   uint8_t         m_sendDataCounter = 0;
@@ -52,12 +59,12 @@ private:
   bool m_sendErrorMessage = true;
 
   // LED (RUN state)
-  DigitalOutput m_led1;
+  DigitalOutput m_ledRun;
   // LED (ERROR state)
-  DigitalOutput m_led2;
+  DigitalOutput m_ledError;
 
-  // Switch (Toggle between IDLE and RUN states)
-  DigitalInput m_switch;
+  // Button (Toggle between IDLE and RUN states)
+  DebouncedButton m_button;
 
   // Potentiometers
   PotentiometersSampler m_potentiometers;

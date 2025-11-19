@@ -1,2 +1,0 @@
-../Core/PrometheUS/Tests/TestButton.cpp:8:13:void printUart3(bool)	8	static
-../Core/PrometheUS/Tests/TestButton.cpp:15:6:void Tests::button()	16	static

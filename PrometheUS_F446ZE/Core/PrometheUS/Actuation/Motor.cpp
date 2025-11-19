@@ -29,6 +29,7 @@ void Motor::start()
 
 void Motor::stop()
 {
+  setRPM(0);
   m_enable.off();
 }
 

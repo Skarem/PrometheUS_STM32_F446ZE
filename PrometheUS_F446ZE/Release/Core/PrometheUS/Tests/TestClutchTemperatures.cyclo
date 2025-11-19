@@ -1,1 +1,1 @@
-../Core/PrometheUS/Tests/TestClutchTemperatures.cpp:25:6:void Tests::clutchTemperatures(SystemFlags&)	3
+../Core/PrometheUS/Tests/TestClutchTemperatures.cpp:25:6:void Tests::clutchTemperatures(SystemFlags*)	4

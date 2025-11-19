@@ -1,22 +1,29 @@
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:11:8:void DigitalOutput::init(GPIO_TypeDef*, uint16_t)	24	static
-../Core/PrometheUS/Actuation/DigitalInput.hpp:17:15:bool DigitalInput::isOn() const	24	static
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:17:15:void DigitalOutput::on()	16	static
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:22:15:void DigitalOutput::off()	16	static
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:32:15:void DigitalOutput::pulse()	16	static
+../Core/PrometheUS/Actuation/DebouncedButton.hpp:11:8:void DebouncedButton::init(GPIO_TypeDef*, uint16_t)	24	static
+../Core/PrometheUS/Actuation/DebouncedButton.hpp:18:15:bool DebouncedButton::pressed()	24	static
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\arm-none-eabi\include\c++\13.3.1\arm-none-eabi\thumb\v7e-m+fp\hard\bits\c++config.h:540:3:constexpr bool std::__is_constant_evaluated()	4	static
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/bits/atomic_base.h:107:3:constexpr std::memory_order std::operator&(memory_order, __memory_order_modifier)	16	static
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/atomic:103:5:void std::atomic<bool>::store(bool, std::memory_order)	24	static
+C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/atomic:111:5:bool std::atomic<bool>::load(std::memory_order) const	24	static
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/atomic:119:5:bool std::atomic<bool>::exchange(bool, std::memory_order)	24	static
 ../Core/PrometheUS/System/ErrorFlags.hpp:12:8:bool ErrorFlags::anyError() const	24	static
+../Core/PrometheUS/System/ErrorFlags.hpp:24:8:void ErrorFlags::clearFlags()	24	static
+../Core/PrometheUS/System/PrometheUS.cpp:5:6:void PrometheUS_Gripper::printConsole(const char*, uint16_t)	24	static
+../Core/PrometheUS/Actuation/DigitalOutput.hpp:8:3:constexpr DigitalOutput::DigitalOutput()	16	static
 ../Core/PrometheUS/System/TelemetrySender.hpp:51:3:constexpr TelemetrySender::TelemetrySender()	16	static
 ../Core/PrometheUS/System/ErrorFlags.hpp:6:8:constexpr ErrorFlags::ErrorFlags()	16	static
-../Core/PrometheUS/Actuation/DigitalOutput.hpp:8:3:constexpr DigitalOutput::DigitalOutput()	16	static
-../Core/PrometheUS/Actuation/DigitalInput.hpp:8:3:constexpr DigitalInput::DigitalInput()	16	static
+../Core/PrometheUS/Actuation/DebouncedButton.hpp:8:3:constexpr DebouncedButton::DebouncedButton()	16	static
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:10:3:constexpr GenericAdcBurstSampler::GenericAdcBurstSampler()	16	static
 ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:5:7:constexpr PotentiometersSampler::PotentiometersSampler()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:3:1:PrometheUS_Gripper::PrometheUS_Gripper(SystemFlags*, ClutchCurrentSampler*, ClutchCurrentSampler*, ClutchCurrentSampler*, MotorVelocitySampler*)	24	static
-../Core/PrometheUS/System/PrometheUS.cpp:18:6:void PrometheUS_Gripper::init()	32	static
-../Core/PrometheUS/System/PrometheUS.cpp:41:6:void PrometheUS_Gripper::execute()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:46:6:void PrometheUS_Gripper::systemStateMachine()	48	static
-../Core/PrometheUS/System/PrometheUS.cpp:108:6:void PrometheUS_Gripper::controlStateMachine()	56	static
-../Core/PrometheUS/System/PrometheUS.cpp:207:6:static void PrometheUS_Gripper::startTimers()	8	static
-../Core/PrometheUS/System/PrometheUS.cpp:241:6:void PrometheUS_Gripper::start()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:249:6:void PrometheUS_Gripper::stop()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:257:6:void PrometheUS_Gripper::checkForErrors()	24	static
+../Core/PrometheUS/System/PrometheUS.cpp:13:1:PrometheUS_Gripper::PrometheUS_Gripper(SystemFlags*, ClutchCurrentSampler*, ClutchCurrentSampler*, ClutchCurrentSampler*, MotorVelocitySampler*)	24	static
+../Core/PrometheUS/System/PrometheUS.cpp:28:6:void PrometheUS_Gripper::init()	32	static
+../Core/PrometheUS/System/PrometheUS.cpp:54:6:void PrometheUS_Gripper::execute()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:59:6:void PrometheUS_Gripper::systemStateMachine()	80	static
+../Core/PrometheUS/System/PrometheUS.cpp:157:6:void PrometheUS_Gripper::controlStateMachine()	64	static
+../Core/PrometheUS/System/PrometheUS.cpp:268:6:static void PrometheUS_Gripper::startTimers()	8	static
+../Core/PrometheUS/System/PrometheUS.cpp:302:6:void PrometheUS_Gripper::start()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:310:6:void PrometheUS_Gripper::stop()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:318:6:void PrometheUS_Gripper::checkForErrors()	16	static

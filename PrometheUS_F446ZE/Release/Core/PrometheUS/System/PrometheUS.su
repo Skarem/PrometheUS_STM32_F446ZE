@@ -1,9 +1,12 @@
-../Core/PrometheUS/System/PrometheUS.cpp:3:1:PrometheUS_Gripper::PrometheUS_Gripper(SystemFlags&, ClutchCurrentSampler&, ClutchCurrentSampler&, ClutchCurrentSampler&, MotorVelocitySampler&)	48	static
-../Core/PrometheUS/System/PrometheUS.cpp:213:6:static void PrometheUS_Gripper::startTimers()	8	static
-../Core/PrometheUS/System/PrometheUS.cpp:247:6:void PrometheUS_Gripper::start()	8	static
-../Core/PrometheUS/System/PrometheUS.cpp:17:6:void PrometheUS_Gripper::init()	32	static
-../Core/PrometheUS/System/PrometheUS.cpp:256:6:void PrometheUS_Gripper::stop()	8	static
-../Core/PrometheUS/System/PrometheUS.cpp:265:6:void PrometheUS_Gripper::checkForErrors()	40	static
-../Core/PrometheUS/System/PrometheUS.cpp:111:6:void PrometheUS_Gripper::controlStateMachine()	48	static
-../Core/PrometheUS/System/PrometheUS.cpp:49:6:void PrometheUS_Gripper::systemStateMachine()	24	static
-../Core/PrometheUS/System/PrometheUS.cpp:44:6:void PrometheUS_Gripper::execute()	0	static
+../Core/PrometheUS/Actuation/DebouncedButton.hpp:18:15:bool DebouncedButton::pressed()	16	static
+../Core/PrometheUS/System/ErrorFlags.hpp:12:8:bool ErrorFlags::anyError() const	0	static
+../Core/PrometheUS/System/PrometheUS.cpp:3:6:void PrometheUS_Gripper::printConsole(const char*, uint16_t)	0	static
+../Core/PrometheUS/System/PrometheUS.cpp:11:1:PrometheUS_Gripper::PrometheUS_Gripper(SystemFlags*, ClutchCurrentSampler*, ClutchCurrentSampler*, ClutchCurrentSampler*, MotorVelocitySampler*)	24	static
+../Core/PrometheUS/System/PrometheUS.cpp:266:6:static void PrometheUS_Gripper::startTimers()	8	static
+../Core/PrometheUS/System/PrometheUS.cpp:300:6:void PrometheUS_Gripper::start()	8	static
+../Core/PrometheUS/System/PrometheUS.cpp:26:6:void PrometheUS_Gripper::init()	48	static
+../Core/PrometheUS/System/PrometheUS.cpp:308:6:void PrometheUS_Gripper::stop()	8	static
+../Core/PrometheUS/System/PrometheUS.cpp:316:6:void PrometheUS_Gripper::checkForErrors()	8	static
+../Core/PrometheUS/System/PrometheUS.cpp:150:6:void PrometheUS_Gripper::controlStateMachine()	56	static
+../Core/PrometheUS/System/PrometheUS.cpp:54:6:void PrometheUS_Gripper::systemStateMachine()	48	static
+../Core/PrometheUS/System/PrometheUS.cpp:49:6:void PrometheUS_Gripper::execute()	0	static

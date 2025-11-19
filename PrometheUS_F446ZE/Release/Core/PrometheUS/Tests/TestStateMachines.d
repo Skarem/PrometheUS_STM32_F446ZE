@@ -1,9 +1,6 @@
 Core/PrometheUS/Tests/TestStateMachines.o: \
  ../Core/PrometheUS/Tests/TestStateMachines.cpp \
- ../Core/PrometheUS/Tests/TestsNamespace.hpp \
- ../Core/PrometheUS/System/SystemFlags.hpp \
- ../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp \
- ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp \
+ ../Core/PrometheUS/Actuation/DebouncedButton.hpp \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
@@ -38,12 +35,14 @@ Core/PrometheUS/Tests/TestStateMachines.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
+ ../Core/PrometheUS/Tests/TestsNamespace.hpp \
+ ../Core/PrometheUS/System/SystemFlags.hpp \
+ ../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp \
+ ../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp \
  ../Core/PrometheUS/System/DefineConstants.hpp \
  ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp \
- ../Core/PrometheUS/Actuation/DebugButton.hpp \
  ../Core/PrometheUS/System/PrometheUS.hpp \
  ../Core/PrometheUS/Actuation/DigitalOutput.hpp \
- ../Core/PrometheUS/Actuation/DigitalInput.hpp \
  ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp \
  ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp ../Core/Inc/main.h \
  ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp \
@@ -54,13 +53,11 @@ Core/PrometheUS/Tests/TestStateMachines.o: \
  ../Core/PrometheUS/Sensing/EncoderSampler.hpp \
  ../Core/PrometheUS/Actuation/Motor.hpp \
  ../Core/PrometheUS/Actuation/PWM.hpp \
+ ../Core/PrometheUS/Actuation/DigitalInput.hpp \
  ../Core/PrometheUS/System/StateMachines.hpp \
  ../Core/PrometheUS/System/ErrorFlags.hpp \
  ../Core/PrometheUS/System/TelemetrySender.hpp
-../Core/PrometheUS/Tests/TestsNamespace.hpp:
-../Core/PrometheUS/System/SystemFlags.hpp:
-../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:
-../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:
+../Core/PrometheUS/Actuation/DebouncedButton.hpp:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:
@@ -95,12 +92,14 @@ Core/PrometheUS/Tests/TestStateMachines.o: \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
+../Core/PrometheUS/Tests/TestsNamespace.hpp:
+../Core/PrometheUS/System/SystemFlags.hpp:
+../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:
+../Core/PrometheUS/Sensing/GenericAdcChannelSampler.hpp:
 ../Core/PrometheUS/System/DefineConstants.hpp:
 ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:
-../Core/PrometheUS/Actuation/DebugButton.hpp:
 ../Core/PrometheUS/System/PrometheUS.hpp:
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:
-../Core/PrometheUS/Actuation/DigitalInput.hpp:
 ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:
 ../Core/Inc/main.h:
@@ -112,6 +111,7 @@ Core/PrometheUS/Tests/TestStateMachines.o: \
 ../Core/PrometheUS/Sensing/EncoderSampler.hpp:
 ../Core/PrometheUS/Actuation/Motor.hpp:
 ../Core/PrometheUS/Actuation/PWM.hpp:
+../Core/PrometheUS/Actuation/DigitalInput.hpp:
 ../Core/PrometheUS/System/StateMachines.hpp:
 ../Core/PrometheUS/System/ErrorFlags.hpp:
 ../Core/PrometheUS/System/TelemetrySender.hpp:

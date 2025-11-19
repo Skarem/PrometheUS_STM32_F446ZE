@@ -1,0 +1,1 @@
+../Core/PrometheUS/Tests/TestPIDClutch.cpp:16:6:void Tests::PIDClutch(SystemFlags*, ClutchCurrentSampler*, ClutchCurrentSampler*, ClutchCurrentSampler*)	5

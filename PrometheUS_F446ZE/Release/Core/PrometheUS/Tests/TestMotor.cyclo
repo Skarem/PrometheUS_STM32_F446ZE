@@ -1,1 +1,1 @@
-../Core/PrometheUS/Tests/TestMotor.cpp:8:6:void Tests::motor(SystemFlags&, MotorVelocitySampler&)	5
+../Core/PrometheUS/Tests/TestMotor.cpp:8:6:void Tests::motor(SystemFlags*, MotorVelocitySampler*)	5

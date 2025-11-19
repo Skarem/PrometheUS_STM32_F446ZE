@@ -12,6 +12,6 @@ void MotorVelocitySampler::init(ADC_HandleTypeDef* hadc, uint32_t channel)
 float MotorVelocitySampler::convertRawAdcValue() const
 {
   // Conversion
-  // ...
-  return m_rawAdcValue;
+  float rpm = (m_rawAdcValue * MAX_MOTOR_VELOCITY_RPM) / AdcUtils::ADC_MAXIMAL_COUNT_VALUE;
+  return rpm;
 }

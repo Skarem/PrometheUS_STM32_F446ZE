@@ -1,1 +1,1 @@
-../Core/PrometheUS/Tests/TestClutchTemperatures.cpp:25:6:void Tests::clutchTemperatures(SystemFlags&)	144	static
+../Core/PrometheUS/Tests/TestClutchTemperatures.cpp:25:6:void Tests::clutchTemperatures(SystemFlags*)	144	static

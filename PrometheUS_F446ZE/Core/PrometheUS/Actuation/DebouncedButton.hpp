@@ -2,11 +2,11 @@
 
 #include "stm32f4xx_hal.h"
 
-class DebugButton
+class DebouncedButton
 {
 public:
-  DebugButton()   = default;
-  ~DebugButton()  = default;
+  DebouncedButton()   = default;
+  ~DebouncedButton()  = default;
 
   void init(GPIO_TypeDef* port, uint16_t pin)
   {

@@ -2,4 +2,5 @@
 ../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:6:7:ClutchCurrentSampler::~ClutchCurrentSampler()	1
 ../Core/PrometheUS/Sensing/ClutchCurrentSampler.hpp:6:7:virtual ClutchCurrentSampler::~ClutchCurrentSampler()	1
 ../Core/PrometheUS/Sensing/ClutchCurrentSampler.cpp:5:6:void ClutchCurrentSampler::init(ADC_HandleTypeDef*, uint32_t, uint8_t)	2
-../Core/PrometheUS/Sensing/ClutchCurrentSampler.cpp:21:7:static float ClutchCurrentSampler::testConversion(float)	1
+../Core/PrometheUS/Sensing/ClutchCurrentSampler.cpp:21:6:void ClutchCurrentSampler::getInjectedValue(uint16_t)	1
+../Core/PrometheUS/Sensing/ClutchCurrentSampler.cpp:26:7:static float ClutchCurrentSampler::testConversion(float)	1

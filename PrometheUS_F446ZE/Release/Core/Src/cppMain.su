@@ -1,5 +1,5 @@
-../Core/Src/cppMain.cpp:49:6:void cppTests()	0	static
-../Core/Src/cppMain.cpp:34:6:void cppMain()	0	static
-../Core/Src/cppMain.cpp:73:17:void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef*)	0	static
-../Core/Src/cppMain.cpp:141:17:void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef*)	0	static
-../Core/Src/cppMain.cpp:198:1:cpp)	0	static
+../Core/Src/cppMain.cpp:34:6:void cppMain()	512	static
+../Core/Src/cppMain.cpp:80:17:void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef*)	0	static
+../Core/Src/cppMain.cpp:164:17:void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef*)	0	static
+../Core/Src/cppMain.cpp:227:17:void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef*)	8	static
+../Core/Src/cppMain.cpp:240:1:cpp)	0	static

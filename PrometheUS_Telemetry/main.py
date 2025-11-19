@@ -38,14 +38,14 @@ UNPACK_PACKET   = struct.Struct(PACKET_FORMAT).unpack
 WINDOW_SEC              = 5
 RX_RATE_HZ              = 50
 MAX_POINTS              = WINDOW_SEC * RX_RATE_HZ
-UPDATE_EVERY_N_PACKETS  = 10
+UPDATE_EVERY_N_PACKETS  = 1
 COLOR_LIST              = ['tab:red', 'tab:green', 'tab:blue']
 COLOR_MOTOR             = 'tab:orange'
 
 YLIM_POTS   = (0.0, 360.0)  # Degrees
 YLIM_TEMP   = (0.0, 80.0)   # Celsius
 YLIM_CURR   = (0.0, 4.0)    # Amperes
-YLIM_MOTOR  = (0.0, 5000.0) # RPM
+YLIM_MOTOR  = (0.0, 1000.0) # RPM
 
 # ----- Logging -----
 LOG_DIR     = "logs"

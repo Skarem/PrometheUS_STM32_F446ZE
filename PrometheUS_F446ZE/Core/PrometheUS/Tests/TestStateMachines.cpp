@@ -1,6 +1,6 @@
+#include "DebouncedButton.hpp"
 #include "TestsNamespace.hpp"
 
-#include "DebugButton.hpp"
 #include "PrometheUS.hpp"
 
 #include <string>
@@ -33,8 +33,8 @@ public:
 
     m_button.init(Button_Software_Run_GPIO_Port, Button_Software_Run_Pin);
 
-    m_ledRun.init(LED_Debug_Run_GPIO_Port, LED_Debug_Run_Pin);
-    m_ledError.init(LED_Debug_Error_GPIO_Port, LED_Debug_Error_Pin);
+    m_ledRun.init(DEL_1_GPIO_Port, DEL_1_Pin);
+    m_ledError.init(DEL_2_GPIO_Port, DEL_2_Pin);
 
     m_debugPin.init(DEBUG_PIN_GPIO_Port, DEBUG_PIN_Pin);
 
@@ -63,7 +63,7 @@ private:
 
   SystemFlags*  m_systemFlags;
 
-  DebugButton   m_button;
+  DebouncedButton   m_button;
 
   DigitalOutput m_ledRun;
   DigitalOutput m_ledError;
@@ -98,6 +98,9 @@ private:
         // If change in button state is detected => RUN
         if (m_button.pressed())
         {
+          static const char goingToRunMsg[] = "RUN\r\n";
+          HAL_UART_Transmit_DMA(&huart3, reinterpret_cast<const uint8_t*>(goingToRunMsg), sizeof(goingToRunMsg));
+
           m_ledRun.on();
           m_controlState = ControlState::CONTROL_START_SAMPLING;
           m_systemState = SystemState::SYS_RUN;
@@ -114,6 +117,9 @@ private:
         // If change in button state is detected => IDLE
         else if (m_button.pressed())
         {
+          static const char goingToIdleMsg[] = "IDLE\r\n";
+          HAL_UART_Transmit_DMA(&huart3, reinterpret_cast<const uint8_t*>(goingToIdleMsg), sizeof(goingToIdleMsg));
+
           m_ledRun.off();
           m_systemState = SystemState::SYS_IDLE;
         }

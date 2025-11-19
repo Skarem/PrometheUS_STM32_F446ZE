@@ -1,4 +1,4 @@
-../Core/PrometheUS/Sensing/MotorVelocitySampler.cpp:11:7:virtual float MotorVelocitySampler::convertRawAdcValue() const	0	static
+../Core/PrometheUS/Sensing/MotorVelocitySampler.cpp:12:7:virtual float MotorVelocitySampler::convertRawAdcValue() const	0	static
 ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:5:7:MotorVelocitySampler::~MotorVelocitySampler()	0	static
 ../Core/PrometheUS/Sensing/MotorVelocitySampler.hpp:5:7:virtual MotorVelocitySampler::~MotorVelocitySampler()	8	static
-../Core/PrometheUS/Sensing/MotorVelocitySampler.cpp:5:6:void MotorVelocitySampler::init(ADC_HandleTypeDef*, uint32_t)	8	static
+../Core/PrometheUS/Sensing/MotorVelocitySampler.cpp:6:6:void MotorVelocitySampler::init(ADC_HandleTypeDef*, uint32_t)	8	static

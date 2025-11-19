@@ -1,8 +1,8 @@
-../Core/PrometheUS/Actuation/Clutch.cpp:5:1:Clutch::Clutch(ClutchCurrentSampler&)	1
-../Core/PrometheUS/Actuation/Clutch.cpp:11:6:void Clutch::init(uint32_t, uint8_t, uint32_t)	1
-../Core/PrometheUS/Actuation/Clutch.cpp:17:6:void Clutch::calculateCurrentPID(float, float)	1
-../Core/PrometheUS/Actuation/Clutch.cpp:22:7:float Clutch::getMeasuredCurrent()	1
-../Core/PrometheUS/Actuation/Clutch.cpp:28:6:bool Clutch::isInError()	2
-../Core/PrometheUS/Actuation/Clutch.cpp:38:6:void Clutch::updateCommand()	1
+../Core/PrometheUS/Actuation/Clutch.cpp:5:1:Clutch::Clutch(ClutchCurrentSampler*)	1
+../Core/PrometheUS/Actuation/Clutch.cpp:11:6:void Clutch::init(uint32_t, uint8_t, uint32_t, GPIO_TypeDef*, uint16_t)	1
+../Core/PrometheUS/Actuation/Clutch.cpp:17:7:float Clutch::calculateCurrentPID(float, float)	1
+../Core/PrometheUS/Actuation/Clutch.cpp:23:7:float Clutch::getMeasuredCurrent()	1
+../Core/PrometheUS/Actuation/Clutch.cpp:29:6:bool Clutch::isInError()	2
+../Core/PrometheUS/Actuation/Clutch.cpp:39:6:void Clutch::updateCommand()	1
 ../Core/PrometheUS/Actuation/Clutch.cpp:44:6:void Clutch::start()	1
 ../Core/PrometheUS/Actuation/Clutch.cpp:49:6:void Clutch::stop()	1

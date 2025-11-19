@@ -11,7 +11,7 @@ struct ErrorFlags
 
   bool anyError() const
   {
-    for (int i = 0; i < FINGER_COUNT; ++i)
+    for (size_t i = 0; i < FINGER_COUNT; ++i)
     {
       if (clutchTemperatures[i] || clutchCurrents[i])
       {
@@ -19,5 +19,15 @@ struct ErrorFlags
       }
     }
     return motor;
+  }
+
+  void clearFlags()
+  {
+    for (size_t i = 0; i < FINGER_COUNT; ++i)
+    {
+      clutchTemperatures[i] = false;
+      clutchCurrents[i]     = false;
+    }
+    motor = false;
   }
 };

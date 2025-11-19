@@ -1,7 +1,7 @@
+#include "DebouncedButton.hpp"
 #include "TestsNamespace.hpp"
 #include "main.h"
 
-#include "DebugButton.hpp"
 #include "DigitalOutput.hpp"
 #include "PrometheUS.hpp"
 
@@ -9,7 +9,7 @@
 
 void Tests::buttonDebug(SystemFlags* systemFlags)
 {
-  DebugButton button;
+  DebouncedButton button;
   button.init(Button_Software_Run_GPIO_Port, Button_Software_Run_Pin);
 
   // DigitalOutput debugPin;

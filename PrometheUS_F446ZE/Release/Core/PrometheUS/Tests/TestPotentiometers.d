@@ -44,7 +44,7 @@ Core/PrometheUS/Tests/TestPotentiometers.o: \
  ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp \
  ../Core/PrometheUS/System/PrometheUS.hpp \
  ../Core/PrometheUS/Actuation/DigitalOutput.hpp \
- ../Core/PrometheUS/Actuation/DigitalInput.hpp \
+ ../Core/PrometheUS/Actuation/DebouncedButton.hpp \
  ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp \
  ../Core/PrometheUS/Control/Finger.hpp \
  ../Core/PrometheUS/Actuation/Clutch.hpp \
@@ -53,6 +53,7 @@ Core/PrometheUS/Tests/TestPotentiometers.o: \
  ../Core/PrometheUS/Sensing/EncoderSampler.hpp \
  ../Core/PrometheUS/Actuation/Motor.hpp \
  ../Core/PrometheUS/Actuation/PWM.hpp \
+ ../Core/PrometheUS/Actuation/DigitalInput.hpp \
  ../Core/PrometheUS/System/StateMachines.hpp \
  ../Core/PrometheUS/System/ErrorFlags.hpp \
  ../Core/PrometheUS/System/TelemetrySender.hpp
@@ -101,7 +102,7 @@ Core/PrometheUS/Tests/TestPotentiometers.o: \
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:
 ../Core/PrometheUS/System/PrometheUS.hpp:
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:
-../Core/PrometheUS/Actuation/DigitalInput.hpp:
+../Core/PrometheUS/Actuation/DebouncedButton.hpp:
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:
 ../Core/PrometheUS/Control/Finger.hpp:
 ../Core/PrometheUS/Actuation/Clutch.hpp:
@@ -110,6 +111,7 @@ Core/PrometheUS/Tests/TestPotentiometers.o: \
 ../Core/PrometheUS/Sensing/EncoderSampler.hpp:
 ../Core/PrometheUS/Actuation/Motor.hpp:
 ../Core/PrometheUS/Actuation/PWM.hpp:
+../Core/PrometheUS/Actuation/DigitalInput.hpp:
 ../Core/PrometheUS/System/StateMachines.hpp:
 ../Core/PrometheUS/System/ErrorFlags.hpp:
 ../Core/PrometheUS/System/TelemetrySender.hpp:

@@ -1,5 +1,6 @@
-../Core/PrometheUS/Actuation/DebugButton.hpp:18:15:bool DebugButton::pressed()	3
+../Core/PrometheUS/Actuation/DebouncedButton.hpp:18:15:bool DebouncedButton::pressed()	3
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:22:15:void DigitalOutput::off()	1
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:32:15:void DigitalOutput::pulse()	1
-../Core/PrometheUS/Tests/TestStateMachines.cpp:105:8:void TestStateMachines::controlStateMachine()	12
-../Core/PrometheUS/Tests/TestStateMachines.cpp:173:6:void Tests::stateMachines(SystemFlags&)	9
+../Core/PrometheUS/Tests/TestStateMachines.cpp:141:8:void TestStateMachines::controlStateMachine()	12
+../Core/PrometheUS/Tests/TestStateMachines.cpp:84:8:void TestStateMachines::systemStateMachine()	9
+../Core/PrometheUS/Tests/TestStateMachines.cpp:215:6:void Tests::stateMachines(SystemFlags*, ClutchCurrentSampler*, ClutchCurrentSampler*, ClutchCurrentSampler*, MotorVelocitySampler*)	1
