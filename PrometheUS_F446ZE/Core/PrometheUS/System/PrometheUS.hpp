@@ -91,7 +91,24 @@ private:
   SystemState   m_systemState   = SystemState::SYS_INIT;
 
   void systemStateMachine();
+
+  void doIdle();
+  void doRun();
+  void doError();
+
   void controlStateMachine();
+
+  void doStartSampling();
+  void doWaitSampling();
+  void doCalculate();
+  void doFinishedControlLaws();
+  void doUpdatePWM();
+  void doFinishedCycle();
+
+  void readSensors();
+  void maybeSendTelemetry();
+  void computeErrors();
+  void computeControlLaws();
 
   void start();
   void stop();

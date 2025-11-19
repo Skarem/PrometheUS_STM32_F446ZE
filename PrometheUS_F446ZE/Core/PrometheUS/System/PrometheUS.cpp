@@ -60,96 +60,102 @@ void PrometheUS_Gripper::systemStateMachine()
 {
   switch (m_systemState)
   {
-    case SystemState::SYS_INIT:
+  case SystemState::SYS_INIT:
+    m_systemState = SystemState::SYS_IDLE;
+    break;
+  case SystemState::SYS_IDLE:
+    doIdle();
+    break;
+  case SystemState::SYS_RUN:
+    doRun();
+    break;
+  case SystemState::SYS_ERROR:
+    doError();
+    break;
+  }
+}
+
+void PrometheUS_Gripper::doIdle()
+{
+  // If switch is pressed => switch to RUN
+  if (m_button.pressed())
+  {
+    static const char msg[] = "RUN\r\n";
+    printConsole(msg, sizeof(msg));
+
+    m_ledRun.on();
+    m_controlState = ControlState::CONTROL_START_SAMPLING;
+    m_systemState = SystemState::SYS_RUN;
+  }
+}
+
+void PrometheUS_Gripper::doRun()
+{
+  // If any error is detected, switch to ERROR
+  if (m_systemFlags->errorDetected.exchange(false))
+  {
+    static const char msg[] = "ERROR\r\n";
+    printConsole(msg, sizeof(msg));
+
+    m_ledError.on();
+    m_systemState = SystemState::SYS_ERROR;
+  }
+  // If switch is un-toggled => switch to IDLE
+  else if (m_button.pressed())
+  {
+    static const char msg[] = "IDLE\r\n";
+    printConsole(msg, sizeof(msg));
+
+    m_ledRun.off();
+    m_systemState = SystemState::SYS_IDLE;
+  }
+  else
+  {
+    controlStateMachine();
+  }
+}
+
+void PrometheUS_Gripper::doError()
+{
+  // Send error message with error source (from CheckIfError)
+  if (m_sendErrorMessage)
+  {
+    m_sendErrorMessage = false;
+    if (visualize)
     {
-      // Initialize all objects here ...
-      m_systemState = SystemState::SYS_IDLE;
-      break;
+      uint32_t now = HAL_GetTick();
+      m_telemetrySender.send(now, m_potentiometerPositionsArray, m_clutchTemperaturesArray, m_clutchCurrentsArray, m_motorVelocity, true, static_cast<uint8_t>(m_errorSource));
     }
-    case SystemState::SYS_IDLE:
+  }
+  else
+  {
+    // Stay in error until the switch is turned off
+    if (m_button.pressed())
     {
-      // If switch is pressed => switch to RUN
-      if (m_button.pressed())
+      // Check if still in error
+      m_errorFlags.clearFlags();
+      checkForErrors();
+      bool errorDetected = m_errorFlags.anyError();
+      if (errorDetected)
       {
-        static const char msg[] = "RUN\r\n";
+        const char msg[] = "STILL ERROR\r\n";
+        printConsole(msg, sizeof(msg));
+      }
+      // Not in error anymore
+      else
+      {
+        const char msg[] = "NO ERROR\r\n";
         printConsole(msg, sizeof(msg));
 
-        m_ledRun.on();
+        // Clean up flags
+        m_errorFlags.clearFlags();
+        m_errorSource = ErrorSource::NONE;
+        m_systemFlags->errorDetected.store(false, std::memory_order_relaxed);
+
+        m_ledError.off();
         m_controlState = ControlState::CONTROL_START_SAMPLING;
-        m_systemState = SystemState::SYS_RUN;
-      }
-      break;
-    }
-    case SystemState::SYS_RUN:
-    {
-      // If any error is detected, switch to ERROR
-      if (m_systemFlags->errorDetected.exchange(false))
-      {
-        static const char msg[] = "ERROR\r\n";
-        printConsole(msg, sizeof(msg));
-
-        m_ledError.on();
-        m_systemState = SystemState::SYS_ERROR;
-      }
-      // If switch is un-toggled => switch to IDLE
-      else if (m_button.pressed())
-      {
-        static const char msg[] = "IDLE\r\n";
-        printConsole(msg, sizeof(msg));
-
-        m_ledRun.off();
         m_systemState = SystemState::SYS_IDLE;
       }
-      else
-      {
-        controlStateMachine();
-      }
-      break;
-    }
-    case SystemState::SYS_ERROR:
-    {
-      // Send error message with error source (from CheckIfError)
-      if (m_sendErrorMessage)
-      {
-        m_sendErrorMessage = false;
-        if (visualize)
-        {
-          uint32_t now = HAL_GetTick();
-          m_telemetrySender.send(now, m_potentiometerPositionsArray, m_clutchTemperaturesArray, m_clutchCurrentsArray, m_motorVelocity, true, static_cast<uint8_t>(m_errorSource));
-        }
-      }
-      else
-      {
-        // Stay in error until the switch is turned off
-        if (m_button.pressed())
-        {
-          // Check if still in error
-          m_errorFlags.clearFlags();
-          checkForErrors();
-          bool errorDetected = m_errorFlags.anyError();
-          if (errorDetected)
-          {
-            const char msg[] = "STILL ERROR\r\n";
-            printConsole(msg, sizeof(msg));
-          }
-          // Not in error anymore
-          else
-          {
-            const char msg[] = "NO ERROR\r\n";
-            printConsole(msg, sizeof(msg));
-
-            // Clean up flags
-            m_errorFlags.clearFlags();
-            m_errorSource = ErrorSource::NONE;
-            m_systemFlags->errorDetected.store(false, std::memory_order_relaxed);
-
-            m_ledError.off();
-            m_controlState = ControlState::CONTROL_START_SAMPLING;
-            m_systemState = SystemState::SYS_IDLE;
-          }
-        }
-      }
-      break;
     }
   }
 }
@@ -158,112 +164,159 @@ void PrometheUS_Gripper::controlStateMachine()
 {
   switch (m_controlState)
   {
-    case ControlState::CONTROL_START_SAMPLING:
-    {
-      // NOTE: All ADC sampling is triggered by hardware timers configured in .ioc
-      m_debugPin.pulse();
-
-      // Reset the mask testing for sampling completion
-      m_systemFlags->adcDoneMask.store(0, std::memory_order_relaxed);
-
-      m_controlState = ControlState::CONTROL_WAIT_SAMPLING;
-      break;
-    }
-    case ControlState::CONTROL_WAIT_SAMPLING:
-    {
-      // Waiting for all ADC transmissions to be done
-      uint8_t mask = m_systemFlags->adcDoneMask.load(std::memory_order_relaxed);
-      if ((mask & SystemFlags::ALL) == SystemFlags::ALL)
-      {
-        m_controlState = ControlState::CONTROL_CALCULATE_CONTROL_LAWS;
-      }
-      break;
-    }
-    case ControlState::CONTROL_CALCULATE_CONTROL_LAWS:
-    {
-      m_debugPin.on();
-
-      // Convert potentiometer from ADC to degrees
-      m_potentiometers.convertAll(m_potentiometerPositionsArray);
-      // Convert current from ADC to Amperes
-      m_clutchCurrentsArray[FINGER_1_INDEX] = m_finger1.getClutchMeasuredCurrent();
-      m_clutchCurrentsArray[FINGER_2_INDEX] = m_finger2.getClutchMeasuredCurrent();
-      m_clutchCurrentsArray[FINGER_3_INDEX] = m_finger3.getClutchMeasuredCurrent();
-      // Convert temperature from ADC to Celsius
-      m_clutchesTemperature.convertAll(m_clutchTemperaturesArray);
-
-      // Get motor velocity
-      m_motorVelocity = m_motor.getMotorVelocity();
-
-      // Send data @ 50 Hz
-      if (visualize)
-      {
-        if (m_sendDataCounter++ >= SEND_DATA_TIMING)
-        {
-          m_sendDataCounter = 0;
-          uint32_t now = HAL_GetTick();
-          m_telemetrySender.send(now, m_potentiometerPositionsArray, m_clutchTemperaturesArray, m_clutchCurrentsArray, m_motorVelocity, false, static_cast<uint8_t>(ErrorSource::NONE));
-        }
-      }
-
-      // Check for errors
-      checkForErrors();
-      bool errorDetected = m_errorFlags.anyError();
-      m_systemFlags->errorDetected.store(errorDetected, std::memory_order_relaxed);
-
-      // Control laws
-      m_finger1.calculateCommand(m_potentiometerPositionsArray[FINGER_1_INDEX]);
-      m_finger2.calculateCommand(m_potentiometerPositionsArray[FINGER_2_INDEX]);
-      m_finger3.calculateCommand(m_potentiometerPositionsArray[FINGER_3_INDEX]);
-
-      m_debugPin.off();
-
-      m_systemFlags->updatePwmDutyCycles.store(false, std::memory_order_relaxed);
-
-      m_controlState = ControlState::CONTROL_FINISHED_CONTROL_LAWS;
-      break;
-    }
-    case ControlState::CONTROL_FINISHED_CONTROL_LAWS:
-    {
-      // Waiting for the timer trigger to update PWM duty cycles
-      if (m_systemFlags->updatePwmDutyCycles.exchange(false))
-      {
-        m_controlState = ControlState::CONTROL_UPDATE_PWM_DUTY_CYCLES;
-      }
-      break;
-    }
-    case ControlState::CONTROL_UPDATE_PWM_DUTY_CYCLES:
-    {
-      m_debugPin.pulse();
-
-      // Error detected
-      if (m_systemFlags->errorDetected.load())
-      {
-        stop();
-      }
-      // Update PWM duty cycles with new values calculated in CONTROLE_CALCULATE_LAWS via burst DMA
-      else
-      {
-        m_finger1.updateCommand();
-        m_finger2.updateCommand();
-        m_finger3.updateCommand();
-      }
-
-      m_controlState = ControlState::CONTROL_FINISHED_CYCLE;
-      break;
-    }
-    case ControlState::CONTROL_FINISHED_CYCLE:
-    {
-      // Done updating, cycle completed
-      // Waiting for timer trigger to start next cycle
-      if (m_systemFlags->startControlCycle.exchange(false))
-      {
-        m_controlState = ControlState::CONTROL_START_SAMPLING;
-      }
-      break;
-    }
+  case ControlState::CONTROL_START_SAMPLING:
+    doStartSampling();
+    break;
+  case ControlState::CONTROL_WAIT_SAMPLING:
+    doWaitSampling();
+    break;
+  case ControlState::CONTROL_CALCULATE_CONTROL_LAWS:
+    doCalculate();
+    break;
+  case ControlState::CONTROL_FINISHED_CONTROL_LAWS:
+    doFinishedControlLaws();
+    break;
+  case ControlState::CONTROL_UPDATE_PWM_DUTY_CYCLES:
+    doUpdatePWM();
+    break;
+  case ControlState::CONTROL_FINISHED_CYCLE:
+    doFinishedCycle();
+    break;
   }
 };
+
+void PrometheUS_Gripper::doStartSampling()
+{
+  // NOTE: All ADC sampling is triggered by hardware timers configured in .ioc
+  // m_debugPin.pulse();
+
+  // Reset the mask testing for sampling completion
+  m_systemFlags->adcDoneMask.store(0, std::memory_order_relaxed);
+
+  m_controlState = ControlState::CONTROL_WAIT_SAMPLING;
+}
+
+void PrometheUS_Gripper::doWaitSampling()
+{
+  // Waiting for all ADC transmissions to be done
+  uint8_t mask = m_systemFlags->adcDoneMask.load(std::memory_order_relaxed);
+  if ((mask & SystemFlags::ALL) == SystemFlags::ALL)
+  {
+    m_controlState = ControlState::CONTROL_CALCULATE_CONTROL_LAWS;
+  }
+}
+
+void PrometheUS_Gripper::doCalculate()
+{
+  // m_debugPin.on();
+
+  // Convert raw ADC values into engineering units
+  readSensors();
+  // Send info at low rate to visualize on computer
+  maybeSendTelemetry();
+  // Check for errors
+  computeErrors();
+  // Control laws
+  computeControlLaws();
+
+  // m_debugPin.off();
+
+  m_systemFlags->updatePwmDutyCycles.store(false, std::memory_order_relaxed);
+  m_controlState = ControlState::CONTROL_FINISHED_CONTROL_LAWS;
+}
+
+void PrometheUS_Gripper::doFinishedControlLaws()
+{
+  // Waiting for the timer trigger to update PWM duty cycles
+  if (m_systemFlags->updatePwmDutyCycles.exchange(false))
+  {
+    m_controlState = ControlState::CONTROL_UPDATE_PWM_DUTY_CYCLES;
+  }
+}
+
+void PrometheUS_Gripper::doUpdatePWM()
+{
+  // m_debugPin.pulse();
+
+  // Error detected
+  if (m_systemFlags->errorDetected.load())
+  {
+    stop();
+  }
+  // Update PWM duty cycles with new values calculated in CONTROLE_CALCULATE_LAWS via burst DMA
+  else
+  {
+    m_finger1.updateCommand();
+    m_finger2.updateCommand();
+    m_finger3.updateCommand();
+  }
+
+  m_controlState = ControlState::CONTROL_FINISHED_CYCLE;
+}
+
+void PrometheUS_Gripper::doFinishedCycle()
+{
+  // Done updating, cycle completed
+  // Waiting for timer trigger to start next cycle
+  if (m_systemFlags->startControlCycle.exchange(false))
+  {
+    m_controlState = ControlState::CONTROL_START_SAMPLING;
+  }
+}
+
+void PrometheUS_Gripper::readSensors()
+{
+  // Convert potentiometer from ADC to degrees
+  m_potentiometers.convertAll(m_potentiometerPositionsArray);
+
+  // Convert current from ADC to Amperes
+  m_clutchCurrentsArray[FINGER_1_INDEX] = m_finger1.getClutchMeasuredCurrent();
+  m_clutchCurrentsArray[FINGER_2_INDEX] = m_finger2.getClutchMeasuredCurrent();
+  m_clutchCurrentsArray[FINGER_3_INDEX] = m_finger3.getClutchMeasuredCurrent();
+
+  // Convert temperature from ADC to Celsius
+  m_clutchesTemperature.convertAll(m_clutchTemperaturesArray);
+
+  // Convert motor velocity from ADC to RPM
+  m_motorVelocity = m_motor.getMotorVelocity();
+}
+
+void PrometheUS_Gripper::maybeSendTelemetry()
+{
+  // Send data @ 50 Hz
+  if (visualize)
+  {
+    if (m_sendDataCounter++ >= SEND_DATA_TIMING)
+    {
+      m_sendDataCounter = 0;
+      uint32_t now = HAL_GetTick();
+
+      m_telemetrySender.send(
+          now,
+          m_potentiometerPositionsArray,
+          m_clutchTemperaturesArray,
+          m_clutchCurrentsArray,
+          m_motorVelocity,
+          false,
+          static_cast<uint8_t>(ErrorSource::NONE)
+      );
+    }
+  }
+}
+
+void PrometheUS_Gripper::computeErrors()
+{
+  checkForErrors();
+  bool errorDetected = m_errorFlags.anyError();
+  m_systemFlags->errorDetected.store(errorDetected, std::memory_order_relaxed);
+}
+
+void PrometheUS_Gripper::computeControlLaws()
+{
+  m_finger1.calculateCommand(m_potentiometerPositionsArray[FINGER_1_INDEX]);
+  m_finger2.calculateCommand(m_potentiometerPositionsArray[FINGER_2_INDEX]);
+  m_finger3.calculateCommand(m_potentiometerPositionsArray[FINGER_3_INDEX]);
+}
 
 void PrometheUS_Gripper::startTimers()
 {
