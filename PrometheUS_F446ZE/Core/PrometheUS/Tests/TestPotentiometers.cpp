@@ -49,8 +49,8 @@ void Tests::potentiometers(SystemFlags* systemFlags)
       if (++counter % PERIOD_WAIT_ITER == 0)
       {
         // Format into human-readable ASCII
-        // int len = snprintf(txBuf, sizeof(txBuf), "%.1f %.1f %.1f\r\n", potValues[0], potValues[1], potValues[2]);
-        int len = snprintf(txBuf, sizeof(txBuf), "%.2f\r\n", potValues[0]);
+        int len = snprintf(txBuf, sizeof(txBuf), "%.1f %.1f %.1f\r\n", potValues[0], potValues[1], potValues[2]);
+        // int len = snprintf(txBuf, sizeof(txBuf), "%.2f\r\n", potValues[0]);
         // Transmit
         HAL_UART_Transmit_DMA(&huart3, reinterpret_cast<uint8_t*>(txBuf), len);
       }

@@ -188,7 +188,7 @@ void PrometheUS_Gripper::controlStateMachine()
 void PrometheUS_Gripper::doStartSampling()
 {
   // NOTE: All ADC sampling is triggered by hardware timers configured in .ioc
-  // m_debugPin.pulse();
+  m_debugPin.pulse();
 
   // Reset the mask testing for sampling completion
   m_systemFlags->adcDoneMask.store(0, std::memory_order_relaxed);
@@ -208,7 +208,7 @@ void PrometheUS_Gripper::doWaitSampling()
 
 void PrometheUS_Gripper::doCalculate()
 {
-  // m_debugPin.on();
+  m_debugPin.on();
 
   // Convert raw ADC values into engineering units
   readSensors();
@@ -219,7 +219,7 @@ void PrometheUS_Gripper::doCalculate()
   // Control laws
   computeControlLaws();
 
-  // m_debugPin.off();
+  m_debugPin.off();
 
   m_systemFlags->updatePwmDutyCycles.store(false, std::memory_order_relaxed);
   m_controlState = ControlState::CONTROL_FINISHED_CONTROL_LAWS;
@@ -236,7 +236,7 @@ void PrometheUS_Gripper::doFinishedControlLaws()
 
 void PrometheUS_Gripper::doUpdatePWM()
 {
-  // m_debugPin.pulse();
+  m_debugPin.pulse();
 
   // Error detected
   if (m_systemFlags->errorDetected.load())
