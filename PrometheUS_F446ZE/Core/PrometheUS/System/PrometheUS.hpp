@@ -2,6 +2,7 @@
 
 #include "DigitalOutput.hpp"
 #include "DebouncedButton.hpp"
+#include "LED.hpp"
 
 #include "PotentiometersSampler.hpp"
 #include "ClutchesTemperatureSampler.hpp"
@@ -37,8 +38,8 @@ public:
 
 private:
 
-  const bool verbose    = true;
-  const bool visualize  = false;
+  const bool verbose    = false;
+  const bool visualize  = true;
 
   void printConsole(const char message[], uint16_t messageLength);
 
@@ -59,9 +60,9 @@ private:
   bool m_sendErrorMessage = true;
 
   // LED (RUN state)
-  DigitalOutput m_ledRun;
+  LED m_ledRun;
   // LED (ERROR state)
-  DigitalOutput m_ledError;
+  LED m_ledError;
 
   // Button (Toggle between IDLE and RUN states)
   DebouncedButton m_button;

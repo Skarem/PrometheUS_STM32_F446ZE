@@ -37,6 +37,7 @@ Core/PrometheUS/System/PrometheUS.o: \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/PrometheUS/Actuation/DebouncedButton.hpp \
+ ../Core/PrometheUS/Actuation/LED.hpp \
  ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp \
  ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp ../Core/Inc/main.h \
  ../Core/PrometheUS/System/DefineConstants.hpp \
@@ -93,6 +94,7 @@ Core/PrometheUS/System/PrometheUS.o: \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/PrometheUS/Actuation/DebouncedButton.hpp:
+../Core/PrometheUS/Actuation/LED.hpp:
 ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:
 ../Core/Inc/main.h:

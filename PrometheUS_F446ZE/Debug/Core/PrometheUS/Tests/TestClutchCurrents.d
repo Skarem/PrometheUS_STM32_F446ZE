@@ -43,6 +43,7 @@ Core/PrometheUS/Tests/TestClutchCurrents.o: \
  ../Core/PrometheUS/System/PrometheUS.hpp \
  ../Core/PrometheUS/Actuation/DigitalOutput.hpp \
  ../Core/PrometheUS/Actuation/DebouncedButton.hpp \
+ ../Core/PrometheUS/Actuation/LED.hpp \
  ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp \
  ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp \
  ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp \
@@ -101,6 +102,7 @@ Core/PrometheUS/Tests/TestClutchCurrents.o: \
 ../Core/PrometheUS/System/PrometheUS.hpp:
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:
 ../Core/PrometheUS/Actuation/DebouncedButton.hpp:
+../Core/PrometheUS/Actuation/LED.hpp:
 ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:

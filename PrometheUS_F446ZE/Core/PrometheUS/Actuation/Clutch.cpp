@@ -36,6 +36,11 @@ bool Clutch::isInError()
   return false;
 }
 
+void Clutch::setCommand(float dutyCycle)
+{
+  m_PIDResult = dutyCycle;
+}
+
 void Clutch::updateCommand()
 {
   m_pwmComplementary.update(m_PIDResult);

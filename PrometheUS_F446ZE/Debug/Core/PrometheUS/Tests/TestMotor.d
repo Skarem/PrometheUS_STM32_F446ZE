@@ -46,6 +46,7 @@ Core/PrometheUS/Tests/TestMotor.o: ../Core/PrometheUS/Tests/TestMotor.cpp \
  ../Core/PrometheUS/System/StateMachines.hpp \
  ../Core/PrometheUS/System/PrometheUS.hpp \
  ../Core/PrometheUS/Actuation/DebouncedButton.hpp \
+ ../Core/PrometheUS/Actuation/LED.hpp \
  ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp \
  ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp \
  ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp \
@@ -104,6 +105,7 @@ Core/PrometheUS/Tests/TestMotor.o: ../Core/PrometheUS/Tests/TestMotor.cpp \
 ../Core/PrometheUS/System/StateMachines.hpp:
 ../Core/PrometheUS/System/PrometheUS.hpp:
 ../Core/PrometheUS/Actuation/DebouncedButton.hpp:
+../Core/PrometheUS/Actuation/LED.hpp:
 ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:
 ../Core/PrometheUS/Sensing/ClutchesTemperatureSampler.hpp:

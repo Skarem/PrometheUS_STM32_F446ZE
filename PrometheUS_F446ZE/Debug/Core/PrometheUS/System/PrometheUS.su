@@ -4,6 +4,9 @@
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:32:15:void DigitalOutput::pulse()	16	static
 ../Core/PrometheUS/Actuation/DebouncedButton.hpp:11:8:void DebouncedButton::init(GPIO_TypeDef*, uint16_t)	24	static
 ../Core/PrometheUS/Actuation/DebouncedButton.hpp:18:15:bool DebouncedButton::pressed()	24	static
+../Core/PrometheUS/Actuation/LED.hpp:11:8:void LED::init(GPIO_TypeDef*, uint16_t)	24	static
+../Core/PrometheUS/Actuation/LED.hpp:17:15:void LED::on()	16	static
+../Core/PrometheUS/Actuation/LED.hpp:22:15:void LED::off()	16	static
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\arm-none-eabi\include\c++\13.3.1\arm-none-eabi\thumb\v7e-m+fp\hard\bits\c++config.h:540:3:constexpr bool std::__is_constant_evaluated()	4	static
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/bits/atomic_base.h:107:3:constexpr std::memory_order std::operator&(memory_order, __memory_order_modifier)	16	static
 C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344\tools\bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/include/c++/13.3.1/atomic:103:5:void std::atomic<bool>::store(bool, std::memory_order)	24	static
@@ -15,28 +18,29 @@ C:\ST\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.ide.mcu.external
 ../Core/PrometheUS/Actuation/DigitalOutput.hpp:8:3:constexpr DigitalOutput::DigitalOutput()	16	static
 ../Core/PrometheUS/System/TelemetrySender.hpp:51:3:constexpr TelemetrySender::TelemetrySender()	16	static
 ../Core/PrometheUS/System/ErrorFlags.hpp:6:8:constexpr ErrorFlags::ErrorFlags()	16	static
+../Core/PrometheUS/Actuation/LED.hpp:8:3:constexpr LED::LED()	16	static
 ../Core/PrometheUS/Actuation/DebouncedButton.hpp:8:3:constexpr DebouncedButton::DebouncedButton()	16	static
 ../Core/PrometheUS/Sensing/GenericAdcBurstSampler.hpp:10:3:constexpr GenericAdcBurstSampler::GenericAdcBurstSampler()	16	static
 ../Core/PrometheUS/Sensing/PotentiometersSampler.hpp:5:7:constexpr PotentiometersSampler::PotentiometersSampler()	16	static
 ../Core/PrometheUS/System/PrometheUS.cpp:13:1:PrometheUS_Gripper::PrometheUS_Gripper(SystemFlags*, ClutchCurrentSampler*, ClutchCurrentSampler*, ClutchCurrentSampler*, MotorVelocitySampler*)	24	static
 ../Core/PrometheUS/System/PrometheUS.cpp:28:6:void PrometheUS_Gripper::init()	32	static
-../Core/PrometheUS/System/PrometheUS.cpp:54:6:void PrometheUS_Gripper::execute()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:59:6:void PrometheUS_Gripper::systemStateMachine()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:78:6:void PrometheUS_Gripper::doIdle()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:92:6:void PrometheUS_Gripper::doRun()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:118:6:void PrometheUS_Gripper::doError()	80	static
-../Core/PrometheUS/System/PrometheUS.cpp:163:6:void PrometheUS_Gripper::controlStateMachine()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:188:6:void PrometheUS_Gripper::doStartSampling()	24	static
-../Core/PrometheUS/System/PrometheUS.cpp:199:6:void PrometheUS_Gripper::doWaitSampling()	32	static
-../Core/PrometheUS/System/PrometheUS.cpp:209:6:void PrometheUS_Gripper::doCalculate()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:228:6:void PrometheUS_Gripper::doFinishedControlLaws()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:237:6:void PrometheUS_Gripper::doUpdatePWM()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:257:6:void PrometheUS_Gripper::doFinishedCycle()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:267:6:void PrometheUS_Gripper::readSensors()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:284:6:void PrometheUS_Gripper::maybeSendTelemetry()	48	static
-../Core/PrometheUS/System/PrometheUS.cpp:307:6:void PrometheUS_Gripper::computeErrors()	24	static
-../Core/PrometheUS/System/PrometheUS.cpp:314:6:void PrometheUS_Gripper::computeControlLaws()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:321:6:static void PrometheUS_Gripper::startTimers()	8	static
-../Core/PrometheUS/System/PrometheUS.cpp:355:6:void PrometheUS_Gripper::start()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:363:6:void PrometheUS_Gripper::stop()	16	static
-../Core/PrometheUS/System/PrometheUS.cpp:371:6:void PrometheUS_Gripper::checkForErrors()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:56:6:void PrometheUS_Gripper::execute()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:61:6:void PrometheUS_Gripper::systemStateMachine()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:80:6:void PrometheUS_Gripper::doIdle()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:96:6:void PrometheUS_Gripper::doRun()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:124:6:void PrometheUS_Gripper::doError()	80	static
+../Core/PrometheUS/System/PrometheUS.cpp:169:6:void PrometheUS_Gripper::controlStateMachine()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:194:6:void PrometheUS_Gripper::doStartSampling()	24	static
+../Core/PrometheUS/System/PrometheUS.cpp:205:6:void PrometheUS_Gripper::doWaitSampling()	32	static
+../Core/PrometheUS/System/PrometheUS.cpp:215:6:void PrometheUS_Gripper::doCalculate()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:234:6:void PrometheUS_Gripper::doFinishedControlLaws()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:243:6:void PrometheUS_Gripper::doUpdatePWM()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:263:6:void PrometheUS_Gripper::doFinishedCycle()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:273:6:void PrometheUS_Gripper::readSensors()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:304:6:void PrometheUS_Gripper::maybeSendTelemetry()	48	static
+../Core/PrometheUS/System/PrometheUS.cpp:327:6:void PrometheUS_Gripper::computeErrors()	24	static
+../Core/PrometheUS/System/PrometheUS.cpp:334:6:void PrometheUS_Gripper::computeControlLaws()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:341:6:static void PrometheUS_Gripper::startTimers()	8	static
+../Core/PrometheUS/System/PrometheUS.cpp:375:6:void PrometheUS_Gripper::start()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:385:6:void PrometheUS_Gripper::stop()	16	static
+../Core/PrometheUS/System/PrometheUS.cpp:394:6:void PrometheUS_Gripper::checkForErrors()	24	static

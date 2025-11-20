@@ -65,8 +65,8 @@ private:
 
   DebouncedButton   m_button;
 
-  DigitalOutput m_ledRun;
-  DigitalOutput m_ledError;
+  LED m_ledRun;
+  LED m_ledError;
 
   // Simulate motor error
   DigitalInput  m_errorPin;

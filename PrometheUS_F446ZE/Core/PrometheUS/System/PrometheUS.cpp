@@ -31,6 +31,8 @@ void PrometheUS_Gripper::init()
 
   m_ledRun.init(DEL_1_GPIO_Port, DEL_1_Pin);
   m_ledError.init(DEL_2_GPIO_Port, DEL_2_Pin);
+  m_ledRun.off();
+  m_ledError.off();
 
   m_debugPin.init(DEBUG_PIN_GPIO_Port, DEBUG_PIN_Pin);
   m_debugPin.off();
@@ -48,7 +50,7 @@ void PrometheUS_Gripper::init()
 
   startTimers();
 
-  start();
+  // start();
 }
 
 void PrometheUS_Gripper::execute()
@@ -83,6 +85,8 @@ void PrometheUS_Gripper::doIdle()
     static const char msg[] = "RUN\r\n";
     printConsole(msg, sizeof(msg));
 
+    start();
+
     m_ledRun.on();
     m_controlState = ControlState::CONTROL_START_SAMPLING;
     m_systemState = SystemState::SYS_RUN;
@@ -105,6 +109,8 @@ void PrometheUS_Gripper::doRun()
   {
     static const char msg[] = "IDLE\r\n";
     printConsole(msg, sizeof(msg));
+
+    stop();
 
     m_ledRun.off();
     m_systemState = SystemState::SYS_IDLE;
@@ -279,6 +285,20 @@ void PrometheUS_Gripper::readSensors()
 
   // Convert motor velocity from ADC to RPM
   m_motorVelocity = m_motor.getMotorVelocity();
+
+  /*
+  static char txBuf[64];
+  static int counterMotor = 0;
+
+  if (verbose)
+  {
+	if (++counterMotor % 100 == 0)
+	{
+      int len = snprintf(txBuf, sizeof(txBuf), "%.2f\r\n", m_motorVelocity);
+      HAL_UART_Transmit_DMA(&huart3, reinterpret_cast<uint8_t*>(txBuf), len);
+	}
+  }
+  */
 }
 
 void PrometheUS_Gripper::maybeSendTelemetry()
@@ -357,6 +377,8 @@ void PrometheUS_Gripper::start()
   m_finger1.start();
   m_finger2.start();
   m_finger3.start();
+
+  m_motor.setRPM(350);
   m_motor.start();
 }
 
@@ -365,12 +387,12 @@ void PrometheUS_Gripper::stop()
   m_finger1.stop();
   m_finger2.stop();
   m_finger3.stop();
+
   m_motor.stop();
 }
 
 void PrometheUS_Gripper::checkForErrors()
 {
-  /*
   for (size_t index = 0; index < FINGER_COUNT; ++index)
   {
     // ----- Clutch temperatures -----
@@ -388,6 +410,7 @@ void PrometheUS_Gripper::checkForErrors()
     }
   }
 
+  /*
   // ----- Clutch currents -----
   if (m_finger1.isClutchError())
   {

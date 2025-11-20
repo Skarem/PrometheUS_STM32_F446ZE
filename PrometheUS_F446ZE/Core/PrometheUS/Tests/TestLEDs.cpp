@@ -1,12 +1,12 @@
 #include "TestsNamespace.hpp"
 #include "main.h"
 
-#include "DigitalOutput.hpp"
+#include "LED.hpp"
 
 void Tests::LEDs()
 {
-  DigitalOutput ledRun;
-  DigitalOutput ledError;
+  LED ledRun;
+  LED ledError;
 
   ledRun.init(DEL_1_GPIO_Port, DEL_1_Pin);
   ledError.init(DEL_2_GPIO_Port, DEL_2_Pin);

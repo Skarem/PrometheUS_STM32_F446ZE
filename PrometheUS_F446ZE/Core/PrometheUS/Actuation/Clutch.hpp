@@ -17,6 +17,7 @@ public:
   float getMeasuredCurrent();
   bool isInError();
 
+  void setCommand(float dutyCycle);
   void updateCommand();
 
   void start();
