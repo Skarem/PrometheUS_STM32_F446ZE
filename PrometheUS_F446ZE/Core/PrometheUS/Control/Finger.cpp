@@ -49,6 +49,13 @@ void Finger::updateCommand()
   m_clutch.updateCommand();
 }
 
+void Finger::clutch0RPM()
+{
+  m_clutch.setCommand(0);
+  m_clutch.updateCommand();
+  m_clutch.start();
+}
+
 void Finger::start()
 {
   m_clutch.start();

@@ -27,6 +27,8 @@ public:
    static constexpr uint8_t CURR  = 1u << 2;
    static constexpr uint8_t ALL   = POTS | TEMP | CURR;
 
+   static constexpr uint8_t READ_ONLY = POTS | TEMP;
+
    std::atomic<uint8_t> adcDoneMask { 0 };
 
    enum class ADCSource : uint8_t

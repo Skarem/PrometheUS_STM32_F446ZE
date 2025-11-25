@@ -33,6 +33,8 @@ public:
   // Update clutch PWM
   void updateCommand();
 
+  void clutch0RPM();
+
   void start();
   void stop();
 

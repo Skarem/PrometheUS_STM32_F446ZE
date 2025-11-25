@@ -49,7 +49,7 @@ private:
   TelemetrySender m_telemetrySender;
   uint8_t         m_sendDataCounter = 0;
 
-  const uint8_t SEND_DATA_TIMING = 100; // 100 cycles at 1KHz => 10 Hz telemetry
+  const uint8_t SEND_DATA_TIMING = 200; // 200 cycles at 1KHz => 5 Hz telemetry
 
   // System flags
   SystemFlags* m_systemFlags;
@@ -119,6 +119,10 @@ private:
   void computeControlLaws();
 
   void mapPotentiometersToDutyCycleWithDeadZones();
+
+
+  ControlState m_sampleState = ControlState::CONTROL_WAIT_SAMPLING;
+  void sampleStateMachine();
 
   void start();
   void stop();

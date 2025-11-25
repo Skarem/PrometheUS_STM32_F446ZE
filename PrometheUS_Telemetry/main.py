@@ -8,7 +8,8 @@ import serial.tools.list_ports
 import matplotlib.pyplot as plt
 from collections import deque
 from datetime import datetime
-
+from colorama import init, Fore, Style
+init()
 # ==================================================
 # CONFIGURATION
 # ==================================================
@@ -44,7 +45,7 @@ COLOR_MOTOR             = 'tab:orange'
 
 YLIM_POTS   = (0.0, 100.0)  # Percentage
 YLIM_TEMP   = (10.0, 50.0)  # Celsius
-YLIM_DUTY   = (0.45, 0.60)  # [0.0 - 1.0]
+YLIM_DUTY   = (0.30, 0.60)  # [0.0 - 1.0]
 YLIM_MOTOR  = (0.0, 750.0) # RPM
 
 # ----- Logging -----
@@ -174,10 +175,6 @@ def setup_plot():
 # ERROR
 # ==================================================
 
-ERROR_TEXT_RED      = "\033[91m"
-ERROR_TEXT_YELLOW   = "\033[93m"
-ERROR_TEXT_RESET    = "\033[0m"
-
 ERROR_SOURCES = {
     0: "No error",
     1: "Clutch temperature #1",
@@ -273,14 +270,14 @@ def main(profile = False):
             motor_vals.append(motor)
 
             if in_error:
-                err_text = describe_error(error_src, temp, duty, motor)
-                print(f"{ERROR_TEXT_RED}[ERROR]{ERROR_TEXT_RESET} {t:.3f}s")
-                print(f"{ERROR_TEXT_YELLOW}{err_text}{ERROR_TEXT_RESET}")
+                err_text = describe_error(error_src, temp, motor)
+                print(Fore.RED + "[ERROR] - " + Style.RESET_ALL + f"{t:.3f}s")
+                print(Fore.YELLOW + f"{err_text}" + Style.RESET_ALL)
 
             # Update plot at fixed interval
-            if packet_count % UPDATE_EVERY_N_PACKETS == 0 or in_error:
-                update_plot(fig, axes, (lines_pots, lines_temp, lines_duty, line_motor),
-                            t_vals, pots_vals, temp_vals, duty_vals, motor_vals)
+            # if packet_count % UPDATE_EVERY_N_PACKETS == 0 or in_error:
+            update_plot(fig, axes, (lines_pots, lines_temp, lines_duty, line_motor),
+                        t_vals, pots_vals, temp_vals, duty_vals, motor_vals)
             
             now = time.time()
 
@@ -293,7 +290,7 @@ def main(profile = False):
                 desync_accumulator += desync
 
                 if abs(desync_accumulator) > 0.5:   # 0.5s of cumulative lag
-                    print(f"{ERROR_TEXT_YELLOW}[WARN]{ERROR_TEXT_RESET} Python falling behind by {desync_accumulator:+.2f}s")
+                    print(Fore.YELLOW + "[WARN] - " + Style.RESET_ALL + f"Python falling behind by {desync_accumulator:+.2f}s")
                     desync_accumulator = 0.0
 
             last_stm_time   = t

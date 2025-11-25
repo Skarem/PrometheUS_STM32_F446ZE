@@ -61,6 +61,10 @@ void PrometheUS_Gripper::systemStateMachine()
   switch (m_systemState)
   {
     case SystemState::SYS_INIT:
+      m_finger1.clutch0RPM();
+      m_finger2.clutch0RPM();
+      m_finger3.clutch0RPM();
+
       m_systemState = SystemState::SYS_IDLE;
       break;
 
@@ -80,6 +84,9 @@ void PrometheUS_Gripper::systemStateMachine()
 
 void PrometheUS_Gripper::doIdle()
 {
+  //  Sample potentiometers, clutch temperatures, motor velocity
+  sampleStateMachine();
+
   // If switch is pressed => switch to RUN
   if (m_button.pressed())
   {
@@ -103,7 +110,14 @@ void PrometheUS_Gripper::doRun()
     printConsole(msg, sizeof(msg));
 
     stop();
+    m_ledRun.off();
     m_ledError.on();
+
+    m_finger1.clutch0RPM();
+    m_finger2.clutch0RPM();
+    m_finger3.clutch0RPM();
+
+    m_motorVelocity = 0;
 
     m_systemState = SystemState::SYS_ERROR;
   }
@@ -114,8 +128,14 @@ void PrometheUS_Gripper::doRun()
     printConsole(msg, sizeof(msg));
 
     stop();
-
     m_ledRun.off();
+
+    m_finger1.clutch0RPM();
+    m_finger2.clutch0RPM();
+    m_finger3.clutch0RPM();
+
+    m_motorVelocity = 0;
+
     m_systemState = SystemState::SYS_IDLE;
   }
   else
@@ -146,18 +166,20 @@ void PrometheUS_Gripper::doError()
   }
   else
   {
+	sampleStateMachine();
+
+	// Clean up flags
+    m_errorFlags.clearFlags();
+    m_errorSource = ErrorSource::NONE;
+    m_systemFlags->errorDetected.store(false, std::memory_order_relaxed);
+
+    checkForErrors(false);
+    bool errorDetected = m_errorFlags.anyError();
+
     // Stay in error until the switch is turned off
     if (m_button.pressed())
     {
       // ----- Check if still in error -----
-
-      // Clean up flags
-      m_errorFlags.clearFlags();
-      m_errorSource = ErrorSource::NONE;
-      m_systemFlags->errorDetected.store(false, std::memory_order_relaxed);
-
-      checkForErrors(false);
-      bool errorDetected = m_errorFlags.anyError();
 
       // Still in error - send a message with the error source
       if (errorDetected)
@@ -302,8 +324,20 @@ void PrometheUS_Gripper::readSensors()
   // Convert potentiometer to duty cycle
   mapPotentiometersToDutyCycleWithDeadZones();
 
+  static uint8_t counterPots = 0;
+  static char msgPots[64];
+
+  if (++counterPots % 100 == 0)
+  {
+    int len = snprintf(msgPots, sizeof(msgPots), "%.2f %.2f %.2f\r\n",
+  	        m_clutchDutyCyclesArray[FINGER_1_INDEX],
+			m_clutchDutyCyclesArray[FINGER_2_INDEX],
+			m_clutchDutyCyclesArray[FINGER_3_INDEX]);
+  	printConsole(msgPots, len);
+  }
+
   // Convert motor velocity from ADC to RPM
-  m_motorVelocity = m_motor.getMotorVelocity();
+  // m_motorVelocity = m_motor.getMotorVelocity();
 
   /*
   static int counterMotor = 0;
@@ -370,13 +404,14 @@ void PrometheUS_Gripper::computeControlLaws()
     m_motor.setRPM(newTargetRPM);
     m_oldTargetRPM = newTargetRPM;
   }
+  m_motorVelocity = newTargetRPM;
 }
 
 void PrometheUS_Gripper::mapPotentiometersToDutyCycleWithDeadZones()
 {
   // Duty cycle range [0.0 - 1.0]
-  const float DUTY_MIN_USEFUL = 0.45f;
-  const float DUTY_MAX_USEFUL = 0.60f;
+  const float DUTY_MIN_USEFUL = 0.30f;
+  const float DUTY_MAX_USEFUL = 0.57f;
 
   // Potentiometer thresholds in percent [0.0 - 100.0]
   const float POT_LOW_DEADZONE  = 20.0f;
@@ -527,5 +562,39 @@ inline void PrometheUS_Gripper::setErrorSource(size_t index)
     case FINGER_3_INDEX:
       m_errorSource = ErrorSource::CLUTCH_TEMPERATURE_3;
       break;
+  }
+}
+
+void PrometheUS_Gripper::sampleStateMachine()
+{
+
+  switch (m_sampleState)
+  {
+    case CONTROL_WAIT_SAMPLING:
+    {
+	  // static char msg[] = "SAMPLE\r\n";
+	  // printConsole(msg, sizeof(msg));
+
+	  uint8_t mask = m_systemFlags->adcDoneMask.load(std::memory_order_relaxed);
+
+      if((mask & SystemFlags::READ_ONLY) == SystemFlags::READ_ONLY)
+	  {
+    	m_systemFlags->adcDoneMask.store(0, std::memory_order_relaxed);
+        m_sampleState = ControlState::CONTROL_CALCULATE_CONTROL_LAWS;
+	  }
+	  break;
+    }
+    case CONTROL_CALCULATE_CONTROL_LAWS:
+    {
+      // static char msg[] = "CONVERT\r\n";
+      // printConsole(msg, sizeof(msg));
+
+      // Read potentiometers and clutch temperatures
+      readSensors();
+      maybeSendTelemetry();
+
+      m_sampleState = ControlState::CONTROL_WAIT_SAMPLING;
+      break;
+    }
   }
 }

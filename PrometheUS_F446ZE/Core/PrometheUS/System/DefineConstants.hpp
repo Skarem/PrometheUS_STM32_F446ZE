@@ -37,7 +37,7 @@ constexpr float MIN_POTENTIOMETER_PERCENTAGE = 0.0f;
 constexpr float MAX_POTENTIOMETER_PERCENTAGE = 100.0f;
 
 constexpr float MIN_CLUTCH_TEMPERATURE_CELSIUS = 10.0f;
-constexpr float MAX_CLUTCH_TEMPERATURE_CELSIUS = 50.0f;
+constexpr float MAX_CLUTCH_TEMPERATURE_CELSIUS = 45.0f;
 
 constexpr float MIN_CLUTCH_CURRENT_AMPERE = 0.0f;
 constexpr float MAX_CLUTCH_CURRENT_AMPERE = 4.0f;
