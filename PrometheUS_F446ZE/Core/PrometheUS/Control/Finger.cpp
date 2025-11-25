@@ -39,20 +39,8 @@ float Finger::getEncoderPosition()
   return m_encoder.convertValue();
 }
 
-void Finger::calculateCommand(float potentiometerPosition)
+void Finger::calculateCommand(float dutyCycle)
 {
-  // High level control law here
-  // Input is potentiometer position
-  // Output is clutch current
-
-  // float targetCurrent = (potentiometerPosition * MAX_CLUTCH_CURRENT_AMPERE) / MAX_POTENTIOMETER_POSITION_DEG;
-  // float measuredCurrent = m_clutch.getMeasuredCurrent();
-
-  // m_clutch.calculateCurrentPID(targetCurrent, measuredCurrent);
-
-  const float MAX_CLUTCH_DUTY_CYCLE = 0.57f;
-  float dutyCycle = (potentiometerPosition * MAX_CLUTCH_DUTY_CYCLE) / MAX_POTENTIOMETER_POSITION_DEG;
-
   m_clutch.setCommand(dutyCycle);
 }
 

@@ -62,7 +62,7 @@ void cppTests()
   // Tests::sender();
   // Tests::senderErrors();
 
-  Tests::potentiometers(&systemFlags);
+  // Tests::potentiometers(&systemFlags);
   // Tests::clutchTemperatures(&systemFlags);
   // Tests::clutchCurrents(&systemFlags, &clutchCurrentSampler1, &clutchCurrentSampler2, &clutchCurrentSampler3);
 
@@ -238,10 +238,6 @@ extern "C" void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 
 extern "C" void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
-  // char txBuf[8];
-  // int len = snprintf(txBuf, sizeof(txBuf), "1\r\n");
-  // HAL_UART_Transmit(&huart3, reinterpret_cast<uint8_t*>(txBuf), len, HAL_MAX_DELAY);
-
 #if (RUN_INTERRUPT_CALLBACKS || TEST_CURRENTS)
   if (hadc->Instance == ADC2)
   {

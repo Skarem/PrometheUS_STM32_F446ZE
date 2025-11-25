@@ -33,11 +33,11 @@ namespace AdcUtils
   }
 };
 
-constexpr float MIN_POTENTIOMETER_POSITION_DEG = 0.0f;
-constexpr float MAX_POTENTIOMETER_POSITION_DEG = 360.0f;
+constexpr float MIN_POTENTIOMETER_PERCENTAGE = 0.0f;
+constexpr float MAX_POTENTIOMETER_PERCENTAGE = 100.0f;
 
-constexpr float MIN_CLUTCH_TEMPERATURE_CELSIUS = 0.0f;
-constexpr float MAX_CLUTCH_TEMPERATURE_CELSIUS = 80.0f;
+constexpr float MIN_CLUTCH_TEMPERATURE_CELSIUS = 10.0f;
+constexpr float MAX_CLUTCH_TEMPERATURE_CELSIUS = 50.0f;
 
 constexpr float MIN_CLUTCH_CURRENT_AMPERE = 0.0f;
 constexpr float MAX_CLUTCH_CURRENT_AMPERE = 4.0f;

@@ -10,5 +10,4 @@ public:
   void convertAll(float (&outValues)[FINGER_COUNT]) const override;
 
 private:
-  static constexpr float POTENTIOMETER_ANGLE_MAX = 360.0f;
 };

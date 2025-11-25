@@ -49,8 +49,6 @@ void PrometheUS_Gripper::init()
   m_motor.init();
 
   startTimers();
-
-  // start();
 }
 
 void PrometheUS_Gripper::execute()
@@ -62,18 +60,21 @@ void PrometheUS_Gripper::systemStateMachine()
 {
   switch (m_systemState)
   {
-  case SystemState::SYS_INIT:
-    m_systemState = SystemState::SYS_IDLE;
-    break;
-  case SystemState::SYS_IDLE:
-    doIdle();
-    break;
-  case SystemState::SYS_RUN:
-    doRun();
-    break;
-  case SystemState::SYS_ERROR:
-    doError();
-    break;
+    case SystemState::SYS_INIT:
+      m_systemState = SystemState::SYS_IDLE;
+      break;
+
+    case SystemState::SYS_IDLE:
+      doIdle();
+      break;
+
+    case SystemState::SYS_RUN:
+      doRun();
+      break;
+
+    case SystemState::SYS_ERROR:
+      doError();
+      break;
   }
 }
 
@@ -82,12 +83,12 @@ void PrometheUS_Gripper::doIdle()
   // If switch is pressed => switch to RUN
   if (m_button.pressed())
   {
-    static const char msg[] = "RUN\r\n";
+    static const char msg[] = "GO TO RUN\r\n";
     printConsole(msg, sizeof(msg));
 
     start();
-
     m_ledRun.on();
+
     m_controlState = ControlState::CONTROL_START_SAMPLING;
     m_systemState = SystemState::SYS_RUN;
   }
@@ -98,16 +99,18 @@ void PrometheUS_Gripper::doRun()
   // If any error is detected, switch to ERROR
   if (m_systemFlags->errorDetected.exchange(false))
   {
-    static const char msg[] = "ERROR\r\n";
+    static const char msg[] = "GO TO ERROR\r\n";
     printConsole(msg, sizeof(msg));
 
+    stop();
     m_ledError.on();
+
     m_systemState = SystemState::SYS_ERROR;
   }
   // If switch is un-toggled => switch to IDLE
   else if (m_button.pressed())
   {
-    static const char msg[] = "IDLE\r\n";
+    static const char msg[] = "GO TO IDLE\r\n";
     printConsole(msg, sizeof(msg));
 
     stop();
@@ -123,14 +126,22 @@ void PrometheUS_Gripper::doRun()
 
 void PrometheUS_Gripper::doError()
 {
-  // Send error message with error source (from CheckIfError)
+  // Send error message with error source
   if (m_sendErrorMessage)
   {
     m_sendErrorMessage = false;
     if (visualize)
     {
       uint32_t now = HAL_GetTick();
-      m_telemetrySender.send(now, m_potentiometerPositionsArray, m_clutchTemperaturesArray, m_clutchCurrentsArray, m_motorVelocity, true, static_cast<uint8_t>(m_errorSource));
+      m_telemetrySender.send(
+          now,
+          m_potentiometerPercentagesArray,
+          m_clutchTemperaturesArray,
+          m_clutchDutyCyclesArray,
+          m_motorVelocity,
+          true,
+          static_cast<uint8_t>(m_errorSource)
+      );
     }
   }
   else
@@ -138,27 +149,33 @@ void PrometheUS_Gripper::doError()
     // Stay in error until the switch is turned off
     if (m_button.pressed())
     {
-      // Check if still in error
+      // ----- Check if still in error -----
+
+      // Clean up flags
       m_errorFlags.clearFlags();
-      checkForErrors();
+      m_errorSource = ErrorSource::NONE;
+      m_systemFlags->errorDetected.store(false, std::memory_order_relaxed);
+
+      checkForErrors(false);
       bool errorDetected = m_errorFlags.anyError();
+
+      // Still in error - send a message with the error source
       if (errorDetected)
       {
-        const char msg[] = "STILL ERROR\r\n";
-        printConsole(msg, sizeof(msg));
+        m_sendErrorMessage = true;
+
+        static char msg[32];
+        int len = snprintf(msg, sizeof(msg), "STILL ERROR : %d\r\n", static_cast<uint8_t>(m_errorSource));
+        printConsole(msg, len);
       }
       // Not in error anymore
       else
       {
-        const char msg[] = "NO ERROR\r\n";
+        const char msg[] = "NO ERROR - GO TO IDLE\r\n";
         printConsole(msg, sizeof(msg));
 
-        // Clean up flags
-        m_errorFlags.clearFlags();
-        m_errorSource = ErrorSource::NONE;
-        m_systemFlags->errorDetected.store(false, std::memory_order_relaxed);
-
         m_ledError.off();
+
         m_controlState = ControlState::CONTROL_START_SAMPLING;
         m_systemState = SystemState::SYS_IDLE;
       }
@@ -170,31 +187,36 @@ void PrometheUS_Gripper::controlStateMachine()
 {
   switch (m_controlState)
   {
-  case ControlState::CONTROL_START_SAMPLING:
-    doStartSampling();
-    break;
-  case ControlState::CONTROL_WAIT_SAMPLING:
-    doWaitSampling();
-    break;
-  case ControlState::CONTROL_CALCULATE_CONTROL_LAWS:
-    doCalculate();
-    break;
-  case ControlState::CONTROL_FINISHED_CONTROL_LAWS:
-    doFinishedControlLaws();
-    break;
-  case ControlState::CONTROL_UPDATE_PWM_DUTY_CYCLES:
-    doUpdatePWM();
-    break;
-  case ControlState::CONTROL_FINISHED_CYCLE:
-    doFinishedCycle();
-    break;
+    case ControlState::CONTROL_START_SAMPLING:
+      doStartSampling();
+      break;
+
+    case ControlState::CONTROL_WAIT_SAMPLING:
+      doWaitSampling();
+      break;
+
+    case ControlState::CONTROL_CALCULATE_CONTROL_LAWS:
+      doCalculate();
+      break;
+
+    case ControlState::CONTROL_FINISHED_CONTROL_LAWS:
+      doFinishedControlLaws();
+      break;
+
+    case ControlState::CONTROL_UPDATE_PWM_DUTY_CYCLES:
+      doUpdatePWM();
+      break;
+
+    case ControlState::CONTROL_FINISHED_CYCLE:
+      doFinishedCycle();
+      break;
   }
 };
 
 void PrometheUS_Gripper::doStartSampling()
 {
   // NOTE: All ADC sampling is triggered by hardware timers configured in .ioc
-  m_debugPin.pulse();
+  // m_debugPin.pulse();
 
   // Reset the mask testing for sampling completion
   m_systemFlags->adcDoneMask.store(0, std::memory_order_relaxed);
@@ -206,6 +228,7 @@ void PrometheUS_Gripper::doWaitSampling()
 {
   // Waiting for all ADC transmissions to be done
   uint8_t mask = m_systemFlags->adcDoneMask.load(std::memory_order_relaxed);
+
   if ((mask & SystemFlags::ALL) == SystemFlags::ALL)
   {
     m_controlState = ControlState::CONTROL_CALCULATE_CONTROL_LAWS;
@@ -214,20 +237,25 @@ void PrometheUS_Gripper::doWaitSampling()
 
 void PrometheUS_Gripper::doCalculate()
 {
-  m_debugPin.on();
+  // m_debugPin.on();
 
   // Convert raw ADC values into engineering units
   readSensors();
+
   // Send info at low rate to visualize on computer
   maybeSendTelemetry();
+
   // Check for errors
   computeErrors();
+
   // Control laws
   computeControlLaws();
 
-  m_debugPin.off();
+  // m_debugPin.off();
 
+  // Reset the flag waiting to update the PWM duty cycles
   m_systemFlags->updatePwmDutyCycles.store(false, std::memory_order_relaxed);
+
   m_controlState = ControlState::CONTROL_FINISHED_CONTROL_LAWS;
 }
 
@@ -242,20 +270,12 @@ void PrometheUS_Gripper::doFinishedControlLaws()
 
 void PrometheUS_Gripper::doUpdatePWM()
 {
-  m_debugPin.pulse();
+  // m_debugPin.pulse();
 
-  // Error detected
-  if (m_systemFlags->errorDetected.load())
-  {
-    stop();
-  }
   // Update PWM duty cycles with new values calculated in CONTROLE_CALCULATE_LAWS via burst DMA
-  else
-  {
-    m_finger1.updateCommand();
-    m_finger2.updateCommand();
-    m_finger3.updateCommand();
-  }
+  m_finger1.updateCommand();
+  m_finger2.updateCommand();
+  m_finger3.updateCommand();
 
   m_controlState = ControlState::CONTROL_FINISHED_CYCLE;
 }
@@ -263,6 +283,7 @@ void PrometheUS_Gripper::doUpdatePWM()
 void PrometheUS_Gripper::doFinishedCycle()
 {
   // Done updating, cycle completed
+
   // Waiting for timer trigger to start next cycle
   if (m_systemFlags->startControlCycle.exchange(false))
   {
@@ -272,38 +293,33 @@ void PrometheUS_Gripper::doFinishedCycle()
 
 void PrometheUS_Gripper::readSensors()
 {
-  // Convert potentiometer from ADC to degrees
-  m_potentiometers.convertAll(m_potentiometerPositionsArray);
-
-  // Convert current from ADC to Amperes
-  m_clutchCurrentsArray[FINGER_1_INDEX] = m_finger1.getClutchMeasuredCurrent();
-  m_clutchCurrentsArray[FINGER_2_INDEX] = m_finger2.getClutchMeasuredCurrent();
-  m_clutchCurrentsArray[FINGER_3_INDEX] = m_finger3.getClutchMeasuredCurrent();
+  // Convert potentiometer from ADC to percentage [0.0 - 100.0]
+  m_potentiometers.convertAll(m_potentiometerPercentagesArray);
 
   // Convert temperature from ADC to Celsius
   m_clutchesTemperature.convertAll(m_clutchTemperaturesArray);
+
+  // Convert potentiometer to duty cycle
+  mapPotentiometersToDutyCycleWithDeadZones();
 
   // Convert motor velocity from ADC to RPM
   m_motorVelocity = m_motor.getMotorVelocity();
 
   /*
-  static char txBuf[64];
   static int counterMotor = 0;
+  static char txBuf[16];
 
-  if (verbose)
+  if (++counterMotor % 100 == 0)
   {
-	if (++counterMotor % 100 == 0)
-	{
-      int len = snprintf(txBuf, sizeof(txBuf), "%.2f\r\n", m_motorVelocity);
-      HAL_UART_Transmit_DMA(&huart3, reinterpret_cast<uint8_t*>(txBuf), len);
-	}
+    int len = snprintf(txBuf, sizeof(txBuf), "%.2f\r\n", m_motorVelocity);
+    printConsole(txBuf, len);
   }
   */
 }
 
 void PrometheUS_Gripper::maybeSendTelemetry()
 {
-  // Send data @ 50 Hz
+  // Send data at low frequency
   if (visualize)
   {
     if (m_sendDataCounter++ >= SEND_DATA_TIMING)
@@ -313,9 +329,9 @@ void PrometheUS_Gripper::maybeSendTelemetry()
 
       m_telemetrySender.send(
           now,
-          m_potentiometerPositionsArray,
+          m_potentiometerPercentagesArray,
           m_clutchTemperaturesArray,
-          m_clutchCurrentsArray,
+          m_clutchDutyCyclesArray,
           m_motorVelocity,
           false,
           static_cast<uint8_t>(ErrorSource::NONE)
@@ -326,16 +342,69 @@ void PrometheUS_Gripper::maybeSendTelemetry()
 
 void PrometheUS_Gripper::computeErrors()
 {
-  checkForErrors();
+  checkForErrors(true);
   bool errorDetected = m_errorFlags.anyError();
   m_systemFlags->errorDetected.store(errorDetected, std::memory_order_relaxed);
 }
 
 void PrometheUS_Gripper::computeControlLaws()
 {
-  m_finger1.calculateCommand(m_potentiometerPositionsArray[FINGER_1_INDEX]);
-  m_finger2.calculateCommand(m_potentiometerPositionsArray[FINGER_2_INDEX]);
-  m_finger3.calculateCommand(m_potentiometerPositionsArray[FINGER_3_INDEX]);
+  // Clutch control
+  m_finger1.calculateCommand(m_clutchDutyCyclesArray[FINGER_1_INDEX]);
+  m_finger2.calculateCommand(m_clutchDutyCyclesArray[FINGER_2_INDEX]);
+  m_finger3.calculateCommand(m_clutchDutyCyclesArray[FINGER_3_INDEX]);
+
+  // Motor control
+  uint8_t activeCount = 0;
+  for (size_t i = 0; i < FINGER_COUNT; ++i)
+  {
+    if (m_clutchDutyCyclesArray[i] > 0.0f)
+    {
+      activeCount++;
+    }
+  }
+
+  float newTargetRPM = BASE_MOTOR_VELOCITY + (activeCount * RPM_INCREASE_PER_FINGER_MOVING);
+  if (newTargetRPM != m_oldTargetRPM)
+  {
+    m_motor.setRPM(newTargetRPM);
+    m_oldTargetRPM = newTargetRPM;
+  }
+}
+
+void PrometheUS_Gripper::mapPotentiometersToDutyCycleWithDeadZones()
+{
+  // Duty cycle range [0.0 - 1.0]
+  const float DUTY_MIN_USEFUL = 0.45f;
+  const float DUTY_MAX_USEFUL = 0.60f;
+
+  // Potentiometer thresholds in percent [0.0 - 100.0]
+  const float POT_LOW_DEADZONE  = 20.0f;
+  const float POT_HIGH_DEADZONE = 80.0f;
+
+  for (size_t index = 0; index < FINGER_COUNT; ++index)
+  {
+    float dutyCycle = 0.0f;
+    float pot = m_potentiometerPercentagesArray[index];
+
+    if (pot <= POT_LOW_DEADZONE)
+    {
+      dutyCycle = 0.0f;
+    }
+    else if (pot >= POT_HIGH_DEADZONE)
+    {
+      dutyCycle = DUTY_MAX_USEFUL;
+    }
+    else
+    {
+      // Normalize potentiometer from [20.0 - 80.0] to [0.0 - 1.0]
+      float activeRegion = (pot - POT_LOW_DEADZONE) / (POT_HIGH_DEADZONE - POT_LOW_DEADZONE);
+
+      // Map to duty cycle range
+      dutyCycle = DUTY_MIN_USEFUL + activeRegion * (DUTY_MAX_USEFUL - DUTY_MIN_USEFUL);
+    }
+    m_clutchDutyCyclesArray[index] = dutyCycle;
+  }
 }
 
 void PrometheUS_Gripper::startTimers()
@@ -374,65 +443,89 @@ void PrometheUS_Gripper::startTimers()
 
 void PrometheUS_Gripper::start()
 {
+  static const char startMsg[] = "Start\r\n";
+  printConsole(startMsg, sizeof(startMsg));
+
   m_finger1.start();
   m_finger2.start();
   m_finger3.start();
 
-  m_motor.setRPM(350);
+  m_motor.setRPM(BASE_MOTOR_VELOCITY);
   m_motor.start();
 }
 
 void PrometheUS_Gripper::stop()
 {
+  static const char stopMsg[] = "Stop\r\n";
+  printConsole(stopMsg, sizeof(stopMsg));
+
   m_finger1.stop();
   m_finger2.stop();
   m_finger3.stop();
 
+  m_motor.setRPM(0);
   m_motor.stop();
 }
 
-void PrometheUS_Gripper::checkForErrors()
+void PrometheUS_Gripper::checkForErrors(bool useFiltering)
 {
+  // Clutch temperature error
   for (size_t index = 0; index < FINGER_COUNT; ++index)
   {
-    // ----- Clutch temperatures -----
-    if (m_clutchTemperaturesArray[index] < MIN_CLUTCH_TEMPERATURE_CELSIUS ||
-        m_clutchTemperaturesArray[index] > MAX_CLUTCH_TEMPERATURE_CELSIUS)
-    {
-      m_errorFlags.clutchTemperatures[index] = true;
+    const float temp = m_clutchTemperaturesArray[index];
+    const bool isBad = (temp < MIN_CLUTCH_TEMPERATURE_CELSIUS) || (temp > MAX_CLUTCH_TEMPERATURE_CELSIUS);
 
-      switch (index)
+    if (useFiltering)
+    {
+      // Normal mode : multi-samples
+      if (isBad)
       {
-        case FINGER_1_INDEX: m_errorSource = ErrorSource::CLUTCH_TEMPERATURE_1; break;
-        case FINGER_2_INDEX: m_errorSource = ErrorSource::CLUTCH_TEMPERATURE_2; break;
-        case FINGER_3_INDEX: m_errorSource = ErrorSource::CLUTCH_TEMPERATURE_3; break;
+        m_tempErrorCounters[index]++;
+
+        if (m_tempErrorCounters[index] >= TEMP_ERROR_COUNT_THRESHOLD)
+        {
+          m_errorFlags.clutchTemperatures[index] = true;
+          setErrorSource(index);
+          return;
+        }
+      }
+      else
+      {
+        m_tempErrorCounters[index] = 0;
+      }
+    }
+    else
+    {
+      // Reset mode : single-sample hard check
+      if (isBad)
+      {
+        m_errorFlags.clutchTemperatures[index] = true;
+        setErrorSource(index);
+        return;
       }
     }
   }
 
-  /*
-  // ----- Clutch currents -----
-  if (m_finger1.isClutchError())
-  {
-    m_errorFlags.clutchCurrents[FINGER_1_INDEX] = true;
-    m_errorSource = ErrorSource::CLUTCH_CURRENT_1;
-  }
-  else if (m_finger2.isClutchError())
-  {
-    m_errorFlags.clutchCurrents[FINGER_2_INDEX] = true;
-    m_errorSource = ErrorSource::CLUTCH_CURRENT_2;
-  }
-  else if (m_finger3.isClutchError())
-  {
-    m_errorFlags.clutchCurrents[FINGER_3_INDEX] = true;
-    m_errorSource = ErrorSource::CLUTCH_CURRENT_3;
-  }
-  */
-
-  // ----- Motor error -----
+  // Motor error
   if (m_motor.isError())
   {
     m_errorFlags.motor = true;
     m_errorSource = ErrorSource::MOTOR_ERROR_PIN;
+  }
+}
+
+inline void PrometheUS_Gripper::setErrorSource(size_t index)
+{
+  switch (index)
+  {
+    case FINGER_1_INDEX:
+      m_errorSource = ErrorSource::CLUTCH_TEMPERATURE_1;
+      break;
+    case FINGER_2_INDEX:
+      m_errorSource = ErrorSource::CLUTCH_TEMPERATURE_2;
+      break;
+    case FINGER_3_INDEX:
+      m_errorSource = ErrorSource::CLUTCH_TEMPERATURE_3;
+      break;
   }
 }

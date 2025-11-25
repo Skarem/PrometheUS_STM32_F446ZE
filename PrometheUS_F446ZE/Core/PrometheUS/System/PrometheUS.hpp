@@ -49,10 +49,11 @@ private:
   TelemetrySender m_telemetrySender;
   uint8_t         m_sendDataCounter = 0;
 
-  const uint8_t SEND_DATA_TIMING = 200; // 1000 Hz / 50 Hz
+  const uint8_t SEND_DATA_TIMING = 100; // 100 cycles at 1KHz => 10 Hz telemetry
 
   // System flags
   SystemFlags* m_systemFlags;
+
   // Error flags
   ErrorFlags m_errorFlags;
   // Error source
@@ -69,27 +70,33 @@ private:
 
   // Potentiometers
   PotentiometersSampler m_potentiometers;
-  float m_potentiometerPositionsArray[FINGER_COUNT] = {0};
+  float m_potentiometerPercentagesArray[FINGER_COUNT] = {0};
 
   // Clutch temperatures
   ClutchesTemperatureSampler m_clutchesTemperature;
   float m_clutchTemperaturesArray[FINGER_COUNT] = {0};
 
-  float m_clutchCurrentsArray[FINGER_COUNT] = {0};
+  float m_clutchDutyCyclesArray[FINGER_COUNT] = {0};
 
   float m_motorVelocity = 0;
-  // float m_encoderPositions[FINGER_COUNT]    = {0};
 
   // Fingers
   Finger m_finger1;
   Finger m_finger2;
   Finger m_finger3;
 
-  // Motor (ESCON 5/50 Drive)
+  // Motor
   Motor m_motor;
 
-  ControlState  m_controlState  = ControlState::CONTROL_FINISHED_CYCLE;
+  const float BASE_MOTOR_VELOCITY = 150.0f;
+  const float RPM_INCREASE_PER_FINGER_MOVING = 100.0f;
+  float m_oldTargetRPM = BASE_MOTOR_VELOCITY;
+
+  // High-level state machine's state
   SystemState   m_systemState   = SystemState::SYS_INIT;
+
+  // Low-level state machine's state
+  ControlState  m_controlState  = ControlState::CONTROL_FINISHED_CYCLE;
 
   void systemStateMachine();
 
@@ -111,10 +118,15 @@ private:
   void computeErrors();
   void computeControlLaws();
 
+  void mapPotentiometersToDutyCycleWithDeadZones();
+
   void start();
   void stop();
 
-  void checkForErrors();
+  uint8_t m_tempErrorCounters[FINGER_COUNT] = {0};
+  static constexpr uint8_t TEMP_ERROR_COUNT_THRESHOLD = 5;
+  void checkForErrors(bool useFiltering);
+  inline void setErrorSource(size_t index);
 };
 
 

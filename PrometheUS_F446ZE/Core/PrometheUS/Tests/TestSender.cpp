@@ -58,7 +58,7 @@ void Tests::sender()
       {
         float phase = (TWO_PI / static_cast<float>(FINGER_COUNT)) * i;
 
-        pots[i] = mapSine(t, SIGNAL_FREQ, phase, MIN_POTENTIOMETER_POSITION_DEG, MAX_POTENTIOMETER_POSITION_DEG);
+        pots[i] = mapSine(t, SIGNAL_FREQ, phase, MIN_POTENTIOMETER_PERCENTAGE, MAX_POTENTIOMETER_PERCENTAGE);
         temp[i] = mapSine(t, SIGNAL_FREQ, phase + M_PI / 2.0f, MIN_CLUTCH_TEMPERATURE_CELSIUS, MAX_CLUTCH_TEMPERATURE_CELSIUS);
         curr[i] = mapSine(t, SIGNAL_FREQ, phase + M_PI / 3.0f, MIN_CLUTCH_CURRENT_AMPERE, MAX_CLUTCH_CURRENT_AMPERE);
       }

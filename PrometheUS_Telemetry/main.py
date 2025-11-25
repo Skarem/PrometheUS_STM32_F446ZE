@@ -36,16 +36,16 @@ UNPACK_PACKET   = struct.Struct(PACKET_FORMAT).unpack
 
 # ----- Plot -----
 WINDOW_SEC              = 5
-RX_RATE_HZ              = 50
+RX_RATE_HZ              = 10
 MAX_POINTS              = WINDOW_SEC * RX_RATE_HZ
 UPDATE_EVERY_N_PACKETS  = 1
 COLOR_LIST              = ['tab:red', 'tab:green', 'tab:blue']
 COLOR_MOTOR             = 'tab:orange'
 
-YLIM_POTS   = (0.0, 360.0)  # Degrees
-YLIM_TEMP   = (0.0, 80.0)   # Celsius
-YLIM_CURR   = (0.0, 4.0)    # Amperes
-YLIM_MOTOR  = (0.0, 1000.0) # RPM
+YLIM_POTS   = (0.0, 100.0)  # Percentage
+YLIM_TEMP   = (10.0, 50.0)  # Celsius
+YLIM_DUTY   = (0.45, 0.60)  # [0.0 - 1.0]
+YLIM_MOTOR  = (0.0, 750.0) # RPM
 
 # ----- Logging -----
 LOG_DIR     = "logs"
@@ -54,7 +54,7 @@ LOG_HEADER  = (
     "time_ms;"
     "pot_1_deg;pot_2_deg;pot_3_deg;"
     "temp_1_C;temp_2_C;temp_3_C;"
-    "curr_1_A;curr_2_A;curr_3_A;"
+    "duty_1_A;duty_2_A;duty_3_A;"
     "motor_RPM\n"
 )
 
@@ -118,12 +118,12 @@ def read_packet_blocking(ser):
     timestamp   = data[1]
     pots        = data[2:5]
     temp        = data[5:8]
-    curr        = data[8:11]
+    duty        = data[8:11]
     motor       = data[11]
     in_error    = data[12]
     error_src   = data[13]
 
-    return timestamp / 1000.0, pots, temp, curr, motor, in_error, error_src
+    return timestamp / 1000.0, pots, temp, duty, motor, in_error, error_src
 
 
 # ==================================================
@@ -134,28 +134,28 @@ def setup_plot():
     t_vals      = deque(maxlen  = MAX_POINTS)
     pots_vals   = [deque(maxlen = MAX_POINTS) for _ in range(FINGER_COUNT)]
     temp_vals   = [deque(maxlen = MAX_POINTS) for _ in range(FINGER_COUNT)]
-    curr_vals   = [deque(maxlen = MAX_POINTS) for _ in range(FINGER_COUNT)]
+    duty_vals   = [deque(maxlen = MAX_POINTS) for _ in range(FINGER_COUNT)]
     motor_vals  = deque(maxlen  = MAX_POINTS)
 
     fig, axes = plt.subplots(4, 1, sharex = True, figsize = (8, 6))
-    ax_pots, ax_temp, ax_curr, ax_motor = axes
+    ax_pots, ax_temp, ax_duty, ax_motor = axes
     for ax in axes:
         ax.grid(True, linestyle = '--', alpha = 0.5)
 
     lines_pots  = [ax_pots.plot([], [], color = COLOR_LIST[i], label = f"Pot  {i + 1}")[0] for i in range(FINGER_COUNT)]
     lines_temp  = [ax_temp.plot([], [], color = COLOR_LIST[i], label = f"Temp {i + 1}")[0] for i in range(FINGER_COUNT)]
-    lines_curr  = [ax_curr.plot([], [], color = COLOR_LIST[i], label = f"Curr {i + 1}")[0] for i in range(FINGER_COUNT)]
+    lines_duty  = [ax_duty.plot([], [], color = COLOR_LIST[i], label = f"Duty {i + 1}")[0] for i in range(FINGER_COUNT)]
     line_motor, = ax_motor.plot([], [], color = COLOR_MOTOR,   label = "Motor")
 
     ax_pots.set_ylabel("Potentiometers (deg)")
-    ax_temp.set_ylabel("Clutch Temperatures (C)")
-    ax_curr.set_ylabel("Clutch Currents (A)")
+    ax_temp.set_ylabel("Clutch remperatures (C)")
+    ax_duty.set_ylabel("Clutch duty cycles [0-1]")
     ax_motor.set_ylabel("Motor speed (RPM)")
     ax_motor.set_xlabel("Time (s)")
 
     ax_pots.set_ylim(*YLIM_POTS)
     ax_temp.set_ylim(*YLIM_TEMP)
-    ax_curr.set_ylim(*YLIM_CURR)
+    ax_duty.set_ylim(*YLIM_DUTY)
     ax_motor.set_ylim(*YLIM_MOTOR)
 
     for ax in axes:
@@ -166,8 +166,8 @@ def setup_plot():
     plt.show(block = False)
     fig.canvas.manager.set_window_title(PLOT_TITLE)
 
-    return (fig, axes, lines_pots, lines_temp, lines_curr, line_motor,
-            t_vals, pots_vals, temp_vals, curr_vals, motor_vals)
+    return (fig, axes, lines_pots, lines_temp, lines_duty, line_motor,
+            t_vals, pots_vals, temp_vals, duty_vals, motor_vals)
 
 
 # ==================================================
@@ -183,13 +183,10 @@ ERROR_SOURCES = {
     1: "Clutch temperature #1",
     2: "Clutch temperature #2",
     3: "Clutch temperature #3",
-    4: "Clutch current #1",
-    5: "Clutch current #2",
-    6: "Clutch current #3",
-    7: "Motor error"
+    4: "Motor error"
 }
 
-def describe_error(error_code, temp, curr, motor):
+def describe_error(error_code, temp, motor):
     """
     Return human-readable description of the error,
     and include the corresponding measurement value.
@@ -203,13 +200,7 @@ def describe_error(error_code, temp, curr, motor):
         value = temp[idx] if 0 <= idx < len(temp) else None
         if value is not None:
             msg += f" - clutch temperature reading: {value:.2f} C"
-    # Clutch currents
-    elif error_code in (4, 5, 6):
-        idx = error_code - 4
-        value = curr[idx] if 0 <= idx < len(curr) else None
-        if value is not None:
-            msg += f" - clutch current reading: {value:.2f} A"
-    elif error_code == 7:
+    elif error_code == 4:
         msg += f" - motor velocity reading: {motor:.2f} RPM"
 
     return msg
@@ -217,15 +208,15 @@ def describe_error(error_code, temp, curr, motor):
 # ==================================================
 # PLOT UPDATE
 # ==================================================
-def update_plot(fig, axes, lines, t_vals, pots, temp, curr, motor):
-    lines_pots, lines_temp, lines_curr, line_motor = lines
+def update_plot(fig, axes, lines, t_vals, pots, temp, duty, motor):
+    lines_pots, lines_temp, lines_duty, line_motor = lines
     if not t_vals:
         return
     
     for i in range(FINGER_COUNT):
         lines_pots[i].set_data(t_vals, pots[i])
         lines_temp[i].set_data(t_vals, temp[i])
-        lines_curr[i].set_data(t_vals, curr[i])
+        lines_duty[i].set_data(t_vals, duty[i])
     line_motor.set_data(t_vals, motor)
 
     x_min = t_vals[-1] - WINDOW_SEC
@@ -251,7 +242,7 @@ def main(profile = False):
     ser = open_serial()
     log = open_log_file()
     (fig, axes, *rest) = setup_plot()
-    lines_pots, lines_temp, lines_curr, line_motor, t_vals, pots_vals, temp_vals, curr_vals, motor_vals = rest
+    lines_pots, lines_temp, lines_duty, line_motor, t_vals, pots_vals, temp_vals, duty_vals, motor_vals = rest
 
     fig.canvas.mpl_connect('close_event', on_close)
 
@@ -268,28 +259,28 @@ def main(profile = False):
             pkt = read_packet_blocking(ser)
             if not pkt:
                 continue
-            t, pots, temp, curr, motor, in_error, error_src = pkt
+            t, pots, temp, duty, motor, in_error, error_src = pkt
 
             # Log data
-            log.write(f"{t:.3f};" + ";".join(f"{v:.3f}" for v in pots + temp + curr + (motor,)) + "\n")
+            log.write(f"{t:.3f};" + ";".join(f"{v:.3f}" for v in pots + temp + duty + (motor,)) + "\n")
 
             # Store in buffers
             t_vals.append(t)
             for i in range(FINGER_COUNT):
                 pots_vals[i].append(pots[i])
                 temp_vals[i].append(temp[i])
-                curr_vals[i].append(curr[i])
+                duty_vals[i].append(duty[i])
             motor_vals.append(motor)
 
             if in_error:
-                err_text = describe_error(error_src, temp, curr, motor)
+                err_text = describe_error(error_src, temp, duty, motor)
                 print(f"{ERROR_TEXT_RED}[ERROR]{ERROR_TEXT_RESET} {t:.3f}s")
                 print(f"{ERROR_TEXT_YELLOW}{err_text}{ERROR_TEXT_RESET}")
 
             # Update plot at fixed interval
             if packet_count % UPDATE_EVERY_N_PACKETS == 0 or in_error:
-                update_plot(fig, axes, (lines_pots, lines_temp, lines_curr, line_motor),
-                            t_vals, pots_vals, temp_vals, curr_vals, motor_vals)
+                update_plot(fig, axes, (lines_pots, lines_temp, lines_duty, line_motor),
+                            t_vals, pots_vals, temp_vals, duty_vals, motor_vals)
             
             now = time.time()
 
